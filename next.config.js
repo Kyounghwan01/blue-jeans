@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+const Dotenv = require("dotenv-webpack");
 const withTM = require('next-transpile-modules')([
   '@mui/material',
   '@mui/system',
-]); // pass the modules you would like to see transpiled
+]);
 
 module.exports = withTM({
   reactStrictMode: true,
@@ -10,6 +12,7 @@ module.exports = withTM({
       ...config.resolve.alias,
       '@mui/styled-engine': '@mui/styled-engine-sc',
     };
+    config.plugins.push(new Dotenv({ silent: true }));
     return config;
   },
 });

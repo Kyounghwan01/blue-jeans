@@ -32,3 +32,26 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+```js
+import { NextSeo } from 'next-seo';
+
+<NextSeo
+title="캐롯 해외여행보험"
+description="해외여행, 출장갈때 합리적인 보험료로 준비하는 다이렉트 해외여행보험"
+openGraph={{
+    type: 'website',
+    url: 'https://www.carrotins.com/desktop/calculation/general/overseas/intro',
+    title: '캐롯 해외여행보험',
+    description: '해외여행, 출장갈때 합리적인 보험료로 준비하는 다이렉트 해외여행보험',
+    images: [
+        {
+            url: 'https://www.carrotins.com/static/images/calculation/contents/overseas/seo.jpg',
+            width: 800,
+            height: 400,
+            alt: '캐롯 해외여행보험 이미지',
+        },
+    ],
+}}
+/>
+```
