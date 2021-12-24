@@ -10,11 +10,13 @@ export default class MyDocument extends Document {
 			<Html>
 				<Head>
 					{/* PWA primary color */}
+					<script defer src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 					<meta content={theme.palette.primary.main} name="theme-color" />
 					<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 					<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 				</Head>
 				<body>
+					<div id="portal" />
 					<Main />
 					<NextScript />
 				</body>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../../styles/Home.module.css';
@@ -5,15 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'app/store';
 
 import Button from '@mui/material/Button';
-import { test } from 'features/userSlice';
 
 const Home: NextPage = () => {
 	const user = useSelector((state: RootState) => state.user);
-	const dispatch = useDispatch();
-
-	const testFunc = () => {
-		dispatch(test());
-	};
 
 	return (
 		<div className={styles.container}>
@@ -24,13 +19,9 @@ const Home: NextPage = () => {
 			</Head>
 
 			<main className={styles.main}>
-				{JSON.stringify(user.name)}
-				awd
-				<button onClick={testFunc}>test</button>
 				<Button variant="text">Text</Button>
 				<Button variant="contained">Contained</Button>
 				<Button variant="outlined">Outlined</Button>
-				{/* {process.env.REACT_APP_APIKEY} */}
 				<Button>Primary</Button>
 				<Button disabled>Disabled</Button>
 				<Button href="#text-buttons">Link</Button>
