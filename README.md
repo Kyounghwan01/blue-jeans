@@ -1,5 +1,5 @@
 ## todo
-1. as 쓰면 prettier인식못하는게 그거 해결좀..
+~~1. as 쓰면 prettier인식못하는게 그거 해결좀..~~
 2. react-query
 3. 프로덕션에서 작동하는지 확인
 

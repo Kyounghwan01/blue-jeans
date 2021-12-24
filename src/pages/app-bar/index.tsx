@@ -1,0 +1,63 @@
+import BasicLayout from "components/common/BasicLayout";
+
+export default function FixedBottomNavigation() {
+  return (
+    <BasicLayout>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+      <div>testsetset</div>
+    </BasicLayout>
+  );
+}
