@@ -2,12 +2,13 @@ import styled from "styled-components";
 
 interface IFooterStyle {
   bodyHeight: string | number;
-  loading: boolean;
+  loadingState: boolean;
 }
 
 export const Block = styled.div<IFooterStyle>`
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+
   .base-layout {
     &__header {
       position: fixed;
@@ -19,14 +20,13 @@ export const Block = styled.div<IFooterStyle>`
     }
     &__body {
       position: relative;
-      padding: 30px 16px 20px;
+      padding: 0px 0px 20px;
       width: 100%;
-      background: blue;
       height: ${props => props.bodyHeight};
-      overflow-y: ${props => (props.loading ? "hidden" : "scroll")};
+      overflow-y: ${props => (props.loadingState ? "hidden" : "scroll")};
       overflow-x: hidden;
       &__empty {
-        height: 60px;
+        height: 50px;
       }
     }
   }

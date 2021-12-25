@@ -11,7 +11,8 @@ import { db } from "utils/api/firebase";
 import { wrapper } from "app/store";
 import { login } from "features/userSlice";
 import { setKakao } from "features/commonSlice";
-import theme from "../../styles/theme";
+import theme from "styles/theme";
+import "styles/globals.css";
 // import { DefaultSeo } from 'next-seo';
 // import { Provider } from "react-redux";
 // import { store } from "app/store";
@@ -22,8 +23,14 @@ const App = (props: AppProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setScreenSize();
     getUsers();
   }, []);
+
+  const setScreenSize = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
 
   const getUsers = async () => {
     const kakao = window.Kakao;

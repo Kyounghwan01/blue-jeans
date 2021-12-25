@@ -2,6 +2,13 @@
 ~~1. as 쓰면 prettier인식못하는게 그거 해결좀..~~
 2. react-query
 3. 프로덕션에서 작동하는지 확인
+4. 자주묻는질문
+5. 공지사항
+
+
+## font-size
+- title: 16~18
+- desc: 14~15
 
 ## Eureka
 1. declare d.ts에 넣으면 글로벌 작동됨
