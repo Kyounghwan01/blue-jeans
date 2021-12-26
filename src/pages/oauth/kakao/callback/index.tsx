@@ -31,7 +31,6 @@ const Index = () => {
     try {
       const token = await getToken();
       const userProfileData = await getProfile();
-      // 여기서 중간 다리
       await registerUser(userProfileData, token);
       setLoading(false);
       router.push("/profile");

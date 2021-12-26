@@ -10,15 +10,21 @@ import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import useAuth from "hooks/useAuth";
+import usePopup from "hooks/usePopup";
 
 const Profile = () => {
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
   const [logout, withDrawal] = useAuth();
+  const [handlePopup] = usePopup();
 
   const goLogin = useCallback(() => {
     router.push("/login");
   }, []);
+
+  const editProfile = () => {
+    handlePopup("SignupProfile", "프로필수정", {});
+  };
 
   return (
     <BasicLayout headerProps={{ title: "마이페이지", back: false }}>
@@ -39,7 +45,7 @@ const Profile = () => {
           <CustomList
             title="공지사항"
             // icon={<CampaignOutlinedIcon sx={{ fontSize: 28 }} />}
-            func={() => console.log(1)}
+            func={editProfile}
           />
           <CustomList
             title="자주 묻는 질문"

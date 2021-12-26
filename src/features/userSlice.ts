@@ -8,7 +8,8 @@ const initialState: UserSliceStateType = {
   id: null,
   name: null,
   profileImage: "",
-  token: null
+  token: null,
+  nickName: ""
 };
 
 export const userSlice = createSlice({
