@@ -1,68 +1,20 @@
-import { useContext, useCallback } from "react";
-import { ModalContext } from "context";
+import { useCallback } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "app/store";
-import { db } from "utils/api/firebase";
-import { deleteDoc, doc } from "firebase/firestore/lite";
-import { logOut } from "features/userSlice";
 import BasicLayout from "components/common/BasicLayout";
 import List from "@mui/material/List";
 import CustomList from "components/common/CustomList";
 import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import useAuth from "hooks/useAuth";
 
 const Profile = () => {
-  const user = useSelector((state: RootState) => state.user);
-  const { kakao } = useSelector((state: RootState) => state.common);
-  const dispatch = useDispatch();
-  const { showModal } = useContext(ModalContext);
   const router = useRouter();
-
-  const logout = (onlyLogout = true) => {
-    const logoutLogic = () => {
-      localStorage.removeItem("token");
-      kakao.Auth.logout(() => {
-        dispatch(logOut());
-      });
-    };
-    if (onlyLogout) {
-      import("components/common/Alert").then(({ default: Component }) => {
-        showModal({
-          component: Component,
-          modalProps: {
-            title: "로그아웃",
-            extraData: {
-              desc: "정말 로그아웃 하시겠어요?",
-              isConfirm: true,
-              onClose: logoutLogic
-            }
-          }
-        });
-      });
-    } else {
-      logoutLogic();
-    }
-  };
-
-  const breakout = () => {
-    // 탈퇴
-    kakao.API.request({
-      url: "/v1/user/unlink",
-      success: async (response: string) => {
-        console.log(response);
-        const userDoc = doc(db, "users", String(user.id));
-        await deleteDoc(userDoc);
-      },
-      fail: function (error: string) {
-        console.log(error);
-      }
-    });
-    // logout해야 token 끊김
-    logout(false);
-  };
+  const user = useSelector((state: RootState) => state.user);
+  const [logout, withDrawal] = useAuth();
 
   const goLogin = useCallback(() => {
     router.push("/login");
@@ -104,7 +56,7 @@ const Profile = () => {
               <CustomList
                 title="탈퇴하기"
                 // icon={<HelpOutlineIcon />}
-                func={breakout}
+                func={withDrawal}
               />
             </>
           )}
