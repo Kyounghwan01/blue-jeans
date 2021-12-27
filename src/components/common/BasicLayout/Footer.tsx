@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback, memo } from "react";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import RestoreIcon from "@mui/icons-material/Restore";
@@ -54,4 +54,4 @@ const Block = styled.footer`
   }
 `;
 
-export default Footer;
+export default memo(Footer);

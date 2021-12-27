@@ -1,19 +1,23 @@
 import { memo } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 interface IHeader {
-  headerProps: {
-    title: string;
-    back?: boolean;
-    backFunc?: () => void;
-    icons?: { img: string; url: string }[];
-  };
+  title: string;
+  back?: boolean;
+  backFunc?: () => void;
+  icons?: { img: string; url: string }[];
 }
 const Header = (headerProps: IHeader) => {
-  const { back, title, icons, backFunc } = headerProps.headerProps;
+  const router = useRouter();
+  const { back, title, icons, backFunc } = headerProps;
   return (
     <Block>
-      {back ? <ArrowBackIosNewIcon onClick={backFunc} /> : <div />}
+      {back ? (
+        <ArrowBackIosNewIcon onClick={backFunc || router.back} />
+      ) : (
+        <div />
+      )}
       {title}
       {icons ? <ArrowBackIosNewIcon /> : <div />}
     </Block>

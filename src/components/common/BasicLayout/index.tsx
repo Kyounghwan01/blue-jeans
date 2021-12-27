@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { useRouter } from "next/router";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -10,25 +10,22 @@ interface IBasyLayout {
   footer?: boolean;
   loading?: boolean;
   children: React.ReactNode;
-  headerProps: {
-    title: string;
-    back: boolean;
-    backFunc?: () => void;
-    icons?: { img: string; url: string }[];
-  };
+  headerTitle: string;
+  back: boolean;
+  backFunc?: () => void;
+  icons?: { img: string; url: string }[];
 }
 
 const Index = ({
   header = true,
   footer = true,
   children,
-  headerProps = {
-    title: "아무거나",
-    back: true,
-    backFunc: () => router.back()
-  },
+  headerTitle = "아무거나",
+  back = true,
+  backFunc,
   loading = false
 }: IBasyLayout) => {
+  console.log(111);
   const router = useRouter();
 
   const [tab, setTab] = useState(0);
@@ -37,16 +34,18 @@ const Index = ({
 
   useEffect(() => {
     setMounted(true);
-    switch (router.pathname) {
-      case "/profile":
-        setTab(3);
-        break;
-      case "/":
-        setTab(0);
-        break;
-      default:
-        setTab(0);
-        break;
+    if (footer) {
+      switch (router.pathname) {
+        case "/profile":
+          setTab(3);
+          break;
+        case "/":
+          setTab(0);
+          break;
+        default:
+          setTab(0);
+          break;
+      }
     }
     setBodyHeight(
       `calc(100% ${!!header ? " - 60px" : ""} ${!!footer ? " - 56px" : ""})`
@@ -62,8 +61,7 @@ const Index = ({
         {header && (
           <>
             <div className="base-layout__header">
-              {/* todo: inline으로 하나씩 뿌려라 */}
-              <Header headerProps={headerProps} />
+              <Header title={headerTitle} back={back} backFunc={backFunc} />
             </div>
             <div className="base-layout__body__empty" />
           </>
@@ -75,4 +73,4 @@ const Index = ({
   );
 };
 
-export default Index;
+export default memo(Index);
