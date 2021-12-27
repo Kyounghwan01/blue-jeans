@@ -28,7 +28,7 @@ const useAuth = () => {
       },
       fail: function (error: string) {
         console.log(error);
-      }
+      },
     });
     // logout해야 token 끊김
     logoutFunc();
@@ -38,15 +38,15 @@ const useAuth = () => {
     handlePopup("common/Alert", "로그아웃", {
       desc: "정말 로그아웃 하시겠어요?",
       isConfirm: true,
-      onClose: logoutFunc
+      onClose: logoutFunc,
     });
   };
 
   const withDrawal = () => {
-    handlePopup("common/Alert", "탈최하기", {
+    handlePopup("common/Alert", "탈퇴하기", {
       desc: "정말 탈퇴 하시겠어요?",
       isConfirm: true,
-      onClose: withDrawalFunc
+      onClose: withDrawalFunc,
     });
   };
 
