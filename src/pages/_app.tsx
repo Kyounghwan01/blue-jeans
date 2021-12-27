@@ -12,16 +12,16 @@ import "styles/globals.css";
 // import { DefaultSeo } from 'next-seo';
 // import { Provider } from "react-redux";
 // import { store } from "app/store";
-import "utils/api/firebase";
+// import "utils/api/firebase";
 
 const App = (props: AppProps) => {
   const { Component, pageProps } = props;
   const [setScreenSize] = useScreenSize();
-  const [getUsers] = useGetUsers();
+  // const [getUsers] = useGetUsers();
 
   useEffect(() => {
     setScreenSize();
-    getUsers();
+    // getUsers();
   }, []);
 
   return (
