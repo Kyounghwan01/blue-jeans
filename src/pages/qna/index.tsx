@@ -7,7 +7,7 @@ import FixedBottomButton from "components/common/FixedBottomButton";
 
 const mainTabs = [
   { id: 0, name: "intro1", title: "캐롯 Pick" },
-  { id: 1, name: "intro2", title: "캐롯 추천" },
+  { id: 1, name: "intro2", title: "캐롯 추천" }
 ];
 
 const Index = () => {
@@ -26,7 +26,7 @@ const Index = () => {
   };
 
   return (
-    <BasicLayout headerProps={{ title: "", back: false }} footer={false}>
+    <BasicLayout headerTitle="" back={false} footer={false}>
       <div style={{ padding: "30px" }}>
         <input id="name" value={name} onChange={handleChange} />
 

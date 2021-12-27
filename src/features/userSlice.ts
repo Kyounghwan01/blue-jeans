@@ -17,8 +17,16 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     logOut: state => {
-      const { isLogin, email, gender, name, profileImage, token, id } =
-        initialState;
+      const {
+        isLogin,
+        email,
+        gender,
+        name,
+        profileImage,
+        token,
+        id,
+        nickName
+      } = initialState;
       state.email = email;
       state.gender = gender;
       state.name = name;
@@ -26,9 +34,11 @@ export const userSlice = createSlice({
       state.token = token;
       state.isLogin = isLogin;
       state.id = id;
+      state.nickName = nickName;
     },
     login: (state, action: PayloadAction<UserSliceStateType>) => {
-      const { email, gender, name, profileImage, token, id } = action.payload;
+      const { email, gender, name, profileImage, token, id, nickName } =
+        action.payload;
       state.email = email;
       state.gender = gender;
       state.name = name;
@@ -36,10 +46,22 @@ export const userSlice = createSlice({
       state.token = token;
       state.isLogin = true;
       state.id = id;
+      state.nickName = nickName;
+    },
+    setNickName: (state, action: PayloadAction<string>) => {
+      state.nickName = action.payload;
+    },
+    setImageNickName: (
+      state,
+      action: PayloadAction<{ url: string; nickName: string }>
+    ) => {
+      state.profileImage = action.payload.url;
+      state.nickName = action.payload.nickName;
     }
   }
 });
 
-export const { logOut, login } = userSlice.actions;
+export const { logOut, login, setNickName, setImageNickName } =
+  userSlice.actions;
 
 export default userSlice.reducer;

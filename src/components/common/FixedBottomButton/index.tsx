@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styled from "styled-components";
 
 interface IFinexBottomButton {
@@ -17,9 +18,10 @@ const Index = ({ title, onClick, disabled }: IFinexBottomButton) => {
 const Block = styled.button<{ disabled: boolean }>`
   position: fixed;
   bottom: 0;
+  left: 0;
   height: 60px;
   width: 100%;
-  background: ${(props) => (props.disabled ? "#c4c4c4" : "blue")};
+  background: ${props => (props.disabled ? "#c4c4c4" : "dodgerblue")};
   color: white;
   border: none;
   span {
@@ -27,4 +29,4 @@ const Block = styled.button<{ disabled: boolean }>`
   }
 `;
 
-export default Index;
+export default memo(Index);
