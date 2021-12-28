@@ -13,7 +13,6 @@ export const compressImage = async (image: File) => {
 };
 
 export const getPathStorageFromUrl = (url: string) => {
-  console.log(url);
   const baseUrl =
     "https://firebasestorage.googleapis.com/v0/b/blue-jean-f30e6.appspot.com/o/";
   let imagePath: string = url.replace(baseUrl, "");

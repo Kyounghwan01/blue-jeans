@@ -13,12 +13,15 @@ const useAuth = () => {
 
   const logoutFunc = () => {
     localStorage.removeItem("token");
+
+    // todo:  util 이사
     kakao.Auth.logout(() => {
       dispatch(logOut());
     });
   };
 
   const withDrawalFunc = async () => {
+    // todo: utils 이사
     kakao.API.request({
       url: "/v1/user/unlink",
       success: async (response: string) => {

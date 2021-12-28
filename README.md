@@ -1,22 +1,24 @@
 ## todo
-~~1. as 쓰면 prettier인식못하는게 그거 해결좀..~~
+
 2. react-query
 3. 프로덕션에서 작동하는지 확인
 4. 자주묻는질문
 5. 공지사항
-
+6. token exipred at 30일 넣고 그거 지나면 무조건 로그아웃, 재로그인하면 현재일 + 30일 추가
 
 ## font-size
+
 - title: 16~18
 - desc: 14~15
 
 ## Eureka
+
 1. declare d.ts에 넣으면 글로벌 작동됨
 2. next는 Portal document에 넣어야함
 
 ## doc
-- https://github.com/hugotox/nextjs-starter
 
+- https://github.com/hugotox/nextjs-starter
 
 ```
 /**

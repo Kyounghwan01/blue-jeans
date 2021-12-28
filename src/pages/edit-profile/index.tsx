@@ -1,11 +1,15 @@
 import { useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { RootState } from "app/store";
-import BasicLayout from "components/common/BasicLayout";
 import Avatar from "@mui/material/Avatar";
 import CreateSharpIcon from "@mui/icons-material/CreateSharp";
 import TextField from "@mui/material/TextField";
+import { RootState } from "app/store";
+import {
+  setNickName as setNickNameDispatch,
+  setImageNickName,
+} from "features/userSlice";
+import BasicLayout from "components/common/BasicLayout";
 import FixedBottomButton from "components/common/FixedBottomButton";
 import {
   compressImage,
@@ -14,10 +18,6 @@ import {
   validation,
 } from "utils";
 import { db } from "utils/api/firebase";
-import {
-  setNickName as setNickNameDispatch,
-  setImageNickName,
-} from "features/userSlice";
 import { updateDoc, doc } from "firebase/firestore/lite";
 import {
   getStorage,
