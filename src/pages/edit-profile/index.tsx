@@ -7,11 +7,16 @@ import Avatar from "@mui/material/Avatar";
 import CreateSharpIcon from "@mui/icons-material/CreateSharp";
 import TextField from "@mui/material/TextField";
 import FixedBottomButton from "components/common/FixedBottomButton";
-import { compressImage, getPathStorageFromUrl } from "utils";
+import {
+  compressImage,
+  getPathStorageFromUrl,
+  validtionCriteria,
+  validation,
+} from "utils";
 import { db } from "utils/api/firebase";
 import {
   setNickName as setNickNameDispatch,
-  setImageNickName
+  setImageNickName,
 } from "features/userSlice";
 import { updateDoc, doc } from "firebase/firestore/lite";
 import {
@@ -19,7 +24,7 @@ import {
   ref as sRef,
   uploadBytesResumable,
   getDownloadURL,
-  deleteObject
+  deleteObject,
 } from "firebase/storage";
 const storage = getStorage();
 
@@ -27,6 +32,7 @@ const Index = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const [nickName, setNickName] = useState<string | undefined>(user.nickName);
+  const [validNickName, setValidNickName] = useState<boolean>(false);
   const [previewURL, setPreviewURL] = useState<string>("");
   const [compressedImageState, setCompressedImage] = useState<File | null>();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -35,6 +41,9 @@ const Index = () => {
     switch (e.target.id) {
       case "nickName":
         setNickName(e.currentTarget.value);
+        setValidNickName(
+          validation(e.currentTarget.value, validtionCriteria.nickName)
+        );
       default:
         setNickName(e.currentTarget.value);
     }
@@ -65,24 +74,24 @@ const Index = () => {
       .join("");
 
     const metaData = {
-      contentType: file.type
+      contentType: file.type,
     };
 
     const storageRef = sRef(storage, "Images/" + _name + uniqueKey);
     const UploadTask = uploadBytesResumable(storageRef, file, metaData);
     UploadTask.on(
       "state_changed",
-      snapshot => {
+      (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log(`Upload is ${progress}% done`);
       },
-      error => {
+      (error) => {
         // todo: 이미지 저장 실패 팝업
         alert(`error: image upload error ${JSON.stringify(error)}`);
       },
       () => {
-        getDownloadURL(UploadTask.snapshot.ref).then(async downloadUrl => {
+        getDownloadURL(UploadTask.snapshot.ref).then(async (downloadUrl) => {
           console.log(`완료 url: ${downloadUrl}`);
           console.log(user.profileImage);
           const userDoc = doc(db, "users", String(user.id));
@@ -95,7 +104,7 @@ const Index = () => {
               .then(() => {
                 console.log(`delete success`);
               })
-              .catch(error => {
+              .catch((error) => {
                 console.log(`delete ${error}`);
               });
           }
@@ -144,16 +153,12 @@ const Index = () => {
         </div>
 
         <TextField
-          error={!nickName || nickName.length < 2 || nickName.length > 12}
+          error={!validNickName}
           id="nickName"
           label="닉네임"
           value={nickName}
           placeholder="닉네임을 입력해주세요."
-          helperText={
-            !nickName || nickName.length < 2 || nickName.length > 12
-              ? "최소 2자에서 15자까지 입력해주세요."
-              : ""
-          }
+          helperText={!validNickName ? validtionCriteria.nickName.error : ""}
           variant="standard"
           fullWidth
           onChange={handleInput}
@@ -180,7 +185,7 @@ const Index = () => {
         <FixedBottomButton
           title="저장"
           onClick={updateProfile}
-          disabled={!nickName || nickName.length < 2 || nickName.length > 12}
+          disabled={!validNickName}
         />
       </Block>
     </BasicLayout>
