@@ -1,18 +1,25 @@
-import { useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 import styled from "styled-components";
-import { RootState } from "app/store";
-import BasicLayout from "components/common/BasicLayout";
 import Avatar from "@mui/material/Avatar";
 import CreateSharpIcon from "@mui/icons-material/CreateSharp";
 import TextField from "@mui/material/TextField";
-import FixedBottomButton from "components/common/FixedBottomButton";
-import { compressImage, getPathStorageFromUrl } from "utils";
-import { db } from "utils/api/firebase";
+import { RootState } from "app/store";
 import {
   setNickName as setNickNameDispatch,
   setImageNickName
 } from "features/userSlice";
+import BasicLayout from "components/common/BasicLayout";
+import FixedBottomButton from "components/common/FixedBottomButton";
+import {
+  compressImage,
+  getPathStorageFromUrl,
+  validtionCriteria,
+  validation
+} from "utils";
+import usePopup from "hooks/usePopup";
+import { db } from "utils/api/firebase";
 import { updateDoc, doc } from "firebase/firestore/lite";
 import {
   getStorage,
@@ -25,11 +32,19 @@ const storage = getStorage();
 
 const Index = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
-  const [nickName, setNickName] = useState<string | undefined>(user.nickName);
+  const [nickName, setNickName] = useState<string>(user.nickName || "");
+  const [validNickName, setValidNickName] = useState<boolean>(false);
   const [previewURL, setPreviewURL] = useState<string>("");
   const [compressedImageState, setCompressedImage] = useState<File | null>();
+  const [loading, setLoading] = useState<boolean>(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [handlePopup] = usePopup();
+
+  useEffect(() => {
+    setValidNickName(validation(nickName, validtionCriteria.nickName));
+  }, [nickName]);
 
   const handleInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     switch (e.target.id) {
@@ -78,15 +93,14 @@ const Index = () => {
         console.log(`Upload is ${progress}% done`);
       },
       error => {
-        // todo: 이미지 저장 실패 팝업
-        alert(`error: image upload error ${JSON.stringify(error)}`);
+        setLoading(false);
+        return handlePopup("common/Alert", "이미지업로드실패", {
+          desc: JSON.stringify(error)
+        });
       },
       () => {
         getDownloadURL(UploadTask.snapshot.ref).then(async downloadUrl => {
-          console.log(`완료 url: ${downloadUrl}`);
-          console.log(user.profileImage);
           const userDoc = doc(db, "users", String(user.id));
-          // todo: promise all로 한번에 처리
           await updateDoc(userDoc, { nickName, profileImage: downloadUrl });
           if (user.profileImage.includes("firebase")) {
             const prevImage = getPathStorageFromUrl(user.profileImage);
@@ -114,18 +128,29 @@ const Index = () => {
   };
 
   const updateProfile = async () => {
+    setLoading(true);
     const userDoc = doc(db, "users", String(user.id));
     if (compressedImageState) {
       saveToFirebaseStorage(compressedImageState);
     } else {
-      // todo: 성공, 에러 팝업 핸들러, 성공하고 저장
       await updateDoc(userDoc, { nickName });
       dispatch(setNickNameDispatch(nickName as string));
     }
+
+    setLoading(false);
+    handlePopup("common/Alert", "프로필", {
+      desc: "프로필이 편집되었습니다.",
+      onClose: () => router.push("/profile")
+    });
   };
 
   return (
-    <BasicLayout headerTitle="프로필 편집" back={true} footer={false}>
+    <BasicLayout
+      headerTitle="프로필 편집"
+      back={true}
+      footer={false}
+      loading={loading}
+    >
       <input
         ref={fileRef}
         id="file"
@@ -144,16 +169,12 @@ const Index = () => {
         </div>
 
         <TextField
-          error={!nickName || nickName.length < 2 || nickName.length > 12}
+          error={!validNickName}
           id="nickName"
           label="닉네임"
           value={nickName}
           placeholder="닉네임을 입력해주세요."
-          helperText={
-            !nickName || nickName.length < 2 || nickName.length > 12
-              ? "최소 2자에서 15자까지 입력해주세요."
-              : ""
-          }
+          helperText={!validNickName ? validtionCriteria.nickName.error : ""}
           variant="standard"
           fullWidth
           onChange={handleInput}
@@ -180,7 +201,7 @@ const Index = () => {
         <FixedBottomButton
           title="저장"
           onClick={updateProfile}
-          disabled={!nickName || nickName.length < 2 || nickName.length > 12}
+          disabled={!validNickName}
         />
       </Block>
     </BasicLayout>

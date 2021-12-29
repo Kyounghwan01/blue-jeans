@@ -14,7 +14,7 @@ import useAuth from "hooks/useAuth";
 const Profile = () => {
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
-  const [logout, withDrawal] = useAuth();
+  const { logout, withDrawal, loading } = useAuth();
 
   const goLogin = useCallback(() => {
     router.push("/login");
@@ -25,7 +25,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <BasicLayout headerTitle="마이페이지" back={false}>
+    <BasicLayout headerTitle="마이페이지" back={false} loading={loading}>
       <Block>
         {!user.isLogin ? (
           <section className="non-login" onClick={goLogin}>
@@ -38,7 +38,7 @@ const Profile = () => {
             </div>
           </section>
         ) : (
-          <section className="login">
+          <section className="login" onClick={goProfileEdit}>
             <Avatar src={user.profileImage} />
             <div className="non-login__desc">
               <div className="non-login__desc__title">

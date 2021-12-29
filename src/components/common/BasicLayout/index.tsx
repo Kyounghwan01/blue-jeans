@@ -25,7 +25,6 @@ const Index = ({
   backFunc,
   loading = false
 }: IBasyLayout) => {
-  console.log(111);
   const router = useRouter();
 
   const [tab, setTab] = useState(0);

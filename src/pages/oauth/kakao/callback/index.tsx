@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
-import qs from "qs";
 import { useRouter } from "next/router";
 import Loading from "components/common/Loading";
 import { db } from "utils/api/firebase";
@@ -12,6 +10,7 @@ import { UserSliceStateType } from "features/types/userSliceType";
 import { KAKAO_REDIRECT_URI } from "utils/constants";
 import { RootState } from "app/store";
 import usePopup from "hooks/usePopup";
+import { getKakaoUserToken, getKakaoUser } from "utils/api/kakao";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -30,7 +29,7 @@ const Index = () => {
     setLoading(true);
     try {
       const token = await getToken();
-      const userProfileData = await getProfile();
+      const userProfileData = await getKakaoUser();
       await registerUser(userProfileData, token);
       setLoading(false);
       router.push("/profile");
@@ -45,7 +44,7 @@ const Index = () => {
   };
 
   const getToken = async () => {
-    const payload = qs.stringify({
+    const response = await getKakaoUserToken({
       grant_type: "authorization_code",
       client_id: process.env.REACT_APP_KAKAO_REST_API_KEY,
       redirect_uri: KAKAO_REDIRECT_URI,
@@ -53,21 +52,11 @@ const Index = () => {
       client_secret: process.env.REACT_APP_KAKAO_CLIENT_SECRET
     });
 
-    const res = await axios.post(
-      "https://kauth.kakao.com/oauth/token",
-      payload
-    );
     // 로그인을 하고 refreshtoken을 다 알아야겠네
     // 접속할때마다  https://vlee.kr/4896
-    kakao.Auth.setAccessToken(res.data.access_token);
-    localStorage.setItem("token", res.data.access_token);
-    return res.data.access_token;
-  };
-
-  const getProfile = async () => {
-    return await kakao.API.request({
-      url: "/v2/user/me"
-    });
+    kakao.Auth.setAccessToken(response.access_token);
+    localStorage.setItem("token", response.access_token);
+    return response.access_token;
   };
 
   const registerUser = async (
