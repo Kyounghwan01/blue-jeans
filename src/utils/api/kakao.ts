@@ -1,7 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 import qs from "qs";
-
-// todo: 여기에 kakao 가져와야하는데 어떻게 해야할지 생각좀 합시당
+let kakao = null as any;
+if (typeof window !== "undefined") {
+  kakao = window.Kakao;
+}
 
 interface IGetToken {
   access_token: string;
@@ -17,8 +19,24 @@ export const getKakaoUserToken = async (payload: {
   return response.data;
 };
 
-export const getKakaoUser = async (kakao: any) => {
+export const getKakaoUser = async () => {
   return await kakao.API.request({
-    url: "/v2/user/me",
+    url: "/v2/user/me"
+  });
+};
+
+export const logoutKakao = () => {
+  return kakao.Auth.logout();
+};
+
+export const withDrawalKakao = async (successCallback: () => Promise<void>) => {
+  await kakao.API.request({
+    url: "/v1/user/unlink",
+    success: async () => {
+      await successCallback();
+    },
+    fail: function (error: string) {
+      console.log(error);
+    }
   });
 };

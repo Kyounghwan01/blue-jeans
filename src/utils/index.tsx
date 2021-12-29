@@ -4,7 +4,7 @@ export const compressImage = async (image: File) => {
   try {
     const options = {
       maxSizeMb: 1,
-      maxWidthOrHeight: 300,
+      maxWidthOrHeight: 300
     };
     return await imageCompression(image, options);
   } catch (e) {
@@ -25,8 +25,8 @@ export const getPathStorageFromUrl = (url: string) => {
 export const validtionCriteria = {
   nickName: {
     pattern: /^[가-힣a-zA-Z\s]{2,12}$/,
-    error: "닉네임은 2자 이상 12자 이하 한글/영문으로 입력해 주세요",
-  },
+    error: "2자 이상 12자 이하 한글/영문으로 입력해 주세요"
+  }
 };
 
 export const validation = (

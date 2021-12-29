@@ -29,7 +29,7 @@ const Index = () => {
     setLoading(true);
     try {
       const token = await getToken();
-      const userProfileData = await getKakaoUser(kakao);
+      const userProfileData = await getKakaoUser();
       await registerUser(userProfileData, token);
       setLoading(false);
       router.push("/profile");
@@ -38,7 +38,7 @@ const Index = () => {
       setLoading(false);
       handlePopup("common/Alert", "로그인 취소", {
         desc: "로그인을 취소하셨습니다",
-        onClose: () => router.push("/login"),
+        onClose: () => router.push("/login")
       });
     }
   };
@@ -49,7 +49,7 @@ const Index = () => {
       client_id: process.env.REACT_APP_KAKAO_REST_API_KEY,
       redirect_uri: KAKAO_REDIRECT_URI,
       code: new URL(window.location.href).searchParams.get("code"),
-      client_secret: process.env.REACT_APP_KAKAO_CLIENT_SECRET,
+      client_secret: process.env.REACT_APP_KAKAO_CLIENT_SECRET
     });
 
     // 로그인을 하고 refreshtoken을 다 알아야겠네
@@ -71,7 +71,7 @@ const Index = () => {
       has_email,
       gender_needs_agreement,
       has_gender,
-      gender,
+      gender
     } = kakao_account;
 
     const cityRef = doc(db, "users", String(id));
@@ -81,7 +81,7 @@ const Index = () => {
       name: profile.nickname,
       profileImage: profile.profile_image_url,
       email: !email_needs_agreement && has_email ? email : "",
-      gender: !gender_needs_agreement && has_gender ? gender : "",
+      gender: !gender_needs_agreement && has_gender ? gender : ""
     } as UserSliceStateType;
     setDoc(cityRef, payload);
     dispatch(login(payload));

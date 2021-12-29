@@ -13,7 +13,9 @@ const Alert = ({
 }: IAlert) => {
   const close = () => {
     hideModal();
-    extraData.onClose();
+    if (typeof extraData.onClose === "function") {
+      extraData.onClose();
+    }
   };
 
   return (
