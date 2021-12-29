@@ -24,6 +24,10 @@ const Profile = () => {
     router.push("/edit-profile");
   }, []);
 
+  const goCustomerCenter = useCallback(() => {
+    router.push("/customer-service");
+  }, []);
+
   return (
     <BasicLayout headerTitle="마이페이지" back={false} loading={loading}>
       <Block>
@@ -54,9 +58,13 @@ const Profile = () => {
             <CustomList title="프로필 수정" func={goProfileEdit} />
           )}
           <CustomList title="공지사항" func={() => console.log("공지사항")} />
-          <CustomList title="자주 묻는 질문" func={() => console.log(1)} />
+          <CustomList title="고객센터" func={goCustomerCenter} />
           {user.isLogin && (
             <>
+              <CustomList
+                title="내 글 목록"
+                func={() => console.log("글목록")}
+              />
               <CustomList title="로그아웃" func={logout} />
               <CustomList title="탈퇴하기" func={withDrawal} />
             </>

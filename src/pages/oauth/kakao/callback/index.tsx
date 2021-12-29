@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import Loading from "components/common/Loading";
-import { db } from "utils/api/firebase";
-import { setDoc, doc } from "firebase/firestore/lite";
 import { login } from "features/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { UserSliceStateType } from "features/types/userSliceType";
@@ -11,6 +9,7 @@ import { KAKAO_REDIRECT_URI } from "utils/constants";
 import { RootState } from "app/store";
 import usePopup from "hooks/usePopup";
 import { getKakaoUserToken, getKakaoUser } from "utils/api/kakao";
+import setDocFirebase from "utils/api/setDocFirebase";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -74,7 +73,6 @@ const Index = () => {
       gender
     } = kakao_account;
 
-    const cityRef = doc(db, "users", String(id));
     const payload = {
       id,
       token,
@@ -83,7 +81,12 @@ const Index = () => {
       email: !email_needs_agreement && has_email ? email : "",
       gender: !gender_needs_agreement && has_gender ? gender : ""
     } as UserSliceStateType;
-    setDoc(cityRef, payload);
+    setDocFirebase({
+      dbColumn: "users",
+      dbKey: String(id),
+      setType: "selectKey",
+      payload
+    });
     dispatch(login(payload));
   };
 
