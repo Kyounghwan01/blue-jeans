@@ -3,7 +3,8 @@ import {
   useCallback,
   useEffect,
   Dispatch,
-  SetStateAction
+  SetStateAction,
+  useRef
 } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
@@ -13,6 +14,17 @@ import FixedBottomButton from "components/common/FixedBottomButton";
 import { QuestionType } from "utils/constants";
 import setDocFirebase from "utils/api/setDocFirebase";
 import usePopup from "hooks/usePopup";
+import dayjs from "dayjs";
+import { compressImage } from "utils";
+import CancelIcon from "@mui/icons-material/Cancel";
+import cloneDeep from "lodash/cloneDeep";
+import {
+  getStorage,
+  ref as sRef,
+  uploadBytesResumable,
+  getDownloadURL
+} from "firebase/storage";
+const storage = getStorage();
 
 const Question = ({ setTab }: { setTab: Dispatch<SetStateAction<number>> }) => {
   const user = useSelector((state: RootState) => state.user);
@@ -22,6 +34,10 @@ const Question = ({ setTab }: { setTab: Dispatch<SetStateAction<number>> }) => {
     type: "not-choice"
   });
   const [isValid, setIsValid] = useState<boolean>(false);
+  const [previewURLs, setPreviewURLs] = useState<{ url: string; blob: File }[]>(
+    []
+  );
+  const fileRef = useRef<HTMLInputElement>(null);
   const [handlePopup] = usePopup();
 
   useEffect(() => {
@@ -34,8 +50,45 @@ const Question = ({ setTab }: { setTab: Dispatch<SetStateAction<number>> }) => {
     });
   }, []);
 
-  const setApi = async () => {
+  const uploadImage = async () => {
+    const promises = [] as any;
+    previewURLs.map(({ blob }) => {
+      const Task = new Promise(function (resolve, reject) {
+        const uniqueKey = new Date().getTime();
+        const _name = blob.name
+          .replace(/[~`!#$%^&*+=\-[\]\\';,/{}()|\\":<>?]/g, "")
+          .split(" ")
+          .join("");
+
+        const metaData = {
+          contentType: blob.type
+        };
+        const storageRef = sRef(storage, "Qna/" + _name + uniqueKey);
+        const UploadTask = uploadBytesResumable(storageRef, blob, metaData);
+        UploadTask.on(
+          "state_changed",
+          () => {},
+          error => {
+            reject(error);
+          },
+          async () => {
+            await getDownloadURL(UploadTask.snapshot.ref).then(downloadUrl => {
+              resolve(downloadUrl);
+            });
+          }
+        );
+      });
+      promises.push(Task);
+    });
+
+    Promise.all(promises).then(res => {
+      setApi(res);
+    });
+  };
+
+  const setApi = async (imgUrl?: string[] | null) => {
     const { title, content, type } = data;
+
     const payload = {
       id: user.id,
       title,
@@ -43,7 +96,8 @@ const Question = ({ setTab }: { setTab: Dispatch<SetStateAction<number>> }) => {
       type,
       status: "pending",
       comment: [],
-      imgUrl: ""
+      imgUrl,
+      timestamp: dayjs().format("YYYY-MM-DD")
     };
     const res = await setDocFirebase({
       dbColumn: "qna",
@@ -57,6 +111,42 @@ const Question = ({ setTab }: { setTab: Dispatch<SetStateAction<number>> }) => {
       onClose: res.isSuccess ? () => setTab(1) : null
     });
   };
+
+  const handleFileOnChange = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      event.preventDefault();
+      if (!event.target.files) return;
+      const file = event.target.files[0];
+      const compressedImage = (await compressImage(file)) as File;
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        console.log(compressedImage);
+        console.log(reader.result);
+        setPreviewURLs(prev => [
+          ...prev,
+          { url: reader.result as string, blob: compressedImage }
+        ]);
+      };
+      if (compressedImage) reader.readAsDataURL(compressedImage);
+    },
+    []
+  );
+
+  const handleFileButtonClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (!fileRef.current) return;
+    fileRef.current.click();
+  };
+
+  const deleteImage = useCallback(
+    (index: number) => {
+      const newData = cloneDeep(previewURLs);
+      newData.splice(index, 1);
+      setPreviewURLs(newData);
+    },
+    [previewURLs]
+  );
 
   return (
     <Block>
@@ -106,6 +196,7 @@ const Question = ({ setTab }: { setTab: Dispatch<SetStateAction<number>> }) => {
       />
 
       <TextField
+        className="textarea"
         id="content"
         label="내용"
         multiline
@@ -118,9 +209,35 @@ const Question = ({ setTab }: { setTab: Dispatch<SetStateAction<number>> }) => {
         error={!data.content}
       />
 
+      <input
+        ref={fileRef}
+        id="file"
+        type="file"
+        onChange={handleFileOnChange}
+        hidden={true}
+      />
+
+      <section className="add-image-container">
+        {previewURLs.length <= 2 && (
+          <div
+            className="add-image-container__add-image"
+            onClick={handleFileButtonClick}
+          />
+        )}
+        {previewURLs.map((url, index) => (
+          <div className="add-image-container__image" key={index}>
+            <img src={url.url} alt="카카오로그인버튼" />
+            <CancelIcon
+              className="add-image-container__image__close"
+              onClick={() => deleteImage(index)}
+            />
+          </div>
+        ))}
+      </section>
+
       <FixedBottomButton
         title="문의하기"
-        onClick={setApi}
+        onClick={previewURLs.length ? uploadImage : setApi}
         disabled={!isValid}
       />
     </Block>
@@ -131,6 +248,37 @@ const Block = styled.article`
   padding: 20px 16px;
   .MuiFormControl-root {
     height: 80px;
+  }
+  .textarea {
+    height: 150px;
+  }
+  .add-image-container {
+    display: flex;
+    &__add-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 8px;
+      background: #bbb;
+      margin-right: 10px;
+    }
+    &__image {
+      width: 100px;
+      height: 100px;
+      margin-right: 10px;
+      border-radius: 8px;
+      position: relative;
+      &__close {
+        font-size: 30px;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+      }
+      img {
+        width: inherit;
+        height: inherit;
+        border-radius: 8px;
+      }
+    }
   }
 `;
 
