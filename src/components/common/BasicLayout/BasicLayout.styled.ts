@@ -20,7 +20,6 @@ export const Block = styled.div<IFooterStyle>`
     }
     &__body {
       position: relative;
-      padding: 0px 0px 20px;
       width: 100%;
       height: ${props => props.bodyHeight};
       overflow-y: ${props => (props.loadingState ? "hidden" : "scroll")};

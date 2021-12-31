@@ -79,7 +79,8 @@ const Index = () => {
       name: profile.nickname,
       profileImage: profile.profile_image_url,
       email: !email_needs_agreement && has_email ? email : "",
-      gender: !gender_needs_agreement && has_gender ? gender : ""
+      gender: !gender_needs_agreement && has_gender ? gender : "",
+      admin: [2042204892, 2054570117].includes(id)
     } as UserSliceStateType;
     setDocFirebase({
       dbColumn: "users",

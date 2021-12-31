@@ -9,7 +9,8 @@ const initialState: UserSliceStateType = {
   name: null,
   profileImage: "",
   token: null,
-  nickName: ""
+  nickName: "",
+  admin: false
 };
 
 export const userSlice = createSlice({
@@ -37,7 +38,7 @@ export const userSlice = createSlice({
       state.nickName = nickName;
     },
     login: (state, action: PayloadAction<UserSliceStateType>) => {
-      const { email, gender, name, profileImage, token, id, nickName } =
+      const { email, gender, name, profileImage, token, id, nickName, admin } =
         action.payload;
       state.email = email;
       state.gender = gender;
@@ -47,6 +48,7 @@ export const userSlice = createSlice({
       state.isLogin = true;
       state.id = id;
       state.nickName = nickName;
+      state.admin = admin;
     },
     setNickName: (state, action: PayloadAction<string>) => {
       state.nickName = action.payload;

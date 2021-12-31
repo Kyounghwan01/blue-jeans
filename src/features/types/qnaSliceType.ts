@@ -1,14 +1,19 @@
 export type QnaType = {
-  id: number;
+  id: string;
+  userId: number;
   content: string;
   imgUrl: string[];
-  statue: "pending" | "finish" | "doing";
+  status: "pending" | "finish" | "doing";
   timestamp: string;
   title: string;
   type: string;
-  comment: number[];
+  comment: { data: string; timestamp: string } | null;
 };
 
 export type QnaSliceStateType = {
   list: QnaType[];
+  qna: QnaType;
+  answerList: QnaType[];
+  answer: QnaType;
+  tab: number;
 };
