@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { KAKAO_REDIRECT_URI } from "utils/constants";
 
@@ -28,16 +27,6 @@ const Login = () => {
             src="/static/image/auth/kakao-login-btn.png"
             alt="카카오로그인버튼"
             onClick={kakaoAuthRedirect}
-          />
-
-          <Image
-            src="/static/image/auth/kakao-login-btn.png"
-            alt="카카오로그인버튼"
-            onClick={kakaoAuthRedirect}
-            width="100%"
-            height="100%"
-            layout="responsive"
-            objectFit="contain"
           />
 
           <div onClick={notLogin}>로그인하지 않고 둘러보기</div>
