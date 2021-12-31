@@ -18,7 +18,6 @@ const Login = () => {
   return (
     <LoginBlock>
       <header>
-        {process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}
         <h1>청바지</h1>
       </header>
       <main>
