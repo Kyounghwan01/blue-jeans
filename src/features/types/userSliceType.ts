@@ -11,7 +11,7 @@ export type LoginPayloadType = {
 };
 
 export type UserSliceStateType = {
-  isLogin: boolean;
+  isLogin?: boolean;
   email: string | null;
   gender: string | null;
   id: number | null;
@@ -20,4 +20,5 @@ export type UserSliceStateType = {
   token: string | null;
   nickName?: string;
   birth?: string;
+  admin: boolean;
 };

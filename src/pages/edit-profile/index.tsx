@@ -73,52 +73,59 @@ const Index = () => {
   );
 
   const saveToFirebaseStorage = async (file: File) => {
-    const uniqueKey = new Date().getTime();
-    const _name = file.name
-      .replace(/[~`!#$%^&*+=\-[\]\\';,/{}()|\\":<>?]/g, "")
-      .split(" ")
-      .join("");
+    const Task = new Promise((resolve, reject) => {
+      const uniqueKey = new Date().getTime();
+      const _name = file.name
+        .replace(/[~`!#$%^&*+=\-[\]\\';,/{}()|\\":<>?]/g, "")
+        .split(" ")
+        .join("");
 
-    const metaData = {
-      contentType: file.type
-    };
+      const metaData = {
+        contentType: file.type
+      };
 
-    const storageRef = sRef(storage, "Images/" + _name + uniqueKey);
-    const UploadTask = uploadBytesResumable(storageRef, file, metaData);
-    UploadTask.on(
-      "state_changed",
-      snapshot => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Upload is ${progress}% done`);
-      },
-      error => {
-        setLoading(false);
-        return handlePopup("common/Alert", "이미지업로드실패", {
-          desc: JSON.stringify(error)
-        });
-      },
-      () => {
-        getDownloadURL(UploadTask.snapshot.ref).then(async downloadUrl => {
-          const userDoc = doc(db, "users", String(user.id));
-          await updateDoc(userDoc, { nickName, profileImage: downloadUrl });
-          if (user.profileImage.includes("firebase")) {
-            const prevImage = getPathStorageFromUrl(user.profileImage);
-            const desertRef = sRef(storage, prevImage);
-            deleteObject(desertRef)
-              .then(() => {
-                console.log(`delete success`);
-              })
-              .catch(error => {
-                console.log(`delete ${error}`);
-              });
-          }
-          dispatch(
-            setImageNickName({ url: downloadUrl, nickName: nickName as string })
-          );
-        });
+      const storageRef = sRef(storage, "Images/" + _name + uniqueKey);
+      const UploadTask = uploadBytesResumable(storageRef, file, metaData);
+      UploadTask.on(
+        "state_changed",
+        () => {},
+        error => {
+          reject(error);
+        },
+        () => {
+          getDownloadURL(UploadTask.snapshot.ref).then(async downloadUrl => {
+            resolve(downloadUrl);
+          });
+        }
+      );
+    });
+
+    Task.then(async downloadUrl => {
+      const userDoc = doc(db, "users", String(user.id));
+      await updateDoc(userDoc, { nickName, profileImage: downloadUrl });
+      if (user.profileImage.includes("firebase")) {
+        const prevImage = getPathStorageFromUrl(user.profileImage);
+        const desertRef = sRef(storage, prevImage);
+        deleteObject(desertRef)
+          .then(() => {
+            console.log(`delete success`);
+          })
+          .catch(error => {
+            console.log(`delete ${error}`);
+          });
       }
-    );
+      dispatch(
+        setImageNickName({
+          url: downloadUrl as string,
+          nickName: nickName as string
+        })
+      );
+    }).catch(error => {
+      setLoading(false);
+      return handlePopup("common/Alert", "이미지업로드실패", {
+        desc: JSON.stringify(error)
+      });
+    });
   };
 
   const handleFileButtonClick = (e: React.MouseEvent<HTMLDivElement>) => {

@@ -11,6 +11,7 @@ import {
   getDoc
 } from "firebase/firestore/lite";
 import { db } from "utils/api/firebase";
+import { getKakaoUser } from "utils/api/kakao";
 
 const useGetUsers = () => {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const useGetUsers = () => {
     } else {
       const token = kakao?.Auth?.getAccessToken();
       if (token) {
-        const res = await kakao.API.request({ url: "/v2/user/me" });
+        const res = await getKakaoUser();
         getUserToFirebaseForId(String(res.id));
       }
     }

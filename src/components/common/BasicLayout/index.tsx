@@ -47,7 +47,7 @@ const Index = ({
       }
     }
     setBodyHeight(
-      `calc(100% ${!!header ? " - 60px" : ""} ${!!footer ? " - 56px" : ""})`
+      `calc(100% ${!!header ? " - 50px" : ""} ${!!footer ? " - 56px" : ""})`
     );
   }, []);
 
