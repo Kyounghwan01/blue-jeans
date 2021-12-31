@@ -10,7 +10,7 @@ const Index: NextPage = () => {
   const user = useSelector((state: RootState) => state.user);
 
   return (
-    <BasicLayout headerTitle="main" back={true} footer={false}>
+    <BasicLayout headerTitle="main" back={true} footer={true}>
       <div>
         <Head>
           <title>Create Next App</title>
