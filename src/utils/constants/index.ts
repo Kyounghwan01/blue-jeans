@@ -1,6 +1,6 @@
 export const KAKAO_REDIRECT_URI = `${
   process.env.NODE_ENV !== "production"
-    ? "http://192.168.1.2:3000"
+    ? "http://localhost:3000"
     : "https://blue-jeans.vercel.app"
 }/oauth/kakao/callback`;
 export const QuestionType = [

@@ -7,6 +7,7 @@ import { RootState } from "app/store";
 import dayjs from "dayjs";
 import Chip from "@mui/material/Chip";
 import FixedBottomButton from "components/common/FixedBottomButton";
+import ImageSkeleton from "components/common/ImageSkeleton";
 import usePopup from "hooks/usePopup";
 import { useRouter } from "next/router";
 
@@ -76,9 +77,11 @@ const Index = () => {
           <p>{qna.content}</p>
 
           <div>
-            {qna.imgUrl.map(url => (
-              <img key={url} src={url} />
-            ))}
+            {qna.imgUrl.map(url => {
+              return (
+                <ImageSkeleton key={url} url={url} width={200} height={200} />
+              );
+            })}
           </div>
         </section>
         {user.admin && tab === 2 && !qna.comment ? (
