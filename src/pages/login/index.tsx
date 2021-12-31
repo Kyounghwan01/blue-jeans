@@ -7,7 +7,7 @@ const Login = () => {
 
   const kakaoAuthRedirect = () => {
     window.location.assign(
-      `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`
+      `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`
     );
   };
 
@@ -18,6 +18,7 @@ const Login = () => {
   return (
     <LoginBlock>
       <header>
+        {process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}
         <h1>청바지</h1>
       </header>
       <main>

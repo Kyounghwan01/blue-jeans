@@ -45,10 +45,10 @@ const Index = () => {
   const getToken = async () => {
     const response = await getKakaoUserToken({
       grant_type: "authorization_code",
-      client_id: process.env.REACT_APP_KAKAO_REST_API_KEY,
+      client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
       redirect_uri: KAKAO_REDIRECT_URI,
       code: new URL(window.location.href).searchParams.get("code"),
-      client_secret: process.env.REACT_APP_KAKAO_CLIENT_SECRET
+      client_secret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET
     });
 
     // 로그인을 하고 refreshtoken을 다 알아야겠네

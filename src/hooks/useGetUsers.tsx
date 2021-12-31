@@ -40,7 +40,7 @@ const useGetUsers = () => {
   const getUsers = async () => {
     const kakao = window.Kakao;
     if (!kakao.Auth) {
-      const kakaoClientKey = process.env.REACT_APP_KAKAO_CLIENT_SECRET;
+      const kakaoClientKey = process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET;
       if (kakaoClientKey) {
         kakao.init(kakaoClientKey);
         dispatch(setKakao(kakao));
