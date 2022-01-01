@@ -28,8 +28,17 @@ const Profile = () => {
     router.push("/customer-service");
   }, []);
 
+  const goEditFontSize = useCallback(() => {
+    router.push("/profile/font-size");
+  }, []);
+
   return (
-    <BasicLayout headerTitle="마이페이지" back={false} loading={loading}>
+    <BasicLayout
+      headerTitle="마이페이지"
+      back={false}
+      footer={false}
+      loading={loading}
+    >
       <Block>
         {!user.isLogin ? (
           <section className="non-login" onClick={goLogin}>
@@ -69,6 +78,7 @@ const Profile = () => {
               <CustomList title="탈퇴하기" func={withDrawal} />
             </>
           )}
+          <CustomList title="폰트사이즈수정" func={goEditFontSize} />
         </List>
       </Block>
     </BasicLayout>

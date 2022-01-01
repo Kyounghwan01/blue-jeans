@@ -33,7 +33,6 @@ const Index = () => {
       setLoading(false);
       router.push("/profile");
     } catch (err) {
-      console.log(err);
       setLoading(false);
       handlePopup("common/Alert", "로그인 취소", {
         desc: "로그인을 취소하셨습니다",

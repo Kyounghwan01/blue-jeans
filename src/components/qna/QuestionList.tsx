@@ -43,7 +43,6 @@ const QuestionList = ({
     const qnaList = data.docs.map(doc => {
       return { id: doc.id, ...doc.data() };
     }) as QnaType[];
-    console.log(qnaList);
     dispatch(getQnaList(qnaList));
     setLoading(false);
   };

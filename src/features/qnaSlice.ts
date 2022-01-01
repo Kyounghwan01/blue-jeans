@@ -27,7 +27,6 @@ export const qnaSlice = createSlice({
   reducers: {
     resetQnaList: state => {
       state.list = [];
-      console.log(state.list);
     },
     getQnaList: (state, action: PayloadAction<QnaType[]>) => {
       state.list = action.payload;

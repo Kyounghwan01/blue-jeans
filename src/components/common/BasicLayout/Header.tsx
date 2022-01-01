@@ -33,6 +33,7 @@ const Block = styled.header`
   border-bottom: 1px solid #dddddd;
   z-index: 2;
   background: white;
+  background-color: ${props => props.theme.palette.test};
 `;
 
 export default memo(Header);
