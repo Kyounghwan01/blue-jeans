@@ -22,12 +22,7 @@ const Index = ({
           height={height}
         />
       )}
-      <img
-        onLoad={() => setLoad(true)}
-        src={url}
-        alt="이미지"
-        style={{ width: `${width}px`, height: `${height}px` }}
-      />
+      <img onLoad={() => setLoad(true)} src={url} alt="이미지" />
     </Block>
   );
 };
@@ -36,6 +31,10 @@ const Block = styled.div<{ height: number; width: number }>`
   height: ${props => `${props.height}px`};
   width: ${props => `${props.width}px`};
   overflow: hidden;
+  img {
+    height: ${props => `${props.height}px`};
+    width: ${props => `${props.width}px`};
+  }
 `;
 
 export default Index;

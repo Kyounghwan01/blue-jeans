@@ -24,6 +24,7 @@ const Block = styled.button<{ disabled: boolean }>`
   background: ${props => (props.disabled ? "#c4c4c4" : "dodgerblue")};
   color: white;
   border: none;
+  z-index: 999;
   span {
     font-size: 18px;
   }

@@ -12,23 +12,12 @@ import {
 } from "features/userSlice";
 import BasicLayout from "components/common/BasicLayout";
 import FixedBottomButton from "components/common/FixedBottomButton";
-import {
-  compressImage,
-  getPathStorageFromUrl,
-  validtionCriteria,
-  validation
-} from "utils";
-import usePopup from "hooks/usePopup";
+import { compressImage, validtionCriteria, validation } from "utils";
 import { db } from "utils/api/firebase";
 import { updateDoc, doc } from "firebase/firestore/lite";
-import {
-  getStorage,
-  ref as sRef,
-  uploadBytesResumable,
-  getDownloadURL,
-  deleteObject
-} from "firebase/storage";
-const storage = getStorage();
+import uploadImageFirebase from "utils/api/uploadImageFirebase";
+import deleteImageFirebase from "utils/api/deleteImageFirebase";
+import usePopup from "hooks/usePopup";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -45,6 +34,13 @@ const Index = () => {
   useEffect(() => {
     setValidNickName(validation(nickName, validtionCriteria.nickName));
   }, [nickName]);
+
+  const profileEditSuccessPop = () => {
+    handlePopup("common/Alert", "프로필", {
+      desc: "프로필이 편집되었습니다.",
+      onClose: () => router.push("/profile")
+    });
+  };
 
   const handleInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     switch (e.target.id) {
@@ -72,59 +68,35 @@ const Index = () => {
     []
   );
 
-  const saveToFirebaseStorage = async (file: File) => {
-    const Task = new Promise((resolve, reject) => {
-      const uniqueKey = new Date().getTime();
-      const _name = file.name
-        .replace(/[~`!#$%^&*+=\-[\]\\';,/{}()|\\":<>?]/g, "")
-        .split(" ")
-        .join("");
-
-      const metaData = {
-        contentType: file.type
-      };
-
-      const storageRef = sRef(storage, "Images/" + _name + uniqueKey);
-      const UploadTask = uploadBytesResumable(storageRef, file, metaData);
-      UploadTask.on(
-        "state_changed",
-        () => {},
-        error => {
-          reject(error);
-        },
-        () => {
-          getDownloadURL(UploadTask.snapshot.ref).then(async downloadUrl => {
-            resolve(downloadUrl);
-          });
-        }
-      );
+  const saveToFirebaseStorage = (file: File) => {
+    uploadImageFirebase({
+      directoryName: "Images/",
+      fileArray: [file],
+      resolveFunction: uploadImageFirebaseSuccess,
+      rejectFunction: uploadImageFirebaseFail
     });
+  };
 
-    Task.then(async downloadUrl => {
-      const userDoc = doc(db, "users", String(user.id));
-      await updateDoc(userDoc, { nickName, profileImage: downloadUrl });
-      if (user.profileImage.includes("firebase")) {
-        const prevImage = getPathStorageFromUrl(user.profileImage);
-        const desertRef = sRef(storage, prevImage);
-        deleteObject(desertRef)
-          .then(() => {
-            console.log(`delete success`);
-          })
-          .catch(error => {
-            console.log(`delete ${error}`);
-          });
-      }
-      dispatch(
-        setImageNickName({
-          url: downloadUrl as string,
-          nickName: nickName as string
-        })
-      );
-    }).catch(error => {
-      setLoading(false);
-      return handlePopup("common/Alert", "이미지업로드실패", {
-        desc: JSON.stringify(error)
-      });
+  const uploadImageFirebaseSuccess = async (downloadUrl: string[]) => {
+    const userDoc = doc(db, "users", String(user.id));
+    await updateDoc(userDoc, { nickName, profileImage: downloadUrl[0] });
+    if (user.profileImage?.includes("firebase")) {
+      deleteImageFirebase(user.profileImage);
+    }
+    dispatch(
+      setImageNickName({
+        url: downloadUrl[0],
+        nickName: nickName as string
+      })
+    );
+    setLoading(false);
+    profileEditSuccessPop();
+  };
+
+  const uploadImageFirebaseFail = (error: Error) => {
+    setLoading(false);
+    return handlePopup("common/Alert", "이미지업로드실패", {
+      desc: JSON.stringify(error)
     });
   };
 
@@ -142,13 +114,9 @@ const Index = () => {
     } else {
       await updateDoc(userDoc, { nickName });
       dispatch(setNickNameDispatch(nickName as string));
+      setLoading(false);
+      profileEditSuccessPop();
     }
-
-    setLoading(false);
-    handlePopup("common/Alert", "프로필", {
-      desc: "프로필이 편집되었습니다.",
-      onClose: () => router.push("/profile")
-    });
   };
 
   return (

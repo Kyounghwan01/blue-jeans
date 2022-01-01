@@ -3,6 +3,7 @@ export const KAKAO_REDIRECT_URI = `${
     ? "http://localhost:3000"
     : "https://blue-jeans.vercel.app"
 }/oauth/kakao/callback`;
+
 export const QuestionType = [
   {
     value: "not-choice",

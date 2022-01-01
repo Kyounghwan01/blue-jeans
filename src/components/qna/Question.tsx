@@ -11,14 +11,8 @@ import dayjs from "dayjs";
 import { compressImage } from "utils";
 import CancelIcon from "@mui/icons-material/Cancel";
 import cloneDeep from "lodash/cloneDeep";
-import { resetQnaList, setTab } from "features/qnaSlice";
-import {
-  getStorage,
-  ref as sRef,
-  uploadBytesResumable,
-  getDownloadURL
-} from "firebase/storage";
-const storage = getStorage();
+import { setTab } from "features/qnaSlice";
+import uploadImageFirebase from "utils/api/uploadImageFirebase";
 
 const Question = () => {
   const dispatch = useDispatch();
@@ -46,38 +40,12 @@ const Question = () => {
   }, []);
 
   const uploadImage = async () => {
-    const promises = [] as any;
-    previewURLs.map(({ blob }) => {
-      const Task = new Promise(function (resolve, reject) {
-        const uniqueKey = new Date().getTime();
-        const _name = blob.name
-          .replace(/[~`!#$%^&*+=\-[\]\\';,/{}()|\\":<>?]/g, "")
-          .split(" ")
-          .join("");
-
-        const metaData = {
-          contentType: blob.type
-        };
-        const storageRef = sRef(storage, "Qna/" + _name + uniqueKey);
-        const UploadTask = uploadBytesResumable(storageRef, blob, metaData);
-        UploadTask.on(
-          "state_changed",
-          () => {},
-          error => {
-            reject(error);
-          },
-          async () => {
-            await getDownloadURL(UploadTask.snapshot.ref).then(downloadUrl => {
-              resolve(downloadUrl);
-            });
-          }
-        );
-      });
-      promises.push(Task);
-    });
-
-    Promise.all(promises).then(res => {
-      setApi(res);
+    const imageFiles = previewURLs.map(({ blob }) => blob);
+    uploadImageFirebase({
+      directoryName: "Qna/",
+      fileArray: imageFiles,
+      resolveFunction: setApi,
+      rejectFunction: () => {}
     });
   };
 
