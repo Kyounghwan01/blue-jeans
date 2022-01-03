@@ -27,6 +27,10 @@ const Index = () => {
     >
       <FormControl component="fieldset">
         <FormLabel component="legend">폰트사이즈</FormLabel>
+        <h1 className="custom-font-h1">h1입니다</h1>
+        <h2>h2입니다</h2>
+        <h3>h3입니다</h3>
+        <h4>h4입니다</h4>
         <RadioGroup
           aria-label="gender"
           name="controlled-radio-buttons-group"

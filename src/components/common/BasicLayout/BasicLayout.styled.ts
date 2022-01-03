@@ -21,12 +21,16 @@ export const Block = styled.div<IFooterStyle>`
     &__body {
       position: relative;
       width: 100%;
-      height: ${props => props.bodyHeight};
-      overflow-y: ${props => (props.loadingState ? "hidden" : "scroll")};
+      height: ${(props) => props.bodyHeight};
+      overflow-y: ${(props) => (props.loadingState ? "hidden" : "scroll")};
       overflow-x: hidden;
       &__empty {
         height: 50px;
       }
     }
+  }
+
+  .custom-font-h1 {
+    font-size: ${(props) => props.theme.palette.customFont.h1};
   }
 `;
