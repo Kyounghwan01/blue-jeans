@@ -8,16 +8,19 @@ import TextField from "@mui/material/TextField";
 import { RootState } from "app/store";
 import {
   setNickName as setNickNameDispatch,
-  setImageNickName,
+  setImageNickName
 } from "features/userSlice";
 import BasicLayout from "components/common/BasicLayout";
 import FixedBottomButton from "components/common/FixedBottomButton";
-import { compressImage, validtionCriteria, validation } from "utils";
-import { db } from "utils/api/firebase";
-import { updateDoc, doc } from "firebase/firestore/lite";
+import {
+  compressImage,
+  validtionCriteria,
+  validation,
+  handleFileButton
+} from "utils";
 import uploadImageFirebase from "utils/api/uploadImageFirebase";
 import deleteImageFirebase from "utils/api/deleteImageFirebase";
-// import updateDocFirebase from "utils/api/updateDocFirebase";
+import updateDocFirebase from "utils/api/updateDocFirebase";
 import usePopup from "hooks/usePopup";
 
 const Index = () => {
@@ -36,10 +39,11 @@ const Index = () => {
     setValidNickName(validation(nickName, validtionCriteria.nickName));
   }, [nickName]);
 
-  const profileEditSuccessPop = () => {
-    handlePopup("common/Alert", "프로필", {
-      desc: "프로필이 편집되었습니다.",
-      onClose: () => router.push("/profile"),
+  const profileEditPop = ({ isSuccess }: { isSuccess: boolean }) => {
+    setLoading(false);
+    return handlePopup("common/Alert", "프로필", {
+      desc: `${isSuccess ? "프로필이 편집되었습니다." : "프로필 편집 실패"}`,
+      onClose: isSuccess ? () => router.push("/profile") : null
     });
   };
 
@@ -70,60 +74,46 @@ const Index = () => {
   );
 
   const uploadImageFirebaseSuccess = async (downloadUrl: string[]) => {
-    // const res = await updateDocFirebase({
-    //   dbColumn: "users",
-    //   dbKey: String(user.id),
-    //   payload: { nickName, profileImage: downloadUrl[0] },
-    // });
-    // callback func에 loading false도 같이 넣으면 될듯
-    const userDoc = doc(db, "users", String(user.id));
-    await updateDoc(userDoc, { nickName, profileImage: downloadUrl[0] });
+    const res = await updateDocFirebase({
+      dbColumn: "users",
+      dbKey: String(user.id),
+      payload: { nickName, profileImage: downloadUrl[0] }
+    });
+
+    if (!res.isSuccess) {
+      return profileEditPop({ isSuccess: false });
+    }
+
     if (user.profileImage?.includes("firebase")) {
       deleteImageFirebase(user.profileImage);
     }
+
     dispatch(
       setImageNickName({
         url: downloadUrl[0],
-        nickName: nickName as string,
+        nickName: nickName as string
       })
     );
-    setLoading(false);
-    profileEditSuccessPop();
-  };
-
-  const uploadImageFirebaseFail = (error: Error) => {
-    setLoading(false);
-    return handlePopup("common/Alert", "이미지업로드실패", {
-      desc: JSON.stringify(error.message),
-    });
-  };
-
-  const handleFileButtonClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (!fileRef.current) return;
-    fileRef.current.click();
+    profileEditPop({ isSuccess: true });
   };
 
   const updateProfile = async () => {
     setLoading(true);
-    const userDoc = doc(db, "users", String(user.id));
     if (compressedImageState) {
       uploadImageFirebase({
         directoryName: "Images/",
         fileArray: [compressedImageState],
         resolveFunction: uploadImageFirebaseSuccess,
-        rejectFunction: uploadImageFirebaseFail,
+        rejectFunction: () => profileEditPop({ isSuccess: false })
       });
     } else {
-      await updateDoc(userDoc, { nickName });
-      // await updateDocFirebase({
-      //   dbColumn: "users",
-      //   dbKey: String(user.id),
-      //   payload: { nickName },
-      // });
+      const res = await updateDocFirebase({
+        dbColumn: "users",
+        dbKey: String(user.id),
+        payload: { nickName }
+      });
       dispatch(setNickNameDispatch(nickName as string));
-      setLoading(false);
-      profileEditSuccessPop();
+      profileEditPop({ isSuccess: res.isSuccess });
     }
   };
 
@@ -142,7 +132,10 @@ const Index = () => {
         hidden={true}
       />
       <Block>
-        <div className="edit-profile" onClick={handleFileButtonClick}>
+        <div
+          className="edit-profile"
+          onClick={e => handleFileButton(e, fileRef)}
+        >
           <div className="edit-profile__image">
             <Avatar src={previewURL || user.profileImage} />
             <div className="edit-profile__penceil">

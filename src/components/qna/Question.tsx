@@ -1,18 +1,18 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
+import dayjs from "dayjs";
+import cloneDeep from "lodash/cloneDeep";
 import TextField from "@mui/material/TextField";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { RootState } from "app/store";
-import FixedBottomButton from "components/common/FixedBottomButton";
 import { QuestionType } from "utils/constants";
 import setDocFirebase from "utils/api/setDocFirebase";
-import usePopup from "hooks/usePopup";
-import dayjs from "dayjs";
-import { compressImage } from "utils";
-import CancelIcon from "@mui/icons-material/Cancel";
-import cloneDeep from "lodash/cloneDeep";
-import { setTab } from "features/qnaSlice";
 import uploadImageFirebase from "utils/api/uploadImageFirebase";
+import { compressImage, handleFileButton } from "utils";
+import FixedBottomButton from "components/common/FixedBottomButton";
+import usePopup from "hooks/usePopup";
+import { setTab } from "features/qnaSlice";
 
 const Question = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const Question = () => {
   const [data, setData] = useState({
     title: "",
     content: "",
-    type: "not-choice",
+    type: "not-choice"
   });
   const [isValid, setIsValid] = useState<boolean>(false);
   const [previewURLs, setPreviewURLs] = useState<{ url: string; blob: File }[]>(
@@ -34,7 +34,7 @@ const Question = () => {
   }, [data]);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setData((prev) => {
+    setData(prev => {
       return { ...prev, [e.target.id]: e.target.value };
     });
   }, []);
@@ -45,7 +45,7 @@ const Question = () => {
       directoryName: "Qna/",
       fileArray: imageFiles,
       resolveFunction: setApi,
-      rejectFunction: () => {},
+      rejectFunction: () => {}
     });
   };
 
@@ -59,20 +59,20 @@ const Question = () => {
       status: "pending",
       comment: "",
       imgUrl: imgUrl || [],
-      timestamp: dayjs().format("YYYY-MM-DD"),
+      timestamp: dayjs().format("YYYY-MM-DD")
     };
 
     const res = await setDocFirebase({
       dbColumn: "qna",
       setType: "anonymous",
-      payload,
+      payload
     });
 
     handlePopup("common/Alert", "문의", {
       desc: res.isSuccess
         ? "문의가 등록되었습니다."
         : `문의 등록 실패 : ${res.errMessage}`,
-      onClose: res.isSuccess ? dispatch(setTab(1)) : null,
+      onClose: res.isSuccess ? dispatch(setTab(1)) : null
     });
   };
 
@@ -85,21 +85,15 @@ const Question = () => {
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        setPreviewURLs((prev) => [
+        setPreviewURLs(prev => [
           ...prev,
-          { url: reader.result as string, blob: compressedImage },
+          { url: reader.result as string, blob: compressedImage }
         ]);
       };
       if (compressedImage) reader.readAsDataURL(compressedImage);
     },
     []
   );
-
-  const handleFileButtonClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (!fileRef.current) return;
-    fileRef.current.click();
-  };
 
   const deleteImage = useCallback(
     (index: number) => {
@@ -136,7 +130,7 @@ const Question = () => {
           }
           variant="standard"
         >
-          {QuestionType.map((option) => (
+          {QuestionType.map(option => (
             <option
               key={option.value}
               value={option.value}
@@ -186,7 +180,7 @@ const Question = () => {
           {previewURLs.length <= 2 && (
             <div
               className="add-image-container__add-image"
-              onClick={handleFileButtonClick}
+              onClick={e => handleFileButton(e, fileRef)}
             />
           )}
           {previewURLs.map((url, index) => (
