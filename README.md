@@ -1,13 +1,15 @@
 ## todo
 
 1. font-size 변수화
-2. firebase update 모듈화
+2. firebase update 모듈화 -- 완료 (잘되는지 확인해야함)
 3. react-query
-4. 프로덕션에서 작동하는지 확인
+4. 프로덕션에서 작동하는지 확인 -- 완료
 5. 자주묻는질문
 6. 공지사항
 7. token exipred at 30일 넣고 그거 지나면 무조건 로그아웃, 재로그인하면 현재일 + 30일 추가
 8. 탈퇴하면 문의내역, 게시글 다 날리나??
+9. custom fontsize localstorage 저장
+10. file button utils 함수 적용
 
 ## font-size
 

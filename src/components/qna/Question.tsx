@@ -20,7 +20,7 @@ const Question = () => {
   const [data, setData] = useState({
     title: "",
     content: "",
-    type: "not-choice"
+    type: "not-choice",
   });
   const [isValid, setIsValid] = useState<boolean>(false);
   const [previewURLs, setPreviewURLs] = useState<{ url: string; blob: File }[]>(
@@ -34,7 +34,7 @@ const Question = () => {
   }, [data]);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setData(prev => {
+    setData((prev) => {
       return { ...prev, [e.target.id]: e.target.value };
     });
   }, []);
@@ -45,7 +45,7 @@ const Question = () => {
       directoryName: "Qna/",
       fileArray: imageFiles,
       resolveFunction: setApi,
-      rejectFunction: () => {}
+      rejectFunction: () => {},
     });
   };
 
@@ -59,24 +59,21 @@ const Question = () => {
       status: "pending",
       comment: "",
       imgUrl: imgUrl || [],
-      timestamp: dayjs().format("YYYY-MM-DD")
+      timestamp: dayjs().format("YYYY-MM-DD"),
     };
+
     const res = await setDocFirebase({
       dbColumn: "qna",
       setType: "anonymous",
-      payload
+      payload,
     });
+
     handlePopup("common/Alert", "문의", {
       desc: res.isSuccess
         ? "문의가 등록되었습니다."
         : `문의 등록 실패 : ${res.errMessage}`,
-      onClose: res.isSuccess ? successQuestionCallback : null
+      onClose: res.isSuccess ? dispatch(setTab(1)) : null,
     });
-  };
-
-  const successQuestionCallback = () => {
-    // dispatch(resetQnaList());
-    dispatch(setTab(1));
   };
 
   const handleFileOnChange = useCallback(
@@ -88,9 +85,9 @@ const Question = () => {
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        setPreviewURLs(prev => [
+        setPreviewURLs((prev) => [
           ...prev,
-          { url: reader.result as string, blob: compressedImage }
+          { url: reader.result as string, blob: compressedImage },
         ]);
       };
       if (compressedImage) reader.readAsDataURL(compressedImage);
@@ -139,7 +136,7 @@ const Question = () => {
           }
           variant="standard"
         >
-          {QuestionType.map(option => (
+          {QuestionType.map((option) => (
             <option
               key={option.value}
               value={option.value}

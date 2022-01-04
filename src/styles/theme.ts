@@ -126,12 +126,13 @@ export const lightPalette = {
   test: "red",
   customFont: {
     h1: "10px",
+    headerTitle: "15px",
   },
 };
 export const darkPalette = {
   type: "dark",
   text: {
-    primary: "white",
+    primary: "#fff",
     secondary: "rgba(255, 255, 255, 0.7)",
     disabled: "rgba(255, 255, 255, 0.5)",
     hint: "rgba(255, 255, 255, 0.5)",
@@ -151,8 +152,10 @@ export const darkPalette = {
     focus: "rgba(255, 255, 255, 0.12)",
     activatedOpacity: 0.24,
   },
+  // middle
   customFont: {
     h1: "20px",
+    headerTitle: "20px",
   },
 };
 
@@ -160,7 +163,7 @@ const theme = (preferDark: fontSizeType, additionalOptions: any) => {
   return createTheme({
     ...commonThemeSettings,
     palette:
-      preferDark === "smail"
+      preferDark === "middle"
         ? { ...darkPalette, ...commonThemeSettings.palette }
         : { ...lightPalette, ...commonThemeSettings.palette },
     ...additionalOptions,

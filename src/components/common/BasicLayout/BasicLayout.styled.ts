@@ -33,4 +33,7 @@ export const Block = styled.div<IFooterStyle>`
   .custom-font-h1 {
     font-size: ${(props) => props.theme.palette.customFont.h1};
   }
+  .header-title {
+    font-size: ${(props) => props.theme.palette.customFont.headerTitle};
+  }
 `;

@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import { RootState } from "app/store";
 import {
   setNickName as setNickNameDispatch,
-  setImageNickName
+  setImageNickName,
 } from "features/userSlice";
 import BasicLayout from "components/common/BasicLayout";
 import FixedBottomButton from "components/common/FixedBottomButton";
@@ -17,6 +17,7 @@ import { db } from "utils/api/firebase";
 import { updateDoc, doc } from "firebase/firestore/lite";
 import uploadImageFirebase from "utils/api/uploadImageFirebase";
 import deleteImageFirebase from "utils/api/deleteImageFirebase";
+// import updateDocFirebase from "utils/api/updateDocFirebase";
 import usePopup from "hooks/usePopup";
 
 const Index = () => {
@@ -38,7 +39,7 @@ const Index = () => {
   const profileEditSuccessPop = () => {
     handlePopup("common/Alert", "프로필", {
       desc: "프로필이 편집되었습니다.",
-      onClose: () => router.push("/profile")
+      onClose: () => router.push("/profile"),
     });
   };
 
@@ -68,16 +69,13 @@ const Index = () => {
     []
   );
 
-  const saveToFirebaseStorage = (file: File) => {
-    uploadImageFirebase({
-      directoryName: "Images/",
-      fileArray: [file],
-      resolveFunction: uploadImageFirebaseSuccess,
-      rejectFunction: uploadImageFirebaseFail
-    });
-  };
-
   const uploadImageFirebaseSuccess = async (downloadUrl: string[]) => {
+    // const res = await updateDocFirebase({
+    //   dbColumn: "users",
+    //   dbKey: String(user.id),
+    //   payload: { nickName, profileImage: downloadUrl[0] },
+    // });
+    // callback func에 loading false도 같이 넣으면 될듯
     const userDoc = doc(db, "users", String(user.id));
     await updateDoc(userDoc, { nickName, profileImage: downloadUrl[0] });
     if (user.profileImage?.includes("firebase")) {
@@ -86,7 +84,7 @@ const Index = () => {
     dispatch(
       setImageNickName({
         url: downloadUrl[0],
-        nickName: nickName as string
+        nickName: nickName as string,
       })
     );
     setLoading(false);
@@ -96,7 +94,7 @@ const Index = () => {
   const uploadImageFirebaseFail = (error: Error) => {
     setLoading(false);
     return handlePopup("common/Alert", "이미지업로드실패", {
-      desc: JSON.stringify(error)
+      desc: JSON.stringify(error.message),
     });
   };
 
@@ -110,9 +108,19 @@ const Index = () => {
     setLoading(true);
     const userDoc = doc(db, "users", String(user.id));
     if (compressedImageState) {
-      saveToFirebaseStorage(compressedImageState);
+      uploadImageFirebase({
+        directoryName: "Images/",
+        fileArray: [compressedImageState],
+        resolveFunction: uploadImageFirebaseSuccess,
+        rejectFunction: uploadImageFirebaseFail,
+      });
     } else {
       await updateDoc(userDoc, { nickName });
+      // await updateDocFirebase({
+      //   dbColumn: "users",
+      //   dbKey: String(user.id),
+      //   payload: { nickName },
+      // });
       dispatch(setNickNameDispatch(nickName as string));
       setLoading(false);
       profileEditSuccessPop();

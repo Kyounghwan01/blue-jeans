@@ -1,18 +1,16 @@
 import { useState, useCallback } from "react";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 import styled from "styled-components";
-import TextField from "@mui/material/TextField";
-import BasicLayout from "components/common/BasicLayout";
-import { RootState } from "app/store";
 import dayjs from "dayjs";
+import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
+import { RootState } from "app/store";
+import BasicLayout from "components/common/BasicLayout";
 import FixedBottomButton from "components/common/FixedBottomButton";
 import ImageSkeleton from "components/common/ImageSkeleton";
 import usePopup from "hooks/usePopup";
-import { useRouter } from "next/router";
-
-import { db } from "utils/api/firebase";
-import { updateDoc, doc } from "firebase/firestore/lite";
+import updateDocFirebase from "utils/api/updateDocFirebase";
 
 const Index = () => {
   const router = useRouter();
@@ -29,30 +27,27 @@ const Index = () => {
     setAnswer(e.target.value);
   }, []);
 
-  const submitAnswer = () => {
-    const submit = async () => {
-      // todo: update 치는거 utils함수로 몰아서 isSuccess로 넣으면 handlePOP한번에 넣을 수 있네
-      const userDoc = doc(db, "qna", qna.id);
-      try {
-        await updateDoc(userDoc, {
-          comment: { data: answer, timestamp: dayjs().format("YYYY. MM. DD") },
-          status: "finish"
-        });
-        handlePopup("common/Alert", "답변 성공", {
-          desc: "성공",
-          onClose: router.back
-        });
-      } catch (e) {
-        handlePopup("common/Alert", "답변 실패", {
-          desc: (e as Error).message
-        });
-      }
-    };
-
+  const askSubmit = () => {
     handlePopup("common/Alert", "답변하기", {
       desc: "답변 하시겠습니까?",
       isConfirm: true,
-      onClose: submit
+      onClose: submit,
+    });
+  };
+
+  const submit = async () => {
+    const res = await updateDocFirebase({
+      dbColumn: "qna",
+      dbKey: qna.id,
+      payload: {
+        comment: { data: answer, timestamp: dayjs().format("YYYY. MM. DD") },
+        status: "finish",
+      },
+    });
+
+    handlePopup("common/Alert", `답변 ${res.isSuccess ? "성공" : "실패"}`, {
+      desc: res.isSuccess ? "성공" : res.errMessage,
+      onClose: res.isSuccess ? router.back : null,
     });
   };
 
@@ -77,7 +72,7 @@ const Index = () => {
           <p>{qna.content}</p>
 
           <div>
-            {qna.imgUrl.map(url => {
+            {qna.imgUrl.map((url) => {
               return (
                 <ImageSkeleton key={url} url={url} width={200} height={200} />
               );
@@ -98,7 +93,7 @@ const Index = () => {
             />
             <FixedBottomButton
               title="답변완료"
-              onClick={submitAnswer}
+              onClick={askSubmit}
               disabled={!answer}
             />
           </article>
