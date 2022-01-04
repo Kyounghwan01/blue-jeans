@@ -26,7 +26,7 @@ const Index = ({ title, func }: IList) => {
       >
         <ListItemButton>
           {/* <ListItemIcon>{Icon}</ListItemIcon> */}
-          <ListItemText primary={title} />
+          <ListItemText className="list-title" primary={title} />
         </ListItemButton>
       </ListItem>
       <Divider light />

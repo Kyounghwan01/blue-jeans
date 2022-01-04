@@ -61,6 +61,7 @@ const Index = () => {
     userProfileData: { id: number; kakao_account: any },
     token: string
   ) => {
+    // todo: login 할때도 reister 값 가져오도록
     const { id, kakao_account } = userProfileData;
     const {
       profile,

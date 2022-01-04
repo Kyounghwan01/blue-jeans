@@ -27,7 +27,7 @@ const Index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
-  const [nickName, setNickName] = useState<string>(user.nickName || "");
+  const [nickName, setNickName] = useState<string>("");
   const [validNickName, setValidNickName] = useState<boolean>(false);
   const [previewURL, setPreviewURL] = useState<string>("");
   const [compressedImageState, setCompressedImage] = useState<File | null>();
@@ -36,8 +36,11 @@ const Index = () => {
   const [handlePopup] = usePopup();
 
   useEffect(() => {
-    setValidNickName(validation(nickName, validtionCriteria.nickName));
-  }, [nickName]);
+    if (!user.nickName) return;
+
+    setNickName(user.nickName);
+    setValidNickName(validation(user.nickName, validtionCriteria.nickName));
+  }, [user.nickName]);
 
   const profileEditPop = ({ isSuccess }: { isSuccess: boolean }) => {
     setLoading(false);
@@ -48,9 +51,11 @@ const Index = () => {
   };
 
   const handleInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
     switch (e.target.id) {
       case "nickName":
-        setNickName(e.currentTarget.value);
+        setNickName(value);
+        setValidNickName(validation(value, validtionCriteria.nickName));
       default:
         setNickName(e.currentTarget.value);
     }
@@ -88,12 +93,7 @@ const Index = () => {
       deleteImageFirebase(user.profileImage);
     }
 
-    dispatch(
-      setImageNickName({
-        url: downloadUrl[0],
-        nickName: nickName as string
-      })
-    );
+    dispatch(setImageNickName({ url: downloadUrl[0], nickName }));
     profileEditPop({ isSuccess: true });
   };
 

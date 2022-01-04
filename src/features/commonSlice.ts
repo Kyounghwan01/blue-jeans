@@ -15,6 +15,7 @@ export const commonSlice = createSlice({
     },
     setFontSizeType: (state, action: PayloadAction<fontSizeType>) => {
       state.fontSizeType = action.payload;
+      window.localStorage.setItem("font-size", action.payload);
     }
   }
 });

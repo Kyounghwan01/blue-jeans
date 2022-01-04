@@ -21,8 +21,8 @@ export const Block = styled.div<IFooterStyle>`
     &__body {
       position: relative;
       width: 100%;
-      height: ${(props) => props.bodyHeight};
-      overflow-y: ${(props) => (props.loadingState ? "hidden" : "scroll")};
+      height: ${props => props.bodyHeight};
+      overflow-y: ${props => (props.loadingState ? "hidden" : "scroll")};
       overflow-x: hidden;
       &__empty {
         height: 50px;
@@ -31,9 +31,17 @@ export const Block = styled.div<IFooterStyle>`
   }
 
   .custom-font-h1 {
-    font-size: ${(props) => props.theme.palette.customFont.h1};
+    font-size: ${props => props.theme.palette.customFont.h1};
   }
   .header-title {
-    font-size: ${(props) => props.theme.palette.customFont.headerTitle};
+    font-size: ${props => props.theme.palette.customFont.headerTitle};
+  }
+  .list-title {
+    span {
+      font-size: ${props => props.theme.palette.customFont.listTitle};
+    }
+  }
+  .MuiTab-root {
+    font-size: ${props => props.theme.palette.customFont.tabTitle};
   }
 `;

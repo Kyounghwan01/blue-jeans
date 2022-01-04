@@ -7,6 +7,7 @@
 5. token exipred at 30일 넣고 그거 지나면 무조건 로그아웃, 재로그인하면 현재일 + 30일 추가
 6. 탈퇴하면 문의내역, 게시글 다 날리나??
 7. custom fontsize localstorage 저장
+8. 로그아웃시 이전 이미지 안쫓아옴 (바로 카카오로 들어감)
 
 ## font-size
 
