@@ -13,6 +13,8 @@ import {
 } from "firebase/firestore/lite";
 import { db } from "utils/api/firebase";
 import { logoutKakao, withDrawalKakao } from "utils/api/kakao";
+import deleteImageFirebase from "utils/api/deleteImageFirebase";
+import { QnaType } from "features/types/qnaSliceType";
 
 const useAuth = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -46,17 +48,7 @@ const useAuth = () => {
         await deleteDoc(userDoc);
 
         // 탈퇴시 1:1 문의 전체 삭제
-        const qnaRef = collection(db, "qna");
-        const q = await query(qnaRef, where("userId", "==", user.id));
-        const data = await getDocs(q);
-        const deleteQnaList = data.docs.map((doc) => {
-          return doc.id;
-        });
-
-        deleteQnaList.forEach((qnaId) => {
-          const userDoc = doc(db, "qna", String(qnaId));
-          deleteDoc(userDoc);
-        });
+        deleteQna(user.id || 0);
       };
 
       await withDrawalKakao(withDrawlSuccessCallback);
@@ -72,6 +64,23 @@ const useAuth = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const deleteQna = async (id: number) => {
+    const qnaRef = collection(db, "qna");
+    const q = await query(qnaRef, where("userId", "==", id));
+    const data = await getDocs(q);
+    const deleteQnaList = data.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    }) as QnaType[];
+
+    deleteQnaList.forEach((qna) => {
+      const userDoc = doc(db, "qna", String(qna.id));
+      deleteDoc(userDoc);
+      qna.imgUrl.forEach((url) => {
+        deleteImageFirebase(url);
+      });
+    });
   };
 
   const logout = () => {
