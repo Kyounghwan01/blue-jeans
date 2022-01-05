@@ -28,27 +28,38 @@ const Profile = () => {
     router.push("/customer-service");
   }, []);
 
+  const goEditFontSize = useCallback(() => {
+    router.push("/profile/font-size");
+  }, []);
+
   return (
-    <BasicLayout headerTitle="마이페이지" back={false} loading={loading}>
+    <BasicLayout
+      headerTitle="마이페이지"
+      back={false}
+      footer={false}
+      loading={loading}
+    >
       <Block>
         {!user.isLogin ? (
           <section className="non-login" onClick={goLogin}>
             <Avatar src="/static/image/non-avator.png" />
             <div className="non-login__desc">
-              <div className="non-login__desc__title">
+              <div className="non-login__desc__title custom-font-header-title">
                 로그인하기 <ChevronRightIcon />
               </div>
-              <div>로그인 후 청바지 서비스를 즐겨보세요!</div>
+              <div className="custom-font-content">
+                로그인 후 청바지 서비스를 즐겨보세요!
+              </div>
             </div>
           </section>
         ) : (
           <section className="login" onClick={goProfileEdit}>
             <Avatar src={user.profileImage} />
             <div className="non-login__desc">
-              <div className="non-login__desc__title">
+              <div className="non-login__desc__title custom-font-header-title">
                 {user.nickName || user.name}
               </div>
-              <div>{user.email}</div>
+              <div className="custom-font-content">{user.email}</div>
             </div>
           </section>
         )}
@@ -69,6 +80,7 @@ const Profile = () => {
               <CustomList title="탈퇴하기" func={withDrawal} />
             </>
           )}
+          <CustomList title="폰트사이즈수정" func={goEditFontSize} />
         </List>
       </Block>
     </BasicLayout>
@@ -91,7 +103,6 @@ const Block = styled.article`
     }
     &__desc {
       &__title {
-        font-size: 20px;
         font-weight: bold;
         display: flex;
         align-items: center;
@@ -110,7 +121,6 @@ const Block = styled.article`
     }
     &__desc {
       &__title {
-        font-size: 20px;
         font-weight: bold;
         display: flex;
         align-items: center;

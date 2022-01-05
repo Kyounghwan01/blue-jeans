@@ -2,28 +2,16 @@ import { useDispatch } from "react-redux";
 import { setKakao } from "features/commonSlice";
 import { login } from "features/userSlice";
 import { UserSliceStateType } from "features/types/userSliceType";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  doc,
-  getDoc
-} from "firebase/firestore/lite";
+import { doc, getDoc } from "firebase/firestore/lite";
 import { db } from "utils/api/firebase";
 import { getKakaoUser } from "utils/api/kakao";
+import { getUserByToken } from "utils/api/getUserByToken";
 
 const useGetUsers = () => {
   const dispatch = useDispatch();
 
   const getUserToFirebaseForToken = async (token: string) => {
-    const usersCollectionRef = collection(db, "users");
-    const q = await query(usersCollectionRef, where("token", "==", token));
-    const data = await getDocs(q);
-    const user = data.docs.map(doc => ({
-      ...doc.data()
-    }))[0] as UserSliceStateType;
-
+    const user = await getUserByToken(token);
     if (!user) return;
     dispatch(login(user));
   };

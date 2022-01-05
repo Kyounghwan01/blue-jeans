@@ -8,22 +8,27 @@ import TextField from "@mui/material/TextField";
 import { RootState } from "app/store";
 import {
   setNickName as setNickNameDispatch,
-  setImageNickName
+  setImageNickName,
 } from "features/userSlice";
 import BasicLayout from "components/common/BasicLayout";
 import FixedBottomButton from "components/common/FixedBottomButton";
-import { compressImage, validtionCriteria, validation } from "utils";
-import { db } from "utils/api/firebase";
-import { updateDoc, doc } from "firebase/firestore/lite";
+import {
+  compressImage,
+  validtionCriteria,
+  validation,
+  handleFileButton,
+} from "utils";
 import uploadImageFirebase from "utils/api/uploadImageFirebase";
 import deleteImageFirebase from "utils/api/deleteImageFirebase";
+import updateDocFirebase from "utils/api/updateDocFirebase";
 import usePopup from "hooks/usePopup";
+import withAuth from "components/common/withAuth";
 
 const Index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
-  const [nickName, setNickName] = useState<string>(user.nickName || "");
+  const [nickName, setNickName] = useState<string>("");
   const [validNickName, setValidNickName] = useState<boolean>(false);
   const [previewURL, setPreviewURL] = useState<string>("");
   const [compressedImageState, setCompressedImage] = useState<File | null>();
@@ -32,20 +37,26 @@ const Index = () => {
   const [handlePopup] = usePopup();
 
   useEffect(() => {
-    setValidNickName(validation(nickName, validtionCriteria.nickName));
-  }, [nickName]);
+    if (!user.nickName) return;
 
-  const profileEditSuccessPop = () => {
-    handlePopup("common/Alert", "프로필", {
-      desc: "프로필이 편집되었습니다.",
-      onClose: () => router.push("/profile")
+    setNickName(user.nickName);
+    setValidNickName(validation(user.nickName, validtionCriteria.nickName));
+  }, [user.nickName]);
+
+  const profileEditPop = ({ isSuccess }: { isSuccess: boolean }) => {
+    setLoading(false);
+    return handlePopup("common/Alert", "프로필", {
+      desc: `${isSuccess ? "프로필이 편집되었습니다." : "프로필 편집 실패"}`,
+      onClose: isSuccess ? () => router.push("/profile") : null,
     });
   };
 
   const handleInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
     switch (e.target.id) {
       case "nickName":
-        setNickName(e.currentTarget.value);
+        setNickName(value);
+        setValidNickName(validation(value, validtionCriteria.nickName));
       default:
         setNickName(e.currentTarget.value);
     }
@@ -68,54 +79,42 @@ const Index = () => {
     []
   );
 
-  const saveToFirebaseStorage = (file: File) => {
-    uploadImageFirebase({
-      directoryName: "Images/",
-      fileArray: [file],
-      resolveFunction: uploadImageFirebaseSuccess,
-      rejectFunction: uploadImageFirebaseFail
-    });
-  };
-
   const uploadImageFirebaseSuccess = async (downloadUrl: string[]) => {
-    const userDoc = doc(db, "users", String(user.id));
-    await updateDoc(userDoc, { nickName, profileImage: downloadUrl[0] });
+    const res = await updateDocFirebase({
+      dbColumn: "users",
+      dbKey: String(user.id),
+      payload: { nickName, profileImage: downloadUrl[0] },
+    });
+
+    if (!res.isSuccess) {
+      return profileEditPop({ isSuccess: false });
+    }
+
     if (user.profileImage?.includes("firebase")) {
       deleteImageFirebase(user.profileImage);
     }
-    dispatch(
-      setImageNickName({
-        url: downloadUrl[0],
-        nickName: nickName as string
-      })
-    );
-    setLoading(false);
-    profileEditSuccessPop();
-  };
 
-  const uploadImageFirebaseFail = (error: Error) => {
-    setLoading(false);
-    return handlePopup("common/Alert", "이미지업로드실패", {
-      desc: JSON.stringify(error)
-    });
-  };
-
-  const handleFileButtonClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (!fileRef.current) return;
-    fileRef.current.click();
+    dispatch(setImageNickName({ url: downloadUrl[0], nickName }));
+    profileEditPop({ isSuccess: true });
   };
 
   const updateProfile = async () => {
     setLoading(true);
-    const userDoc = doc(db, "users", String(user.id));
     if (compressedImageState) {
-      saveToFirebaseStorage(compressedImageState);
+      uploadImageFirebase({
+        directoryName: "Images/",
+        fileArray: [compressedImageState],
+        resolveFunction: uploadImageFirebaseSuccess,
+        rejectFunction: () => profileEditPop({ isSuccess: false }),
+      });
     } else {
-      await updateDoc(userDoc, { nickName });
+      const res = await updateDocFirebase({
+        dbColumn: "users",
+        dbKey: String(user.id),
+        payload: { nickName },
+      });
       dispatch(setNickNameDispatch(nickName as string));
-      setLoading(false);
-      profileEditSuccessPop();
+      profileEditPop({ isSuccess: res.isSuccess });
     }
   };
 
@@ -134,7 +133,10 @@ const Index = () => {
         hidden={true}
       />
       <Block>
-        <div className="edit-profile" onClick={handleFileButtonClick}>
+        <div
+          className="edit-profile"
+          onClick={(e) => handleFileButton(e, fileRef)}
+        >
           <div className="edit-profile__image">
             <Avatar src={previewURL || user.profileImage} />
             <div className="edit-profile__penceil">
@@ -221,4 +223,4 @@ const Block = styled.article`
   }
 `;
 
-export default Index;
+export default withAuth(Index);

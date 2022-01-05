@@ -1,18 +1,17 @@
 import { useState, useCallback } from "react";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 import styled from "styled-components";
-import TextField from "@mui/material/TextField";
-import BasicLayout from "components/common/BasicLayout";
-import { RootState } from "app/store";
 import dayjs from "dayjs";
+import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
+import { RootState } from "app/store";
+import BasicLayout from "components/common/BasicLayout";
 import FixedBottomButton from "components/common/FixedBottomButton";
 import ImageSkeleton from "components/common/ImageSkeleton";
 import usePopup from "hooks/usePopup";
-import { useRouter } from "next/router";
-
-import { db } from "utils/api/firebase";
-import { updateDoc, doc } from "firebase/firestore/lite";
+import updateDocFirebase from "utils/api/updateDocFirebase";
+import withAuth from "components/common/withAuth";
 
 const Index = () => {
   const router = useRouter();
@@ -29,30 +28,27 @@ const Index = () => {
     setAnswer(e.target.value);
   }, []);
 
-  const submitAnswer = () => {
-    const submit = async () => {
-      // todo: update 치는거 utils함수로 몰아서 isSuccess로 넣으면 handlePOP한번에 넣을 수 있네
-      const userDoc = doc(db, "qna", qna.id);
-      try {
-        await updateDoc(userDoc, {
-          comment: { data: answer, timestamp: dayjs().format("YYYY. MM. DD") },
-          status: "finish"
-        });
-        handlePopup("common/Alert", "답변 성공", {
-          desc: "성공",
-          onClose: router.back
-        });
-      } catch (e) {
-        handlePopup("common/Alert", "답변 실패", {
-          desc: (e as Error).message
-        });
-      }
-    };
-
+  const askSubmit = () => {
     handlePopup("common/Alert", "답변하기", {
       desc: "답변 하시겠습니까?",
       isConfirm: true,
       onClose: submit
+    });
+  };
+
+  const submit = async () => {
+    const res = await updateDocFirebase({
+      dbColumn: "qna",
+      dbKey: qna.id,
+      payload: {
+        comment: { data: answer, timestamp: dayjs().format("YYYY. MM. DD") },
+        status: "finish"
+      }
+    });
+
+    handlePopup("common/Alert", `답변 ${res.isSuccess ? "성공" : "실패"}`, {
+      desc: res.isSuccess ? "성공" : res.errMessage,
+      onClose: res.isSuccess ? router.back : null
     });
   };
 
@@ -61,19 +57,22 @@ const Index = () => {
       <Block>
         <section className="list-container">
           <div className="list-container__content">
-            <div className="list-container__content__time">
+            <div className="list-container__content__time custom-font-content">
               {dayjs(qna.timestamp).format("YYYY. MM. DD.")}
             </div>
-            <div className="list-container__content__title">{qna.title}</div>
+            <div className="list-container__content__title custom-font-header-title">
+              {qna.title}
+            </div>
           </div>
           <Chip
             label={qna.status === "pending" ? "대기" : "답변완료"}
             color="primary"
             variant={qna.status === "pending" ? "outlined" : "filled"}
+            className="custom-font-content"
           />
         </section>
 
-        <section className="qna-content">
+        <section className="qna-content custom-font-content">
           <p>{qna.content}</p>
 
           <div>
@@ -98,7 +97,7 @@ const Index = () => {
             />
             <FixedBottomButton
               title="답변완료"
-              onClick={submitAnswer}
+              onClick={askSubmit}
               disabled={!answer}
             />
           </article>
@@ -108,10 +107,10 @@ const Index = () => {
         <AnswerBlock>
           <section className="qna-answer">
             <div className="qna-answer__header">
-              <h3>답변</h3>
-              <p>{qna.comment.timestamp}</p>
+              <h3 className="custom-font-header-title">답변</h3>
+              <p className="custom-font-content">{qna.comment.timestamp}</p>
             </div>
-            <p>{qna.comment.data}</p>
+            <p className="custom-font-content">{qna.comment.data}</p>
           </section>
         </AnswerBlock>
       )}
@@ -124,7 +123,6 @@ const Block = styled.article`
   letter-spacing: -1px;
   .MuiChip-root {
     width: 80px;
-    font-size: 15px;
   }
   .list-container {
     padding: 13px 0;
@@ -140,11 +138,9 @@ const Block = styled.article`
       margin-right: 20px;
       &__time {
         color: #bbb;
-        font-size: 16px;
         margin-bottom: 5px;
       }
       &__title {
-        font-size: 22px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -156,13 +152,8 @@ const Block = styled.article`
     display: flex;
     flex-direction: column;
     p {
+      margin: 16px 0;
       white-space: pre-wrap;
-    }
-  }
-  .qna-answer {
-    p {
-      white-space: pre-wrap;
-      font-size: 15px;
     }
   }
   .admin-answer {
@@ -178,14 +169,12 @@ const AnswerBlock = styled.article`
     p {
       margin: 30px 0;
       white-space: pre-wrap;
-      font-size: 15px;
     }
     &__header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       h3 {
-        font-size: 20px;
         margin: 0;
       }
       p {
@@ -196,4 +185,4 @@ const AnswerBlock = styled.article`
   }
 `;
 
-export default Index;
+export default withAuth(Index);

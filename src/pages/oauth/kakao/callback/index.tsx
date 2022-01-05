@@ -5,11 +5,12 @@ import Loading from "components/common/Loading";
 import { login } from "features/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { UserSliceStateType } from "features/types/userSliceType";
-import { KAKAO_REDIRECT_URI } from "utils/constants";
 import { RootState } from "app/store";
 import usePopup from "hooks/usePopup";
+import { KAKAO_REDIRECT_URI } from "utils/constants";
 import { getKakaoUserToken, getKakaoUser } from "utils/api/kakao";
 import setDocFirebase from "utils/api/setDocFirebase";
+import { getUsetById } from "utils/api/getUserByToken";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -29,15 +30,27 @@ const Index = () => {
     try {
       const token = await getToken();
       const userProfileData = await getKakaoUser();
-      await registerUser(userProfileData, token);
+      const user = await getUsetById(String(userProfileData.id));
+
+      if (user) {
+        setDocFirebase({
+          dbColumn: "users",
+          dbKey: String(userProfileData.id),
+          setType: "selectKey",
+          payload: { token },
+        });
+        dispatch(login(user));
+      } else {
+        await registerUser(userProfileData, token);
+      }
+
       setLoading(false);
       router.push("/profile");
     } catch (err) {
-      console.log(err);
       setLoading(false);
       handlePopup("common/Alert", "로그인 취소", {
         desc: "로그인을 취소하셨습니다",
-        onClose: () => router.push("/login")
+        onClose: () => router.push("/login"),
       });
     }
   };
@@ -48,7 +61,7 @@ const Index = () => {
       client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
       redirect_uri: KAKAO_REDIRECT_URI,
       code: new URL(window.location.href).searchParams.get("code"),
-      client_secret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET
+      client_secret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET,
     });
 
     // 로그인을 하고 refreshtoken을 다 알아야겠네
@@ -70,7 +83,7 @@ const Index = () => {
       has_email,
       gender_needs_agreement,
       has_gender,
-      gender
+      gender,
     } = kakao_account;
 
     const payload = {
@@ -80,13 +93,13 @@ const Index = () => {
       profileImage: profile.profile_image_url,
       email: !email_needs_agreement && has_email ? email : "",
       gender: !gender_needs_agreement && has_gender ? gender : "",
-      admin: [2042204892, 2054570117].includes(id)
+      admin: [2042204892, 2054570117].includes(id),
     } as UserSliceStateType;
     setDocFirebase({
       dbColumn: "users",
       dbKey: String(id),
       setType: "selectKey",
-      payload
+      payload,
     });
     dispatch(login(payload));
   };

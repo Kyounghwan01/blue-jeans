@@ -2,7 +2,6 @@ import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 import { ServerStyleSheets } from "@mui/styles";
-import theme from "styles/theme";
 
 export default class MyDocument extends Document {
   render() {
@@ -14,7 +13,6 @@ export default class MyDocument extends Document {
             defer
             src="https://developers.kakao.com/sdk/js/kakao.min.js"
           ></script>
-          <meta content={theme.palette.primary.main} name="theme-color" />
           <link
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
             rel="stylesheet"

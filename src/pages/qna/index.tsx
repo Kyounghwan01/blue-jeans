@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import BasicLayout from "components/common/BasicLayout";
 import Question from "components/qna/Question";
 import QuestionList from "components/qna/QuestionList";
+import withAuth from "components/common/withAuth";
 import { setTab } from "features/qnaSlice";
 import { RootState } from "app/store";
 import Tabs from "@mui/material/Tabs";
@@ -42,4 +43,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default withAuth(Index);

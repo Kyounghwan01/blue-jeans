@@ -51,7 +51,6 @@ const uploadImageFirebase = async ({
 
   Promise.all(promises)
     .then(res => {
-      console.log("wow");
       resolveFunction(res);
     })
     .catch(e => rejectFunction(e));
