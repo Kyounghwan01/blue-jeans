@@ -5,9 +5,8 @@
 3. 자주묻는질문
 4. 공지사항
 5. token exipred at 30일 넣고 그거 지나면 무조건 로그아웃, 재로그인하면 현재일 + 30일 추가
-6. 탈퇴하면 문의내역, 게시글 다 날리나??
-7. custom fontsize localstorage 저장
-8. getDocs util함수화
+6. 탈퇴하면 문의내역 날렸음, 게시글 생성되면 날리는 로직 추가
+7. getDocs util함수화
 
 ## font-size
 

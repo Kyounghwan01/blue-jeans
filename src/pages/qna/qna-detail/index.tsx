@@ -11,6 +11,7 @@ import FixedBottomButton from "components/common/FixedBottomButton";
 import ImageSkeleton from "components/common/ImageSkeleton";
 import usePopup from "hooks/usePopup";
 import updateDocFirebase from "utils/api/updateDocFirebase";
+import withAuth from "components/common/withAuth";
 
 const Index = () => {
   const router = useRouter();
@@ -191,4 +192,4 @@ const AnswerBlock = styled.article`
   }
 `;
 
-export default Index;
+export default withAuth(Index);
