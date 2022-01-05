@@ -7,7 +7,7 @@ interface IsetDocFirebase {
   payload: any;
 }
 
-const setDocFirebase = async ({
+const updateDocFirebase = async ({
   dbColumn,
   dbKey = "",
   payload,
@@ -23,4 +23,4 @@ const setDocFirebase = async ({
   }
 };
 
-export default setDocFirebase;
+export default updateDocFirebase;

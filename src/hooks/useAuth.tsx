@@ -3,7 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "app/store";
 import { logOut } from "features/userSlice";
 import usePopup from "hooks/usePopup";
-import { deleteDoc, doc } from "firebase/firestore/lite";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore/lite";
 import { db } from "utils/api/firebase";
 import { logoutKakao, withDrawalKakao } from "utils/api/kakao";
 
@@ -20,11 +27,11 @@ const useAuth = () => {
       await logoutKakao();
       dispatch(logOut());
       handlePopup("common/Alert", "로그아웃", {
-        desc: "로그아웃 하였습니다."
+        desc: "로그아웃 하였습니다.",
       });
     } catch (e) {
       handlePopup("common/Alert", "로그아웃 실패", {
-        desc: (e as Error).message
+        desc: (e as Error).message,
       });
     } finally {
       setLoading(false);
@@ -37,17 +44,30 @@ const useAuth = () => {
       const withDrawlSuccessCallback = async () => {
         const userDoc = doc(db, "users", String(user.id));
         await deleteDoc(userDoc);
+
+        // 탈퇴시 1:1 문의 전체 삭제
+        const qnaRef = collection(db, "qna");
+        const q = await query(qnaRef, where("userId", "==", user.id));
+        const data = await getDocs(q);
+        const deleteQnaList = data.docs.map((doc) => {
+          return doc.id;
+        });
+
+        deleteQnaList.forEach((qnaId) => {
+          const userDoc = doc(db, "qna", String(qnaId));
+          deleteDoc(userDoc);
+        });
       };
 
       await withDrawalKakao(withDrawlSuccessCallback);
       localStorage.removeItem("token");
       dispatch(logOut());
       handlePopup("common/Alert", "탈퇴 완료", {
-        desc: "그동안 청바지를 이용해주셔서 감사합니다."
+        desc: "그동안 청바지를 이용해주셔서 감사합니다.",
       });
     } catch (e) {
       handlePopup("common/Alert", "탈퇴 실패", {
-        desc: (e as Error).message
+        desc: (e as Error).message,
       });
     } finally {
       setLoading(false);
@@ -58,7 +78,7 @@ const useAuth = () => {
     handlePopup("common/Alert", "로그아웃", {
       desc: "정말 로그아웃 하시겠어요?",
       isConfirm: true,
-      onClose: logoutFunc
+      onClose: logoutFunc,
     });
   };
 
@@ -66,7 +86,7 @@ const useAuth = () => {
     handlePopup("common/Alert", "탈퇴하기", {
       desc: "정말 탈퇴 하시겠어요?",
       isConfirm: true,
-      onClose: withDrawalFunc
+      onClose: withDrawalFunc,
     });
   };
 
