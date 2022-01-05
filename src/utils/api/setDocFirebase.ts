@@ -12,11 +12,11 @@ const setDocFirebase = async ({
   dbColumn,
   dbKey = "",
   payload,
-  setType = "selectKey"
+  setType = "selectKey",
 }: IsetDocFirebase) => {
   try {
     if (setType === "selectKey") {
-      await setDoc(doc(db, dbColumn, dbKey), payload);
+      await setDoc(doc(db, dbColumn, dbKey), payload, { merge: true });
       return { isSuccess: true };
     } else {
       await addDoc(collection(db, dbColumn), payload);
