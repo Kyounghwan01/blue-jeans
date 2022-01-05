@@ -64,14 +64,15 @@ const QuestionList = ({
               onClick={() => selectQna(data)}
             >
               <div className="list-container__content">
-                <div className="list-container__content__time">
+                <div className="list-container__content__time custom-font-content">
                   {dayjs(data.timestamp).format("YYYY. MM. DD.")}
                 </div>
-                <div className="list-container__content__title">
+                <div className="list-container__content__title custom-font-header-title">
                   {data.title}
                 </div>
               </div>
               <Chip
+                className="custom-font-content"
                 label={data.status === "pending" ? "대기" : "답변완료"}
                 color="primary"
                 variant={data.status === "pending" ? "outlined" : "filled"}
@@ -95,7 +96,6 @@ const Block = styled.article`
   height: calc(100% - 48px);
   .MuiChip-root {
     width: 80px;
-    font-size: 15px;
   }
   .list-container {
     padding: 13px 0;
@@ -111,11 +111,9 @@ const Block = styled.article`
       margin-right: 20px;
       &__time {
         color: #bbb;
-        font-size: 16px;
         margin-bottom: 5px;
       }
       &__title {
-        font-size: 22px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

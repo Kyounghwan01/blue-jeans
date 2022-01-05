@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components";
 import BasicLayout from "components/common/BasicLayout";
 import { RootState } from "app/store";
 import { setFontSizeType } from "features/commonSlice";
@@ -7,7 +8,6 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import withAuth from "components/common/withAuth";
 
 const Index = () => {
@@ -26,26 +26,32 @@ const Index = () => {
       footer={false}
       // loading={loading}
     >
-      <FormControl component="fieldset">
-        <FormLabel component="legend">폰트사이즈</FormLabel>
-        <h1 className="custom-font-h1">h1입니다</h1>
-        <h2>h2입니다</h2>
-        <h3>h3입니다</h3>
-        <h4>h4입니다</h4>
-        <RadioGroup
-          aria-label="gender"
-          name="controlled-radio-buttons-group"
-          value={fontSizeType}
-          onChange={handleChange}
-          row
-        >
-          <FormControlLabel value="smail" control={<Radio />} label="smail" />
-          <FormControlLabel value="middle" control={<Radio />} label="middle" />
-          <FormControlLabel value="large" control={<Radio />} label="large" />
-        </RadioGroup>
-      </FormControl>
+      <Block>
+        <FormControl component="fieldset">
+          <RadioGroup
+            aria-label="gender"
+            name="controlled-radio-buttons-group"
+            value={fontSizeType}
+            onChange={handleChange}
+            row
+          >
+            <FormControlLabel value="smail" control={<Radio />} label="작게" />
+            <FormControlLabel value="middle" control={<Radio />} label="중간" />
+            <FormControlLabel value="large" control={<Radio />} label="크게" />
+          </RadioGroup>
+        </FormControl>
+
+        <p className="list-title">
+          <span>제목 사이즈입니다.</span>
+        </p>
+        <p className="custom-font-content">내부 컨텐츠 사이즈 압니다.</p>
+      </Block>
     </BasicLayout>
   );
 };
+
+const Block = styled.article`
+  padding: 16px;
+`;
 
 export default withAuth(Index);

@@ -10,7 +10,7 @@ interface IFinexBottomButton {
 const Index = ({ title, onClick, disabled }: IFinexBottomButton) => {
   return (
     <Block disabled={disabled} onClick={onClick}>
-      <span>{title}</span>
+      <span className="custom-font-buttom-button">{title}</span>
     </Block>
   );
 };
@@ -25,9 +25,6 @@ const Block = styled.button<{ disabled: boolean }>`
   color: white;
   border: none;
   z-index: 999;
-  span {
-    font-size: 18px;
-  }
 `;
 
 export default memo(Index);

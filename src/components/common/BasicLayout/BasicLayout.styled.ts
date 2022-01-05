@@ -33,7 +33,10 @@ export const Block = styled.div<IFooterStyle>`
   .custom-font-h1 {
     font-size: ${props => props.theme.palette.customFont.h1};
   }
-  .header-title {
+  .custom-font-content {
+    font-size: ${props => props.theme.palette.customFont.content};
+  }
+  .custom-font-header-title {
     font-size: ${props => props.theme.palette.customFont.headerTitle};
   }
   .list-title {
@@ -43,5 +46,9 @@ export const Block = styled.div<IFooterStyle>`
   }
   .MuiTab-root {
     font-size: ${props => props.theme.palette.customFont.tabTitle};
+  }
+  .custom-font-buttom-button {
+    font-weight: bold;
+    font-size: ${props => props.theme.palette.customFont.bottomButton};
   }
 `;
