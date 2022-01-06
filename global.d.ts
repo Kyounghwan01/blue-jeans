@@ -10,4 +10,5 @@ interface Window {
       request: any;
     };
   };
+  naver: any;
 }

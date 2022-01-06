@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { KAKAO_REDIRECT_URI } from "utils/constants";
+import NaverLogin from "components/common/NaverLogin";
 
 const Login = () => {
   const router = useRouter();
@@ -17,9 +18,9 @@ const Login = () => {
 
   return (
     <LoginBlock>
-      <header>
+      {/* <header>
         <h1>청바지</h1>
-      </header>
+      </header> */}
       <main>
         <article>it 시대가 무서운 시니어를 응원합니다!</article>
         <article>
@@ -28,6 +29,8 @@ const Login = () => {
             alt="카카오로그인버튼"
             onClick={kakaoAuthRedirect}
           />
+
+          <NaverLogin />
 
           <div onClick={notLogin}>로그인하지 않고 둘러보기</div>
         </article>

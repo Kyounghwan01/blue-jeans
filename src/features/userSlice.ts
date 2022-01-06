@@ -10,14 +10,14 @@ const initialState: UserSliceStateType = {
   profileImage: "",
   token: null,
   nickName: "",
-  admin: false
+  admin: false,
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logOut: state => {
+    logOut: (state) => {
       const {
         isLogin,
         email,
@@ -26,7 +26,7 @@ export const userSlice = createSlice({
         profileImage,
         token,
         id,
-        nickName
+        nickName,
       } = initialState;
       state.email = email;
       state.gender = gender;
@@ -59,8 +59,8 @@ export const userSlice = createSlice({
     ) => {
       state.profileImage = action.payload.url;
       state.nickName = action.payload.nickName;
-    }
-  }
+    },
+  },
 });
 
 export const { logOut, login, setNickName, setImageNickName } =
