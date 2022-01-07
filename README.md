@@ -1,17 +1,12 @@
 ## todo
 
-1. font-size 변수화
-2. react-query
-3. 자주묻는질문
-4. 공지사항
-5. token exipred at 30일 넣고 그거 지나면 무조건 로그아웃, 재로그인하면 현재일 + 30일 추가
-6. 탈퇴하면 문의내역 날렸음, 게시글 생성되면 날리는 로직 추가
-7. getDocs util함수화
-
-## font-size
-
-- title: 16~18
-- desc: 14~15
+1. react-query
+2. 자주묻는질문
+3. 공지사항
+4. token exipred at 30일 넣고 그거 지나면 무조건 로그아웃, 재로그인하면 현재일 + 30일 추가
+5. 탈퇴하면 문의내역 날렸음, 게시글 생성되면 날리는 로직 추가
+6. getDocs util함수화
+7. 친구, 채팅
 
 ## Eureka
 

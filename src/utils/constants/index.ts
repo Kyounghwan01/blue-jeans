@@ -4,6 +4,12 @@ export const KAKAO_REDIRECT_URI = `${
     : "https://blue-jeans.vercel.app"
 }/oauth/kakao/callback`;
 
+export const NAVER_REDIRECT_URI = `${
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:3000"
+    : "https://blue-jeans.vercel.app"
+}/oauth/naver/callback`;
+
 export const QuestionType = [
   {
     value: "not-choice",

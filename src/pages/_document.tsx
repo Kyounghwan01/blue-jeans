@@ -13,6 +13,12 @@ export default class MyDocument extends Document {
             defer
             src="https://developers.kakao.com/sdk/js/kakao.min.js"
           ></script>
+          <script
+            defer
+            type="text/javascript"
+            src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"
+            charSet="utf-8"
+          ></script>
           <link
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
             rel="stylesheet"
@@ -32,7 +38,7 @@ export default class MyDocument extends Document {
   }
 }
 
-MyDocument.getInitialProps = async ctx => {
+MyDocument.getInitialProps = async (ctx) => {
   const sheet = new ServerStyleSheet();
   const materialSheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;
@@ -40,8 +46,8 @@ MyDocument.getInitialProps = async ctx => {
   try {
     ctx.renderPage = () =>
       originalRenderPage({
-        enhanceApp: App => props =>
-          sheet.collectStyles(materialSheets.collect(<App {...props} />))
+        enhanceApp: (App) => (props) =>
+          sheet.collectStyles(materialSheets.collect(<App {...props} />)),
       });
 
     const initialProps = await Document.getInitialProps(ctx);
@@ -52,7 +58,7 @@ MyDocument.getInitialProps = async ctx => {
           {initialProps.styles}
           {sheet.getStyleElement()}
         </>
-      )
+      ),
     };
   } finally {
     sheet.seal();

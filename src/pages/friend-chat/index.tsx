@@ -10,8 +10,10 @@ import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import useAuth from "hooks/useAuth";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
-const Profile = () => {
+const Index = () => {
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
   const { logout, withDrawal, loading } = useAuth();
@@ -34,7 +36,7 @@ const Profile = () => {
 
   return (
     <BasicLayout
-      headerTitle="마이페이지"
+      headerTitle="친구"
       back={false}
       footer={true}
       loading={loading}
@@ -128,4 +130,4 @@ const Block = styled.article`
     }
   }
 `;
-export default Profile;
+export default Index;

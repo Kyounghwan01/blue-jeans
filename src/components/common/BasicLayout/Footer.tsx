@@ -21,6 +21,10 @@ const Footer = ({ tab, setTab }: IFooter) => {
     router.push("/profile");
   }, []);
 
+  const goFriend = useCallback(() => {
+    router.push("/friend-chat");
+  }, []);
+
   return (
     <Block>
       <Paper
@@ -36,7 +40,11 @@ const Footer = ({ tab, setTab }: IFooter) => {
         >
           <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
           <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-          <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} />
+          <BottomNavigationAction
+            onClick={goFriend}
+            label="friend-chat"
+            icon={<ArchiveIcon />}
+          />
           <BottomNavigationAction
             onClick={goProfile}
             label="프로필"
