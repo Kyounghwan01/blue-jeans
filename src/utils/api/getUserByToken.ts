@@ -4,7 +4,7 @@ import {
   where,
   getDocs,
   doc,
-  getDoc,
+  getDoc
 } from "firebase/firestore/lite";
 import { db } from "utils/api/firebase";
 import { UserSliceStateType } from "features/types/userSliceType";
@@ -17,8 +17,8 @@ export const getUserByToken = async (token: string) => {
   );
 
   const data = await getDocs(q);
-  const user = data.docs.map((doc) => ({
-    ...doc.data(),
+  const user = data.docs.map(doc => ({
+    ...doc.data()
   }))[0] as UserSliceStateType;
   return user;
 };

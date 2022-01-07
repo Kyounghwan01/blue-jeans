@@ -36,7 +36,6 @@ const useGetUsers = () => {
       }
     }
 
-    // todo: 어떤 매체로 로그인했는지 필요, naver init 여기서 시작하고 store에 넣기
     const localToken = localStorage.getItem("token");
     if (localToken) {
       getUserToFirebaseForToken(localToken);

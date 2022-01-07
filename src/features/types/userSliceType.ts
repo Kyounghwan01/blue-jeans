@@ -21,4 +21,5 @@ export type UserSliceStateType = {
   nickName?: string;
   birth?: string;
   admin: boolean;
+  loginType: string | null;
 };

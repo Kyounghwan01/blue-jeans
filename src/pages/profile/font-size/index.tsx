@@ -8,7 +8,6 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import withAuth from "components/common/withAuth";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -54,4 +53,4 @@ const Block = styled.article`
   padding: 16px;
 `;
 
-export default withAuth(Index);
+export default Index;
