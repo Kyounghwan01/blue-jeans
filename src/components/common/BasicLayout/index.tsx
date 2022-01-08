@@ -23,7 +23,7 @@ const Index = ({
   headerTitle = "아무거나",
   back = true,
   backFunc,
-  loading = false,
+  loading = false
 }: IBasyLayout) => {
   const router = useRouter();
 
@@ -40,6 +40,9 @@ const Index = ({
           break;
         case "/friend-chat":
           setTab(2);
+          break;
+        case "/education":
+          setTab(1);
           break;
         default:
           setTab(0);
