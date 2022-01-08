@@ -29,11 +29,8 @@ const useGetUsers = () => {
     // 필요할때 세팅하는게 좋을꺼같은데
     const kakao = window.Kakao;
     if (!kakao.Auth) {
-      const kakaoClientKey = process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET;
-      if (kakaoClientKey) {
-        kakao.init(kakaoClientKey);
-        dispatch(setKakao(kakao));
-      }
+      kakao.init(process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET as string);
+      dispatch(setKakao(kakao));
     }
 
     const localToken = localStorage.getItem("token");
@@ -42,6 +39,7 @@ const useGetUsers = () => {
     } else {
       const token = kakao?.Auth?.getAccessToken();
       if (token) {
+        kakao.Auth.setAccessToken(token);
         const res = await getKakaoUser();
         getUserToFirebaseForId(String(res.id));
       }

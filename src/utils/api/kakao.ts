@@ -30,6 +30,7 @@ export const logoutKakao = () => {
 };
 
 export const withDrawalKakao = async (successCallback: () => Promise<void>) => {
+  logoutKakao();
   await kakao.API.request({
     url: "/v1/user/unlink",
     success: async () => {

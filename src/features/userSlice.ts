@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import * as Sentry from "@sentry/react";
 import { UserSliceStateType } from "features/types/userSliceType";
 
 const initialState: UserSliceStateType = {
@@ -62,6 +63,8 @@ export const userSlice = createSlice({
       state.nickName = nickName;
       state.admin = admin;
       state.loginType = loginType;
+
+      Sentry.setUser({ username: String(id) || "fakeUser" });
     },
     setNickName: (state, action: PayloadAction<string>) => {
       state.nickName = action.payload;

@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import Loading from "components/common/Loading";
 import { login } from "features/userSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { UserSliceStateType } from "features/types/userSliceType";
 import { RootState } from "app/store";
 import usePopup from "hooks/usePopup";
 import { KAKAO_REDIRECT_URI } from "utils/constants";
