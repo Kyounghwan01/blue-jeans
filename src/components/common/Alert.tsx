@@ -1,8 +1,14 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 
 interface IAlert {
   title: string;
-  extraData: { desc: string; onClose: () => void; isConfirm?: boolean };
+  extraData: {
+    desc: string;
+    onClose: () => void;
+    isConfirm?: boolean;
+    autoClose?: { time: number };
+  };
   hideModal: () => void;
 }
 
@@ -11,6 +17,21 @@ const Alert = ({
   hideModal,
   extraData = { desc: "", onClose: () => {}, isConfirm: false }
 }: IAlert) => {
+  useEffect(() => {
+    let autoClose: NodeJS.Timeout | null = null;
+
+    if (extraData.autoClose) {
+      autoClose = setTimeout(() => {
+        close();
+      }, extraData.autoClose?.time);
+    }
+
+    return () => {
+      if (!autoClose) return;
+      clearTimeout(autoClose);
+    };
+  }, []);
+
   const close = () => {
     hideModal();
     if (typeof extraData.onClose === "function") {

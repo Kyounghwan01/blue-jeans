@@ -1,4 +1,10 @@
-const Index = ({ next, back }) => {
+const Index = ({
+  next,
+  back
+}: {
+  next: () => Promise<boolean>;
+  back: () => Promise<boolean>;
+}) => {
   return (
     <div>
       두번째 intro

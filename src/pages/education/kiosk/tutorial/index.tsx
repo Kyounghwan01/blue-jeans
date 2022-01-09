@@ -1,15 +1,15 @@
-import { useMemo, useEffect, useCallback, FunctionComponent } from "react";
+import { useMemo, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "app/store";
-import styled from "styled-components";
 import { useRouter } from "next/router";
 import { setCurrentStep, resetStore } from "features/educationSlice";
 import BasicLayout from "components/common/BasicLayout";
+import Step from "components/common/Step";
 
 // todo: 튜토리얼, 시간 지나면 힌트, 초기화
 
 const components = [
-  { step: "Intro", title: "키오스크", header: false },
+  { step: "Intro", title: "주문시작", header: false },
   { step: "Main", title: "동의서작성", header: false },
   { step: "Detail", title: "예상 수리비 산출내역서", header: true },
   { step: "Complete", title: "예상 수리비 산출내역서", header: true }
@@ -54,13 +54,6 @@ const Index = () => {
     return currentStep !== 0 ? back() : router.push("/education");
   }, [currentStep]);
 
-  const Step: FunctionComponent<{
-    back: () => Promise<boolean> | undefined;
-    next: () => Promise<boolean>;
-    movePage: (pathName: string) => Promise<boolean>;
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-  }> = require(`components/kiosk/${page}`).default;
-
   return (
     <BasicLayout
       headerTitle={components[currentStep].title}
@@ -68,23 +61,14 @@ const Index = () => {
       footer={false}
       backFunc={handleBackButton}
     >
-      <Block>
-        {currentStep}
-        <div className="hover-test">하하하</div>
-        <Step back={back} next={next} movePage={movePage} />
-      </Block>
+      <Step
+        name={`kiosk/${page}`}
+        back={back}
+        next={next}
+        movePage={movePage}
+      />
     </BasicLayout>
   );
 };
 
-const Block = styled.article`
-  .hover-test {
-    background: red;
-    height: 300px;
-  }
-  .hover-test:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transition: background 1s ease-out;
-  }
-`;
 export default Index;
