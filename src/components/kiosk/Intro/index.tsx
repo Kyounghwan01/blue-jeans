@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import usePopup from "hooks/usePopup";
 import Tooltip from "@mui/material/Tooltip";
 
@@ -9,7 +9,7 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
   useEffect(() => {
     handlePopup("common/Alert", "", {
       desc: "주문하기 버튼을 클릭해주세요!",
-      autoClose: { time: 3000 }
+      autoClose: { time: 3000 },
     });
 
     const introHint = setTimeout(() => {
@@ -44,7 +44,7 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
 
 const Block = styled.article<{ hint: null | number }>`
   position: relative;
-  background: ${props => (props.hint ? "rgba(114, 114, 114, 0.3)" : "#fff")};
+  background: ${(props) => (props.hint ? "rgba(114, 114, 114, 0.3)" : "#fff")};
   transition: background 1s ease-out;
   height: 100%;
   .main {
@@ -62,6 +62,11 @@ const Block = styled.article<{ hint: null | number }>`
       position: fixed;
       bottom: 100px;
       left: calc(50% - 25vw);
+      ${(props) =>
+        props.hint === 1 &&
+        css`
+          animation: ${BlinkHint} 1.5s step-end infinite;
+        `}
     }
   }
   .hint {
@@ -78,6 +83,12 @@ const Block = styled.article<{ hint: null | number }>`
       left: calc(50% - 25vw - 15px); // 원본 left - 늘어난width/2
       bottom: 75px; // 원복 Height - (원본 height - 배경 height) / 2
     }
+  }
+`;
+
+export const BlinkHint = keyframes`
+  50% {
+    opacity: 0.5;
   }
 `;
 
