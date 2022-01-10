@@ -4,34 +4,17 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { RootState } from "app/store";
 import BasicLayout from "components/common/BasicLayout";
-import List from "@mui/material/List";
-import CustomList from "components/common/CustomList";
-import Divider from "@mui/material/Divider";
-import Avatar from "@mui/material/Avatar";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import useAuth from "hooks/useAuth";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import AddIcon from "@mui/icons-material/Add";
+import Fab from "@mui/material/Fab";
 
 const Index = () => {
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
-  const { logout, withDrawal, loading } = useAuth();
+  const { loading } = useAuth();
 
-  const goLogin = useCallback(() => {
-    router.push("/login");
-  }, []);
-
-  const goProfileEdit = useCallback(() => {
-    router.push("/edit-profile");
-  }, []);
-
-  const goCustomerCenter = useCallback(() => {
-    router.push("/customer-service");
-  }, []);
-
-  const goEditFontSize = useCallback(() => {
-    router.push("/profile/font-size");
+  const goAddFriend = useCallback(() => {
+    router.push("/friend-chat/add");
   }, []);
 
   return (
@@ -42,31 +25,18 @@ const Index = () => {
       loading={loading}
     >
       <Block>
-        {!user.isLogin ? (
-          <section className="non-login" onClick={goLogin}>
-            <Avatar src="/static/image/non-avator.png" />
-            <div className="non-login__desc">
-              <div className="non-login__desc__title custom-font-header-title">
-                로그인하기 <ChevronRightIcon />
-              </div>
-              <div className="custom-font-content">
-                로그인 후 청바지 서비스를 즐겨보세요!
-              </div>
+        {/* 이 컴포넌트는 withAuth true */}
+        {/* <section className="login" onClick={goProfileEdit}>
+          <Avatar src={user.profileImage} />
+          <div className="non-login__desc">
+            <div className="non-login__desc__title custom-font-header-title">
+              {user.nickName || user.name}
             </div>
-          </section>
-        ) : (
-          <section className="login" onClick={goProfileEdit}>
-            <Avatar src={user.profileImage} />
-            <div className="non-login__desc">
-              <div className="non-login__desc__title custom-font-header-title">
-                {user.nickName || user.name}
-              </div>
-              <div className="custom-font-content">{user.email}</div>
-            </div>
-          </section>
-        )}
-        <Divider sx={{ borderWidth: "3px", borderColor: "#eeeeee" }} />
-        <List>
+            <div className="custom-font-content">{user.email}</div>
+          </div>
+        </section> */}
+
+        {/* <List>
           {user.isLogin && (
             <CustomList title="프로필 수정" func={goProfileEdit} />
           )}
@@ -83,7 +53,16 @@ const Index = () => {
             </>
           )}
           <CustomList title="폰트사이즈수정" func={goEditFontSize} />
-        </List>
+        </List> */}
+
+        <Fab
+          sx={{ position: "absolute", bottom: 16, right: 16 }}
+          aria-label={"Add"}
+          color="primary"
+          onClick={goAddFriend}
+        >
+          <AddIcon />
+        </Fab>
       </Block>
     </BasicLayout>
   );
