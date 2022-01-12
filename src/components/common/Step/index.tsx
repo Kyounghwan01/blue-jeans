@@ -20,7 +20,7 @@ export default class DynamicComponent extends React.Component<
     super(props);
     this.state = {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      Component: require(`components/${this.props.name}`).default,
+      Component: require(`domains/${this.props.name}`).default,
       pageName: this.props.name
     };
   }
@@ -33,7 +33,7 @@ export default class DynamicComponent extends React.Component<
 
   public setComponent = (pageName: string) => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const comp = require(`components/${pageName}`).default;
+    const comp = require(`domains/${pageName}`).default;
     this.setState({ Component: comp, pageName });
   };
 

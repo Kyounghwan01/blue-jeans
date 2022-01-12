@@ -62,7 +62,7 @@ const Index = () => {
       backFunc={handleBackButton}
     >
       <Step
-        name={`kiosk/${page}`}
+        name={`kiosk/components/${page}`}
         back={back}
         next={next}
         movePage={movePage}

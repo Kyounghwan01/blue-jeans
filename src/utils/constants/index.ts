@@ -45,67 +45,80 @@ export const kioskProducts = [
   {
     type: "fork",
     name: "무공돈까스",
-    price: 8900
+    price: 8900,
+    img: ""
   },
   {
     type: "fork",
     name: "치즈돈까스",
-    price: 7900
+    price: 7900,
+    img: ""
   },
   {
     type: "fork",
     name: "옛날돈까스",
-    price: 7900
+    price: 7900,
+    img: ""
   },
   {
     type: "fork",
     name: "함박스테이크",
-    price: 8500
+    price: 8500,
+    img: ""
   },
   {
     type: "rice",
     name: "돈부리",
-    price: 8500
+    price: 8500,
+    img: ""
   },
   {
     type: "rice",
     name: "김치볶음밥",
-    price: 8500
+    price: 8500,
+    img: ""
   },
   {
     type: "noodle",
     name: "칼국수",
-    price: 8500
+    price: 8500,
+    img: ""
   },
   {
     type: "noodle",
     name: "쌀국수",
-    price: 18500
+    price: 18500,
+    img: ""
   },
   {
     type: "side",
     name: "밥",
-    price: 1000
+    price: 1000,
+    img: ""
   },
   {
     type: "side",
     name: "면",
-    price: 1000
+    price: 1000,
+    img: ""
   },
   {
     type: "drink",
     name: "콜라",
-    price: 2000
+    price: 2000,
+    img: ""
   },
   {
     type: "drink",
     name: "사이다",
-    price: 2000
+    price: 2000,
+    img: ""
   },
   {
     type: "drink",
     name: "환타",
-    price: 2000
+    price: 2000,
+    img: ""
   }
 ];
 

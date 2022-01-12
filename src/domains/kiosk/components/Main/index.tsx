@@ -1,17 +1,17 @@
 import styled from "styled-components";
-import RemoveSharpIcon from "@mui/icons-material/RemoveSharp";
-import AddSharpIcon from "@mui/icons-material/AddSharp";
 import { kioskProducts, kioskTab } from "utils/constants";
+import KioskCounter from "components/molecules/KioskCounter";
+import Card from "components/atom/Card";
+import useMain from "domains/kiosk/hooks/useMain";
 
-const Index = ({
-  next,
-  back
-}: {
-  next: () => Promise<boolean>;
-  back: () => Promise<boolean>;
-}) => {
+const Index = ({ next }: { next: () => Promise<boolean> }) => {
+  console.log("re-rendering");
+  const { tab, setTab } = useMain();
+
   return (
     <Block>
+      {/* <button onClick={back}>이전</button>
+      <button onClick={next}>다음</button> */}
       <section className="tab">
         {kioskTab.map(el => (
           <div key={el.type}>
@@ -19,18 +19,11 @@ const Index = ({
           </div>
         ))}
       </section>
-      {/* <button onClick={back}>이전</button>
-      <button onClick={next}>다음</button> */}
       <div className="main">
         {kioskProducts
           .filter(product => product.type === "fork")
           .map(product => (
-            <div className="main__product-wrapper" key={product.name}>
-              <div className="main__product-wrapper__img"></div>
-              <div className="main__product-wrapper__content">
-                {product.name} <br /> {product.price}
-              </div>
-            </div>
+            <Card key={product.name} product={product} onClick={() => {}} />
           ))}
       </div>
       <div className="bill">
@@ -45,36 +38,7 @@ const Index = ({
             <div className="bill__list__menu__wrapper">
               <div>01 무공돈까스</div>
               <div className="bill__list__menu__count">
-                <div
-                  className="icon-wrap"
-                  style={{
-                    background: "dodgerblue",
-                    width: "25px",
-                    height: "25px",
-                    borderRadius: "4px",
-                    textAlign: "center",
-                    display: "inline-block"
-                  }}
-                >
-                  <RemoveSharpIcon style={{ color: "white" }} />
-                </div>
-
-                <div style={{ margin: "0 5px", display: "inline-block" }}>
-                  2
-                </div>
-                <div
-                  className="icon-wrap"
-                  style={{
-                    background: "dodgerblue",
-                    width: "25px",
-                    height: "25px",
-                    borderRadius: "4px",
-                    textAlign: "center",
-                    display: "inline-block"
-                  }}
-                >
-                  <AddSharpIcon style={{ color: "white" }} />
-                </div>
+                <KioskCounter count={2} increse={() => {}} decrese={() => {}} />
               </div>
               <div>17,8000</div>
               <div>x</div>
@@ -125,20 +89,6 @@ const Block = styled.article`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 5px;
-    &__product-wrapper {
-      border-radius: 4px;
-      background-color: grey;
-      &__img {
-        border-radius: 4px 4px 0 0;
-        background-color: #aaa;
-        height: 80px;
-      }
-      &__content {
-        color: white;
-        padding: 5px 0;
-        text-align: center;
-      }
-    }
   }
 
   .bill {
