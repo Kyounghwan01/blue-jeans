@@ -14,6 +14,7 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
     deleteOrder,
     handleCount,
     totalOrder,
+    confirmOrder,
   } = useMain();
 
   return (
@@ -87,7 +88,9 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
               취소
             </div>
             <div className="bill__footer__card__payment">payco</div>
-            <div className="bill__footer__card__payment">카드결제</div>
+            <div className="bill__footer__card__payment" onClick={confirmOrder}>
+              카드결제
+            </div>
           </div>
         </div>
       </div>

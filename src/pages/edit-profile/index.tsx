@@ -34,7 +34,7 @@ const Index = () => {
   const [compressedImageState, setCompressedImage] = useState<File | null>();
   const [loading, setLoading] = useState<boolean>(false);
   const fileRef = useRef<HTMLInputElement>(null);
-  const [handlePopup] = usePopup();
+  const { handlePopup } = usePopup();
 
   useEffect(() => {
     if (!user.nickName) return;

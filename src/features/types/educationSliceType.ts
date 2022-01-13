@@ -6,5 +6,11 @@ export interface IEductionSlice {
     name: string;
     price: number;
     totalPrice: number;
+    side?: {
+      count: number;
+      name: string;
+      price: number;
+      totalPrice: number;
+    }[];
   }[];
 }

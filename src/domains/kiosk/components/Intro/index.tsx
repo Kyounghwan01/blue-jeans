@@ -4,7 +4,7 @@ import usePopup from "hooks/usePopup";
 import Tooltip from "@mui/material/Tooltip";
 
 const Index = ({ next }: { next: () => Promise<boolean> }) => {
-  const [handlePopup] = usePopup();
+  const { handlePopup } = usePopup();
   const [hint, setHint] = useState<null | number>(null);
   useEffect(() => {
     handlePopup("common/Alert", "", {

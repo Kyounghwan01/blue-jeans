@@ -6,11 +6,13 @@ import {
   handleOrderCount,
 } from "features/educationSlice";
 import { RootState } from "app/store";
+import usePopup from "hooks/usePopup";
 
 export default function useMain() {
   const dispatch = useDispatch();
   const { orderList } = useSelector((state: RootState) => state.education);
   const [tab, setTab] = useState<string>("fork");
+  const { handleDomainPopup } = usePopup();
 
   const handleOrderList = useCallback(
     (data: { type: string; name: string; price: number }) => {
@@ -44,6 +46,13 @@ export default function useMain() {
     return { count, price: price.toLocaleString() };
   }, [orderList]);
 
+  const confirmOrder = useCallback(() => {
+    handleDomainPopup("kiosk/components/popup/OrderListPop", "주문리스트", {
+      orderList,
+      onClose: () => console.log("결제하셈"),
+    });
+  }, [orderList]);
+
   return {
     tab,
     setTab,
@@ -52,5 +61,6 @@ export default function useMain() {
     deleteOrder,
     handleCount,
     totalOrder,
+    confirmOrder,
   };
 }

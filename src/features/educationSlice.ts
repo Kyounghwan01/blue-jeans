@@ -25,6 +25,7 @@ export const educationSlice = createSlice({
         count: number;
       }>
     ) => {
+      // todo: 정정, 같은거 누르면 금액 추가되도록
       if (
         state.orderList.findIndex(
           (order) => order.name === action.payload.name
