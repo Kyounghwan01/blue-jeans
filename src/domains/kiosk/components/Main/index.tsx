@@ -6,26 +6,40 @@ import useMain from "domains/kiosk/hooks/useMain";
 
 const Index = ({ next }: { next: () => Promise<boolean> }) => {
   console.log("re-rendering");
-  const { tab, setTab } = useMain();
+  const {
+    tab,
+    setTab,
+    handleOrderList,
+    orderList,
+    deleteOrder,
+    handleCount,
+    totalOrder,
+  } = useMain();
 
   return (
     <Block>
       {/* <button onClick={back}>이전</button>
       <button onClick={next}>다음</button> */}
       <section className="tab">
-        {kioskTab.map(el => (
-          <div key={el.type}>
+        {kioskTab.map((el) => (
+          <div key={el.type} onClick={() => setTab(el.type)}>
             <span>{el.label}</span>
           </div>
         ))}
       </section>
+
       <div className="main">
         {kioskProducts
-          .filter(product => product.type === "fork")
-          .map(product => (
-            <Card key={product.name} product={product} onClick={() => {}} />
+          .filter((product) => product.type === tab)
+          .map((product) => (
+            <Card
+              key={product.name}
+              product={product}
+              onClick={handleOrderList}
+            />
           ))}
       </div>
+
       <div className="bill">
         <div className="bill__list">
           <div className="bill__list__divide">
@@ -35,14 +49,23 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
             <div></div>
           </div>
           <div className="bill__list__menu">
-            <div className="bill__list__menu__wrapper">
-              <div>01 무공돈까스</div>
-              <div className="bill__list__menu__count">
-                <KioskCounter count={2} increse={() => {}} decrese={() => {}} />
+            {orderList.map((order) => (
+              <div className="bill__list__menu__wrapper" key={order.name}>
+                <div>{order.name}</div>
+                <div className="bill__list__menu__count">
+                  <KioskCounter
+                    count={order.count}
+                    order={order.name}
+                    increse={handleCount}
+                    decrese={handleCount}
+                  />
+                </div>
+                <div>{order.totalPrice.toLocaleString()}</div>
+                <div data-name={order.name} onClick={deleteOrder}>
+                  x
+                </div>
               </div>
-              <div>17,8000</div>
-              <div>x</div>
-            </div>
+            ))}
           </div>
         </div>
 
@@ -50,11 +73,11 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
           <div className="bill__footer__count">
             <div className="bill__footer__count__amount">
               <div>주문수량</div>
-              <div>2</div>
+              <div>{totalOrder.count}</div>
             </div>
             <div className="bill__footer__count__price">
               <div>주문금액</div>
-              <div>17,800</div>
+              <div>{totalOrder.price}</div>
             </div>
           </div>
           <div className="bill__footer__card">

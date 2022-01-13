@@ -4,11 +4,12 @@ import AddSharpIcon from "@mui/icons-material/AddSharp";
 
 export default function CountIcon({
   type,
-  onClick
+  onClick,
 }: {
   type: string;
   onClick: () => void;
 }) {
+  console.log("re-icon");
   return (
     <CountIconBlock onClick={onClick}>
       {type === "add" ? (

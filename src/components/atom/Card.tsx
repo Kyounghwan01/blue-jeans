@@ -1,26 +1,33 @@
+import { memo, useCallback } from "react";
 import styled from "styled-components";
-
 interface ICard {
   product: {
     name: string;
     price: number;
     img: string;
+    type: string;
   };
-  onClick: () => void;
+  onClick: (data: { type: string; name: string; price: number }) => void;
 }
 
-export default function Card({ product, onClick }: ICard) {
+const Card = ({ product, onClick }: ICard) => {
+  const handleCardClick = useCallback(() => {
+    onClick({ type: product.type, name: product.name, price: product.price });
+  }, []);
+
   return (
-    <CardBlock onClick={onClick}>
+    <CardBlock onClick={handleCardClick}>
       <div className="img"></div>
       <div className="content">
         {product.name} <br /> {product.price}
       </div>
     </CardBlock>
   );
-}
+};
 
-const CardBlock = styled.section`
+export default memo(Card);
+
+const CardBlock = styled.div`
   border-radius: 4px;
   background-color: grey;
   .img {

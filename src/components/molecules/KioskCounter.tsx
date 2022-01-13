@@ -1,25 +1,26 @@
+import { memo } from "react";
 import styled from "styled-components";
 import CountIcon from "components/atom/CountIcon";
 
 interface IKioskCounter {
   count: number;
-  increse: () => void;
-  decrese: () => void;
+  order: string;
+  increse: (type: string, order: string) => void;
+  decrese: (type: string, order: string) => void;
 }
 
-export default function KioskCounter({
-  count,
-  increse,
-  decrese
-}: IKioskCounter) {
+const KioskCounter = ({ count, order, increse, decrese }: IKioskCounter) => {
+  console.log("re-counter/");
   return (
     <KioskCounterBlock>
-      <CountIcon type="decrese" onClick={decrese} />
+      <CountIcon type="decrese" onClick={() => decrese("remove", order)} />
       <div className="count">{count}</div>
-      <CountIcon type="add" onClick={increse} />
+      <CountIcon type="add" onClick={() => increse("add", order)} />
     </KioskCounterBlock>
   );
-}
+};
+
+export default memo(KioskCounter);
 
 const KioskCounterBlock = styled.div`
   display: flex;
