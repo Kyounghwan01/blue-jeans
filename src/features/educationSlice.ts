@@ -56,7 +56,7 @@ export const educationSlice = createSlice({
 
       const currentOrder = state.orderList[index];
 
-      if (!currentOrder.count) return;
+      if (!currentOrder.count && action.payload.type !== "add") return;
       currentOrder.count += action.payload.type === "add" ? 1 : -1;
       currentOrder.totalPrice = currentOrder.count * currentOrder.price;
     },
