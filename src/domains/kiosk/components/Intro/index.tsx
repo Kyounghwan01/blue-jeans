@@ -9,7 +9,7 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
   useEffect(() => {
     handlePopup("common/Alert", "", {
       desc: "주문하기 버튼을 클릭해주세요!",
-      autoClose: { time: 3000 },
+      autoClose: { time: 3000 }
     });
 
     const introHint = setTimeout(() => {
@@ -30,10 +30,7 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
       )} */}
       <article className="main">
         <Tooltip title="클릭해주세요" open={hint === 1} arrow placement="top">
-          <button
-            className="main__order-button custom-font-buttom-button"
-            onClick={next}
-          >
+          <button className="main__order-button" onClick={next}>
             주문하기
           </button>
         </Tooltip>
@@ -44,7 +41,7 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
 
 const Block = styled.article<{ hint: null | number }>`
   position: relative;
-  background: ${(props) => (props.hint ? "rgba(114, 114, 114, 0.3)" : "#fff")};
+  background: ${props => (props.hint ? "rgba(114, 114, 114, 0.3)" : "#fff")};
   transition: background 1s ease-out;
   height: 100%;
   .main {
@@ -62,7 +59,9 @@ const Block = styled.article<{ hint: null | number }>`
       position: fixed;
       bottom: 100px;
       left: calc(50% - 25vw);
-      ${(props) =>
+      font-size: 18px;
+      font-weight: bold;
+      ${props =>
         props.hint === 1 &&
         css`
           animation: ${BlinkHint} 1.5s step-end infinite;

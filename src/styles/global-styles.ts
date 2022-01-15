@@ -11,15 +11,28 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 15px;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
       Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    }
+  }
 
+  .txt-c {
+    text-align: center;
+  }
+  .txt-r {
+    text-align: right;
+  }
+  .txt-l {
+    text-align: left;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  p {
+    margin: 0;
+  }
 
-* {
-  box-sizing: border-box;
-}
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
 `;

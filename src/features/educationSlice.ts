@@ -4,14 +4,16 @@ import { IEductionSlice } from "features/types/educationSliceType";
 const initialState: IEductionSlice = {
   currentStep: 0,
   orderList: [],
+  currentOrder: null
 };
 
 export const educationSlice = createSlice({
   name: "education",
   initialState,
   reducers: {
-    resetStore: (state) => {
+    resetStore: state => {
       state.currentStep = 0;
+      state.orderList = [];
     },
     setCurrentStep: (state, action: PayloadAction<number>) => {
       state.currentStep = action.payload;
@@ -23,14 +25,18 @@ export const educationSlice = createSlice({
         name: string;
         price: number;
         count: number;
+        side?: { name: string; price: number }[];
       }>
     ) => {
-      // todo: 정정, 같은거 누르면 금액 추가되도록
-      if (
-        state.orderList.findIndex(
-          (order) => order.name === action.payload.name
-        ) !== -1
-      ) {
+      const index = state.orderList.findIndex(
+        order => order.name === action.payload.name
+      );
+
+      console.log("index", index); //
+      if (index !== -1) {
+        state.orderList[index].count++;
+        state.orderList[index].totalPrice =
+          state.orderList[index].count * state.orderList[index].price;
         return;
       }
 
@@ -39,12 +45,12 @@ export const educationSlice = createSlice({
         count: 1,
         name: action.payload.name,
         totalPrice: action.payload.price,
-        price: action.payload.price,
+        price: action.payload.price
       });
     },
     removeOrderList: (state, action: PayloadAction<string>) => {
       state.orderList = state.orderList.filter(
-        (order) => order.name !== action.payload
+        order => order.name !== action.payload
       );
     },
     handleOrderCount: (
@@ -52,7 +58,7 @@ export const educationSlice = createSlice({
       action: PayloadAction<{ type: string; product: string }>
     ) => {
       const index = state.orderList.findIndex(
-        (order) => order.name === action.payload.product
+        order => order.name === action.payload.product
       );
 
       const currentOrder = state.orderList[index];
@@ -61,7 +67,10 @@ export const educationSlice = createSlice({
       currentOrder.count += action.payload.type === "add" ? 1 : -1;
       currentOrder.totalPrice = currentOrder.count * currentOrder.price;
     },
-  },
+    resetOrderList: state => {
+      state.orderList = [];
+    }
+  }
 });
 
 export const {
@@ -70,6 +79,7 @@ export const {
   addOrderList,
   removeOrderList,
   handleOrderCount,
+  resetOrderList
 } = educationSlice.actions;
 
 export default educationSlice.reducer;

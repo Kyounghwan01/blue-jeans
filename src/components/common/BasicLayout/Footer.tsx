@@ -29,6 +29,10 @@ const Footer = ({ tab, setTab }: IFooter) => {
     router.push("/education");
   }, []);
 
+  const goCommunity = useCallback(() => {
+    router.push("/community");
+  }, []);
+
   return (
     <Block>
       <Paper
@@ -43,6 +47,11 @@ const Footer = ({ tab, setTab }: IFooter) => {
           }}
         >
           <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
+          <BottomNavigationAction
+            onClick={goCommunity}
+            label="community"
+            icon={<FavoriteIcon />}
+          />
           <BottomNavigationAction
             onClick={goEducation}
             label="education"

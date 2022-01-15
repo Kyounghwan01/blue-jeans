@@ -5,7 +5,44 @@ interface IFooterStyle {
   loadingState: boolean;
 }
 
-export const Block = styled.div<IFooterStyle>`
+export const CustomFont = styled.div`
+  .custom-font-h1 {
+    font-size: ${props => props.theme.palette.customFont.h1};
+  }
+  .custom-font-content {
+    font-size: ${props => props.theme.palette.customFont.content};
+  }
+  .custom-font-header-title {
+    font-size: ${props => props.theme.palette.customFont.headerTitle};
+  }
+  .list-title {
+    span {
+      font-size: ${props => props.theme.palette.customFont.listTitle};
+    }
+  }
+  .MuiTab-root {
+    font-size: ${props => props.theme.palette.customFont.tabTitle};
+  }
+  .custom-font-buttom-button {
+    font-weight: bold;
+    font-size: ${props => props.theme.palette.customFont.bottomButton};
+  }
+`;
+
+export const PopLayoutBlock = styled(CustomFont)`
+  padding: 0;
+  background: rgba(33, 38, 41, 0.5);
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+export const Block = styled(CustomFont)<IFooterStyle>`
   width: 100vw;
   height: calc(var(--vh, 1vh) * 100);
 
@@ -28,27 +65,5 @@ export const Block = styled.div<IFooterStyle>`
         height: 50px;
       }
     }
-  }
-
-  .custom-font-h1 {
-    font-size: ${props => props.theme.palette.customFont.h1};
-  }
-  .custom-font-content {
-    font-size: ${props => props.theme.palette.customFont.content};
-  }
-  .custom-font-header-title {
-    font-size: ${props => props.theme.palette.customFont.headerTitle};
-  }
-  .list-title {
-    span {
-      font-size: ${props => props.theme.palette.customFont.listTitle};
-    }
-  }
-  .MuiTab-root {
-    font-size: ${props => props.theme.palette.customFont.tabTitle};
-  }
-  .custom-font-buttom-button {
-    font-weight: bold;
-    font-size: ${props => props.theme.palette.customFont.bottomButton};
   }
 `;

@@ -10,9 +10,7 @@ import Step from "components/common/Step";
 
 const components = [
   { step: "Intro", title: "주문시작", header: false },
-  { step: "Main", title: "메뉴 선택", header: false },
-  { step: "Detail", title: "예상 수리비 산출내역서", header: true },
-  { step: "Complete", title: "예상 수리비 산출내역서", header: true }
+  { step: "Main", title: "메뉴 선택", header: false }
 ];
 
 const Index = () => {

@@ -1,25 +1,17 @@
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import styled from "styled-components";
+import { IOrderList } from "features/types/educationSliceType";
 interface ICard {
-  product: {
-    name: string;
-    price: number;
-    img: string;
-    type: string;
-  };
-  onClick: (data: { type: string; name: string; price: number }) => void;
+  product: IOrderList;
+  onClick: any;
 }
 
 const Card = ({ product, onClick }: ICard) => {
-  const handleCardClick = useCallback(() => {
-    onClick({ type: product.type, name: product.name, price: product.price });
-  }, []);
-
   return (
-    <CardBlock onClick={handleCardClick}>
+    <CardBlock onClick={() => onClick(product)}>
       <div className="img"></div>
       <div className="content">
-        {product.name} <br /> {product.price}
+        {product.name} <br /> {product.price}원
       </div>
     </CardBlock>
   );

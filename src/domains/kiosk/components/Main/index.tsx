@@ -4,8 +4,7 @@ import KioskCounter from "components/molecules/KioskCounter";
 import Card from "components/atom/Card";
 import useMain from "domains/kiosk/hooks/useMain";
 
-const Index = ({ next }: { next: () => Promise<boolean> }) => {
-  console.log("re-rendering");
+const Index = () => {
   const {
     tab,
     setTab,
@@ -15,24 +14,23 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
     handleCount,
     totalOrder,
     confirmOrder,
+    handleOrderReset
   } = useMain();
 
   return (
     <Block>
-      {/* <button onClick={back}>이전</button>
-      <button onClick={next}>다음</button> */}
       <section className="tab">
-        {kioskTab.map((el) => (
-          <div key={el.type} onClick={() => setTab(el.type)}>
-            <span>{el.label}</span>
+        {kioskTab.map(tab => (
+          <div key={tab.type} onClick={() => setTab(tab.type)}>
+            <span>{tab.label}</span>
           </div>
         ))}
       </section>
 
       <div className="main">
         {kioskProducts
-          .filter((product) => product.type === tab)
-          .map((product) => (
+          .filter(product => product.type === tab)
+          .map(product => (
             <Card
               key={product.name}
               product={product}
@@ -50,9 +48,9 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
             <div></div>
           </div>
           <div className="bill__list__menu">
-            {orderList.map((order) => (
+            {orderList.map(order => (
               <div className="bill__list__menu__wrapper" key={order.name}>
-                <div>{order.name}</div>
+                <div className="bill__list__menu__name">{order.name}</div>
                 <div className="bill__list__menu__count">
                   <KioskCounter
                     count={order.count}
@@ -82,7 +80,10 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
             </div>
           </div>
           <div className="bill__footer__card">
-            <div className="bill__footer__card__cancel">
+            <div
+              className="bill__footer__card__cancel"
+              onClick={handleOrderReset}
+            >
               전체
               <br />
               취소
@@ -138,13 +139,19 @@ const Block = styled.article`
       &__menu {
         padding: 10px 10px;
         background: #eee;
-        height: 20vh;
+        min-height: 20px;
+        max-height: 20vh;
         border-bottom: 1px solid grey;
         overflow-y: auto;
         &__wrapper {
           padding-bottom: 8px;
           display: grid;
           grid-template-columns: 5fr 3fr 2fr 1fr;
+        }
+        &__name {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         &__count {
           display: flex;

@@ -36,12 +36,15 @@ const Index = ({
     if (footer) {
       switch (router.pathname) {
         case "/profile":
-          setTab(3);
+          setTab(4);
           break;
         case "/friend-chat":
-          setTab(2);
+          setTab(3);
           break;
         case "/education":
+          setTab(2);
+          break;
+        case "/community":
           setTab(1);
           break;
         default:

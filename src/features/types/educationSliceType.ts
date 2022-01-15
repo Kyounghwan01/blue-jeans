@@ -1,16 +1,19 @@
-export interface IEductionSlice {
-  currentStep: number;
-  orderList: {
-    type: string;
-    count: number;
+export interface IOrderList {
+  type: string;
+  count: number;
+  name: string;
+  price: number;
+  totalPrice: number;
+  desc?: string;
+  side?: {
     name: string;
     price: number;
-    totalPrice: number;
-    side?: {
-      count: number;
-      name: string;
-      price: number;
-      totalPrice: number;
-    }[];
+    img?: string;
+    checked?: boolean;
   }[];
+}
+export interface IEductionSlice {
+  currentStep: number;
+  orderList: IOrderList[];
+  currentOrder: IOrderList | null;
 }

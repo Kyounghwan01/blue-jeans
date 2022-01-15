@@ -10,7 +10,6 @@ interface IKioskCounter {
 }
 
 const KioskCounter = ({ count, order, increse, decrese }: IKioskCounter) => {
-  console.log("re-counter/");
   return (
     <KioskCounterBlock>
       <CountIcon type="decrese" onClick={() => decrese("remove", order)} />
