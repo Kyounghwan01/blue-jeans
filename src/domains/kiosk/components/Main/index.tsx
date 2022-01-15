@@ -3,6 +3,7 @@ import { kioskProducts, kioskTab } from "utils/constants";
 import KioskCounter from "components/molecules/KioskCounter";
 import Card from "components/atom/Card";
 import useMain from "domains/kiosk/hooks/useMain";
+import { IMenu } from "features/types/educationSliceType";
 
 const Index = () => {
   const {

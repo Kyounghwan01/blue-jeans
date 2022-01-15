@@ -17,3 +17,16 @@ export interface IEductionSlice {
   orderList: IOrderList[];
   currentOrder: IOrderList | null;
 }
+
+export interface IMenu {
+  type: string;
+  name: string;
+  price: number;
+  desc: string;
+  img: string;
+  side?: {
+    name: string;
+    price: number;
+    img?: string;
+  }[];
+}

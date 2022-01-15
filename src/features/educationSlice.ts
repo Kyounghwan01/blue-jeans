@@ -32,7 +32,6 @@ export const educationSlice = createSlice({
         order => order.name === action.payload.name
       );
 
-      console.log("index", index); //
       if (index !== -1) {
         state.orderList[index].count++;
         state.orderList[index].totalPrice =

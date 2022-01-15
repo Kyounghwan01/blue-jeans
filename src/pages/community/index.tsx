@@ -59,7 +59,6 @@ const Index = () => {
         ],
         handlers: {
           image: () => {
-            console.log(previewURLs.length);
             if (previewURLs.length >= 2) return;
             fileRef.current?.click();
           }

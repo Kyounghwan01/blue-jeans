@@ -1,4 +1,4 @@
-import { IOrderList } from "features/types/educationSliceType";
+import { IMenu } from "features/types/educationSliceType";
 
 export const KAKAO_REDIRECT_URI = `${
   process.env.NODE_ENV !== "production"
@@ -74,69 +74,80 @@ export const kioskProducts = [
     type: "fork",
     name: "옛날돈까스",
     price: 7900,
-    img: ""
+    img: "",
+    desc: "옛날돈가 맛있다는 코멘트"
   },
   {
     type: "fork",
     name: "함박스테이크",
     price: 8500,
-    img: ""
+    img: "",
+    desc: ""
   },
   {
     type: "rice",
     name: "돈부리",
     price: 8500,
-    img: ""
+    img: "",
+    desc: ""
   },
   {
     type: "rice",
     name: "김치볶음밥",
     price: 8500,
-    img: ""
+    img: "",
+    desc: ""
   },
   {
     type: "noodle",
     name: "칼국수",
     price: 8500,
-    img: ""
+    img: "",
+    desc: ""
   },
   {
     type: "noodle",
     name: "쌀국수",
     price: 18500,
-    img: ""
+    img: "",
+    desc: ""
   },
   {
     type: "side",
     name: "밥",
     price: 1000,
-    img: ""
+    img: "",
+    desc: ""
   },
   {
     type: "side",
     name: "면",
     price: 1000,
-    img: ""
+    img: "",
+    desc: ""
   },
   {
     type: "drink",
     name: "콜라",
     price: 2000,
-    img: ""
+    img: "",
+    desc: ""
   },
   {
     type: "drink",
     name: "사이다",
     price: 2000,
-    img: ""
+    img: "",
+    desc: ""
   },
   {
     type: "drink",
     name: "환타",
     price: 2000,
-    img: ""
+    img: "",
+    desc: ""
   }
-] as IOrderList[];
+] as IMenu[];
 
 export const kioskTab = [
   { type: "fork", label: "돈까스류" },

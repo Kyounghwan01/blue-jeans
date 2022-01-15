@@ -1,8 +1,8 @@
 import { memo } from "react";
 import styled from "styled-components";
-import { IOrderList } from "features/types/educationSliceType";
+import { IMenu } from "features/types/educationSliceType";
 interface ICard {
-  product: IOrderList;
+  product: IMenu;
   onClick: any;
 }
 
