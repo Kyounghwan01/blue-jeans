@@ -11,7 +11,7 @@ const Card = ({ product, onClick }: ICard) => {
     <CardBlock onClick={() => onClick(product)}>
       <div className="img"></div>
       <div className="content">
-        {product.name} <br /> {product.price}원
+        {product.name} <br /> {product.price.toLocaleString()}원
       </div>
     </CardBlock>
   );
