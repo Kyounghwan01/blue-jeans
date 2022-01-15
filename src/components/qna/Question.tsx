@@ -27,7 +27,7 @@ const Question = () => {
     []
   );
   const fileRef = useRef<HTMLInputElement>(null);
-  const [handlePopup] = usePopup();
+  const { handlePopup } = usePopup();
 
   useEffect(() => {
     setIsValid(data.type !== "not-choice" && !!data.title && !!data.content);

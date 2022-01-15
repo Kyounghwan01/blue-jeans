@@ -11,13 +11,26 @@ const usePopup = () => {
         component: Component,
         modalProps: {
           title,
-          extraData
-        }
+          extraData,
+        },
       });
     });
   }
 
-  return [handlePopup];
+  function handleDomainPopup(link: string, title: string, extraData: any) {
+    console.log(extraData);
+    import(`domains/${link}`).then(({ default: Component }) => {
+      showModal({
+        component: Component,
+        modalProps: {
+          title,
+          extraData,
+        },
+      });
+    });
+  }
+
+  return { handlePopup, handleDomainPopup };
 };
 
 export default usePopup;

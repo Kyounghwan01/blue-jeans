@@ -54,9 +54,13 @@ const App = (props: AppProps) => {
         <title>Next App</title>
         <link href="/favicon.ico" rel="icon" />
         <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        />
+        {/* <meta
           content="minimum-scale=1, initial-scale=1, width=device-width"
           name="viewport"
-        />
+        /> */}
       </Head>
       <ThemeProvider theme={theme}>
         <ModalProvider>

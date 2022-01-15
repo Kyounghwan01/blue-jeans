@@ -25,10 +25,10 @@ export const commonThemeSettings = {
     htmlFontSize: 16,
     fontFamily: '"SharpBook19", "Helvetica", "Arial", sans-serif',
     fontSize: 14,
-    fontWeightLight: 400,
-    fontWeightRegular: 400,
-    fontWeightMedium: 400,
-    fontWeightBold: 400,
+    // fontWeightLight: 400,
+    // fontWeightRegular: 400,
+    // fontWeightMedium: 400,
+    // fontWeightBold: 400,
     h1: {
       fontSize: "3rem"
     },

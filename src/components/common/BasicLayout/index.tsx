@@ -23,7 +23,7 @@ const Index = ({
   headerTitle = "아무거나",
   back = true,
   backFunc,
-  loading = false,
+  loading = false
 }: IBasyLayout) => {
   const router = useRouter();
 
@@ -36,10 +36,16 @@ const Index = ({
     if (footer) {
       switch (router.pathname) {
         case "/profile":
-          setTab(3);
+          setTab(4);
           break;
         case "/friend-chat":
+          setTab(3);
+          break;
+        case "/education":
           setTab(2);
+          break;
+        case "/community":
+          setTab(1);
           break;
         default:
           setTab(0);

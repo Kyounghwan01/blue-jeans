@@ -22,7 +22,7 @@ const Index = () => {
       user.nickName || user.name
     }님 안녕하세요. 청바지 매니저입니다! \n\n추가로 궁금한 점이 있다면 청바지 고객센터를 찾아주세요.\n\n감사합니다.\n청바지드림.`
   );
-  const [handlePopup] = usePopup();
+  const { handlePopup } = usePopup();
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setAnswer(e.target.value);
@@ -32,7 +32,7 @@ const Index = () => {
     handlePopup("common/Alert", "답변하기", {
       desc: "답변 하시겠습니까?",
       isConfirm: true,
-      onClose: submit
+      onClose: submit,
     });
   };
 
@@ -42,13 +42,13 @@ const Index = () => {
       dbKey: qna.id,
       payload: {
         comment: { data: answer, timestamp: dayjs().format("YYYY. MM. DD") },
-        status: "finish"
-      }
+        status: "finish",
+      },
     });
 
     handlePopup("common/Alert", `답변 ${res.isSuccess ? "성공" : "실패"}`, {
       desc: res.isSuccess ? "성공" : res.errMessage,
-      onClose: res.isSuccess ? router.back : null
+      onClose: res.isSuccess ? router.back : null,
     });
   };
 
@@ -76,7 +76,7 @@ const Index = () => {
           <p>{qna.content}</p>
 
           <div>
-            {qna.imgUrl.map(url => {
+            {qna.imgUrl.map((url) => {
               return (
                 <ImageSkeleton key={url} url={url} width={200} height={200} />
               );

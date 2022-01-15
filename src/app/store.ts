@@ -7,6 +7,7 @@ import {
 import commonSlice from "features/commonSlice";
 import userSlice from "features/userSlice";
 import qnaSlice from "features/qnaSlice";
+import educationSlice from "features/educationSlice";
 import { HYDRATE, createWrapper } from "next-redux-wrapper";
 import logger from "redux-logger";
 
@@ -15,7 +16,8 @@ export type RootState = ReturnType<typeof combinedReducers>;
 const combinedReducers = combineReducers({
   user: userSlice,
   qna: qnaSlice,
-  common: commonSlice
+  common: commonSlice,
+  education: educationSlice
 });
 const reducer = (state: RootState | undefined, action: AnyAction) => {
   if (action.type === HYDRATE) {
