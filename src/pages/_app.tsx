@@ -4,6 +4,10 @@ import Head from "next/head";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { RootState } from "app/store";
 import { ModalProvider, ModalRoot } from "context";
 import { wrapper } from "app/store";
@@ -14,14 +18,14 @@ import { setFontSizeType } from "features/commonSlice";
 import { fontSizeType as typeFontSize } from "features/types/commonSliceType";
 import { GlobalStyle } from "styles/global-styles";
 import "utils/api/firebase";
-import * as Sentry from "@sentry/react";
-import { Integrations } from "@sentry/tracing";
+
+const queryClient = new QueryClient();
 
 if (process.env.NODE_ENV === "production") {
   Sentry.init({
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    tracesSampleRate: 1.0
+    tracesSampleRate: 1.0,
   });
 }
 
@@ -62,14 +66,17 @@ const App = (props: AppProps) => {
           name="viewport"
         /> */}
       </Head>
-      <ThemeProvider theme={theme}>
-        <ModalProvider>
-          <GlobalStyle />
-          <CssBaseline />
-          <ModalRoot />
-          <Component {...pageProps} />
-        </ModalProvider>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={true} />
+        <ThemeProvider theme={theme}>
+          <ModalProvider>
+            <GlobalStyle />
+            <CssBaseline />
+            <ModalRoot />
+            <Component {...pageProps} />
+          </ModalProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
     </>
   );
 };

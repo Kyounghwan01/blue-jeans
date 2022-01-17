@@ -1,51 +1,17 @@
-import { useEffect, useCallback, Dispatch, SetStateAction } from "react";
+import { useCallback } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { collection, query, where, getDocs } from "firebase/firestore/lite";
-import { db } from "utils/api/firebase";
 import { useSelector, useDispatch } from "react-redux";
-import { getQnaList, setQna } from "features/qnaSlice";
+import { setQna } from "features/qnaSlice";
 import { RootState } from "app/store";
 import { QnaType } from "features/types/qnaSliceType";
 import dayjs from "dayjs";
 import Chip from "@mui/material/Chip";
 
-const QuestionList = ({
-  loading,
-  setLoading
-}: {
-  loading: boolean;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-}) => {
+const QuestionList = ({ loading }: { loading: boolean }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const user = useSelector((state: RootState) => state.user);
-  const { list, tab } = useSelector((state: RootState) => state.qna);
-
-  useEffect(() => {
-    getQna();
-  }, [tab]);
-
-  const getQna = async () => {
-    setLoading(true);
-    if (!user.id) {
-      return setLoading(false);
-    }
-    const qnaRef = collection(db, "qna");
-
-    const constraints = [];
-    if (tab === 1) {
-      constraints.push(where("userId", "==", user.id));
-    }
-
-    const q = await query(qnaRef, ...constraints);
-    const data = await getDocs(q);
-    const qnaList = data.docs.map(doc => {
-      return { id: doc.id, ...doc.data() };
-    }) as QnaType[];
-    dispatch(getQnaList(qnaList));
-    setLoading(false);
-  };
+  const { list } = useSelector((state: RootState) => state.qna);
 
   const selectQna = useCallback((data: QnaType) => {
     dispatch(setQna(data));
