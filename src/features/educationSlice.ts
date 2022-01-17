@@ -2,9 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IEductionSlice } from "features/types/educationSliceType";
 
 const initialState: IEductionSlice = {
-  currentStep: 0,
   orderList: [],
-  currentOrder: null
+  currentOrder: null,
+  currentHintStep: 0
 };
 
 export const educationSlice = createSlice({
@@ -12,11 +12,11 @@ export const educationSlice = createSlice({
   initialState,
   reducers: {
     resetStore: state => {
-      state.currentStep = 0;
       state.orderList = [];
+      state.currentHintStep = 0;
     },
-    setCurrentStep: (state, action: PayloadAction<number>) => {
-      state.currentStep = action.payload;
+    setCurrentHintStep: (state, action: PayloadAction<number>) => {
+      state.currentHintStep = action.payload;
     },
     addOrderList: (
       state,
@@ -73,12 +73,12 @@ export const educationSlice = createSlice({
 });
 
 export const {
-  setCurrentStep,
   resetStore,
   addOrderList,
   removeOrderList,
   handleOrderCount,
-  resetOrderList
+  resetOrderList,
+  setCurrentHintStep
 } = educationSlice.actions;
 
 export default educationSlice.reducer;

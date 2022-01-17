@@ -13,9 +13,9 @@ export interface IOrderList {
   }[];
 }
 export interface IEductionSlice {
-  currentStep: number;
   orderList: IOrderList[];
   currentOrder: IOrderList | null;
+  currentHintStep: number;
 }
 
 export interface IMenu {

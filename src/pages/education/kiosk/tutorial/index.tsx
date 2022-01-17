@@ -1,22 +1,31 @@
-import { useMemo, useEffect, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "app/store";
+import { useState, useMemo, useEffect, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { setCurrentStep, resetStore } from "features/educationSlice";
+import { resetStore } from "features/educationSlice";
 import BasicLayout from "components/common/BasicLayout";
 import Step from "components/common/Step";
 
 // todo: 튜토리얼, 시간 지나면 힌트, 초기화
 
 const components = [
-  { step: "Intro", title: "주문시작", header: false },
-  { step: "Main", title: "메뉴 선택", header: false }
+  {
+    step: "Intro",
+    title: "주문시작",
+    header: false,
+    hint: [{ desc: "주문하기 버튼을 클릭해주세요!" }]
+  },
+  {
+    step: "Main",
+    title: "메뉴 선택",
+    header: false,
+    hint: [{ desc: "무공 돈까스를 클릭해주세요!" }]
+  }
 ];
 
 const Index = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { currentStep } = useSelector((state: RootState) => state.education);
+  const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
     if (router.asPath.split("?page=")[1]) {
@@ -37,14 +46,14 @@ const Index = () => {
   const back = useCallback(() => {
     const backIndex = currentStep - 1;
     if (currentStep > 0) {
-      dispatch(setCurrentStep(backIndex));
+      setCurrentStep(backIndex);
       return movePage(components[backIndex].step);
     }
   }, [currentStep]);
 
   const next = useCallback(() => {
     const nextIndex = currentStep + 1;
-    dispatch(setCurrentStep(nextIndex));
+    setCurrentStep(nextIndex);
     return movePage(components[nextIndex].step);
   }, [currentStep]);
 
@@ -64,6 +73,7 @@ const Index = () => {
         back={back}
         next={next}
         movePage={movePage}
+        hint={components[currentStep].hint}
       />
     </BasicLayout>
   );

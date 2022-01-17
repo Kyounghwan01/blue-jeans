@@ -3,17 +3,23 @@ import styled, { css, keyframes } from "styled-components";
 import usePopup from "hooks/usePopup";
 import Tooltip from "@mui/material/Tooltip";
 
-const Index = ({ next }: { next: () => Promise<boolean> }) => {
+const Index = ({
+  next,
+  hint
+}: {
+  next: () => Promise<boolean>;
+  hint: { desc: string }[];
+}) => {
   const { handlePopup } = usePopup();
-  const [hint, setHint] = useState<null | number>(null);
+  const [visualHint, setVisualHint] = useState<number>(-1);
   useEffect(() => {
     handlePopup("common/Alert", "", {
-      desc: "주문하기 버튼을 클릭해주세요!",
+      desc: hint[0].desc,
       autoClose: { time: 3000 }
     });
 
     const introHint = setTimeout(() => {
-      setHint(1);
+      setVisualHint(0);
     }, 7000);
 
     // step으로 나누고 힌트도 null이거나 스탭 명으로 주면 되겠네.
@@ -22,14 +28,19 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
   }, []);
 
   return (
-    <Block hint={hint}>
+    <Block visualHint={visualHint}>
       {/* {hint && (
         <article className="hint">
           <div className="hint__order-button" />
         </article>
       )} */}
       <article className="main">
-        <Tooltip title="클릭해주세요" open={hint === 1} arrow placement="top">
+        <Tooltip
+          title="클릭해주세요"
+          open={visualHint === 0}
+          arrow
+          placement="top"
+        >
           <button className="main__order-button" onClick={next}>
             주문하기
           </button>
@@ -39,9 +50,10 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
   );
 };
 
-const Block = styled.article<{ hint: null | number }>`
+const Block = styled.article<{ visualHint: number }>`
   position: relative;
-  background: ${props => (props.hint ? "rgba(114, 114, 114, 0.3)" : "#fff")};
+  background: ${props =>
+    props.visualHint === 0 ? "rgba(114, 114, 114, 0.3)" : "#fff"};
   transition: background 1s ease-out;
   height: 100%;
   .main {
@@ -62,7 +74,7 @@ const Block = styled.article<{ hint: null | number }>`
       font-size: 18px;
       font-weight: bold;
       ${props =>
-        props.hint === 1 &&
+        props.visualHint === 1 &&
         css`
           animation: ${BlinkHint} 1.5s step-end infinite;
         `}

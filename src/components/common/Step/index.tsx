@@ -5,6 +5,7 @@ type MyProps = {
   next: () => Promise<boolean>;
   movePage: (pathName: string) => Promise<boolean>;
   name: string;
+  hint: { desc: string }[];
 };
 
 type MyState = {
@@ -41,7 +42,11 @@ export default class DynamicComponent extends React.Component<
     return (
       <>
         {this.state.Component && (
-          <this.state.Component back={this.props.back} next={this.props.next} />
+          <this.state.Component
+            back={this.props.back}
+            next={this.props.next}
+            hint={this.props.hint}
+          />
         )}
       </>
     );

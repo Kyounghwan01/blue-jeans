@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import {
@@ -14,9 +14,24 @@ import usePopup from "hooks/usePopup";
 export default function useMain() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { orderList } = useSelector((state: RootState) => state.education);
+  const orderList = useSelector(
+    (state: RootState) => state.education.orderList
+  );
   const [tab, setTab] = useState<string>("fork");
-  const { handleDomainPopup } = usePopup();
+  const { handleDomainPopup, handlePopup } = usePopup();
+
+  useEffect(() => {
+    handlePopup("common/Alert", "", {
+      desc: "무공돈까스를 클릭해주세요!",
+      autoClose: { time: 3000 }
+    });
+
+    // step별로 누르면 다름 hintStep으로 넘어가기
+
+    // const introHint = setTimeout(() => {
+    //   // setHint(1);
+    // }, 7000);
+  }, []);
 
   const handleOrderListWithSide = useCallback(order => {
     let payload = {
@@ -60,8 +75,10 @@ export default function useMain() {
   }, []);
 
   const handleOrderReset = useCallback(() => {
-    dispatch(resetOrderList());
-  }, []);
+    if (orderList.length) {
+      dispatch(resetOrderList());
+    }
+  }, [orderList]);
 
   const totalOrder = useMemo(() => {
     let count = 0;
