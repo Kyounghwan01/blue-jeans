@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useRouter } from "next/router";
 import {
   addOrderList,
@@ -14,8 +14,11 @@ import usePopup from "hooks/usePopup";
 export default function useMain() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const orderList = useSelector(
-    (state: RootState) => state.education.orderList
+  const { orderList } = useSelector(
+    (state: RootState) => ({
+      orderList: state.education.orderList
+    }),
+    shallowEqual
   );
   const [tab, setTab] = useState<string>("fork");
   const { handleDomainPopup, handlePopup } = usePopup();
