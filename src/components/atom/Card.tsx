@@ -11,7 +11,7 @@ interface ICard {
 const Card = ({ product, onClick, visualHint, isHintIcon }: ICard) => {
   return (
     <CardBlock
-      visualHint={visualHint === 0 && isHintIcon}
+      visualHint={visualHint >= 0 && isHintIcon}
       onClick={() => onClick(product)}
     >
       <div className="img"></div>

@@ -95,7 +95,7 @@ const OrderDetailPop = ({
             <div className="side__desc">추가시 선택해주세요</div>
             <div className="side__content">
               {currentOrder.side.map(side => (
-                // todo: 무공돈까일때 공깃밥이면 true
+                // todo: 무공돈까일때 공깃밥이면 true, 이전스텝은 계속 깜빡이자
                 <div
                   key={side.name}
                   className="side__content__card"
@@ -135,7 +135,7 @@ const OrderDetailPopBlock = styled(PopLayoutBlock)`
   article {
     position: relative;
     background: white;
-    width: 90vw;
+    width: calc(100% - 10px);
     height: 80vh;
     border-radius: 4px;
   }

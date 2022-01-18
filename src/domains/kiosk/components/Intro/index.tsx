@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
 import usePopup from "hooks/usePopup";
-import Tooltip from "@mui/material/Tooltip";
+import { setCurrentHintStep } from "features/educationSlice";
 
 const Index = ({
   next,
@@ -10,9 +11,12 @@ const Index = ({
   next: () => Promise<boolean>;
   hint: { desc: string }[];
 }) => {
+  const dispatch = useDispatch();
   const { handlePopup } = usePopup();
   const [visualHint, setVisualHint] = useState<number>(-1);
+
   useEffect(() => {
+    dispatch(setCurrentHintStep(0));
     handlePopup("common/Alert", "", {
       desc: hint[0].desc,
       autoClose: { time: 3000 }
@@ -35,16 +39,9 @@ const Index = ({
         </article>
       )} */}
       <article className="main">
-        <Tooltip
-          title="클릭해주세요"
-          open={visualHint === 0}
-          arrow
-          placement="top"
-        >
-          <button className="main__order-button" onClick={next}>
-            주문하기
-          </button>
-        </Tooltip>
+        <button className="main__order-button" onClick={next}>
+          주문하기
+        </button>
       </article>
     </Block>
   );
