@@ -12,14 +12,19 @@ const components = [
     step: "Intro",
     title: "주문시작",
     header: false,
-    hint: [{ desc: "주문하기 버튼을 클릭해주세요!" }]
+    hint: [{ desc: "주문하기 버튼을 클릭해주세요!" }],
   },
   {
     step: "Main",
     title: "메뉴 선택",
     header: false,
-    hint: [{ desc: "무공 돈까스를 클릭해주세요!" }]
-  }
+    hint: [
+      { desc: "무공 돈까스를 클릭해주세요!" },
+      { desc: "무공 돈까스에 공깃밥을 추가해주세요!" },
+      { desc: "무공 돈까스를 하나 더 추가해주세요!" },
+      { desc: "결제 버튼을 클릭해주세요!" },
+    ],
+  },
 ];
 
 const Index = () => {

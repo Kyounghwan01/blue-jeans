@@ -4,7 +4,7 @@ import KioskCounter from "components/molecules/KioskCounter";
 import Card from "components/atom/Card";
 import useMain from "domains/kiosk/hooks/useMain";
 
-const Index = () => {
+const Index = ({ hint }: { hint: { desc: string }[] }) => {
   const {
     tab,
     setTab,
@@ -14,13 +14,14 @@ const Index = () => {
     handleCount,
     totalOrder,
     confirmOrder,
-    handleOrderReset
-  } = useMain();
+    handleOrderReset,
+  } = useMain({ hint });
 
   return (
     <Block>
+      {JSON.stringify(hint)}
       <section className="tab">
-        {kioskTab.map(tab => (
+        {kioskTab.map((tab) => (
           <div key={tab.type} onClick={() => setTab(tab.type)}>
             <span>{tab.label}</span>
           </div>
@@ -29,8 +30,8 @@ const Index = () => {
 
       <div className="main">
         {kioskProducts
-          .filter(product => product.type === tab)
-          .map(product => (
+          .filter((product) => product.type === tab)
+          .map((product) => (
             <Card
               key={product.name}
               product={product}
@@ -48,7 +49,7 @@ const Index = () => {
             <div></div>
           </div>
           <div className="bill__list__menu">
-            {orderList.map(order => (
+            {orderList.map((order) => (
               <div className="bill__list__menu__wrapper" key={order.name}>
                 <div className="bill__list__menu__name">{order.name}</div>
                 <div className="bill__list__menu__count">

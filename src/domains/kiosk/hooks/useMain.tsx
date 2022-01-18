@@ -5,18 +5,22 @@ import {
   addOrderList,
   removeOrderList,
   handleOrderCount,
-  resetOrderList
+  resetOrderList,
+  setCurrentHintStep,
 } from "features/educationSlice";
 import { IOrderList } from "features/types/educationSliceType";
 import { RootState } from "app/store";
 import usePopup from "hooks/usePopup";
 
-export default function useMain() {
+let timeOutId: NodeJS.Timeout | null = null;
+
+export default function useMain({ hint }: { hint: { desc: string }[] }) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { orderList } = useSelector(
+  const { orderList, currentHintStep } = useSelector(
     (state: RootState) => ({
-      orderList: state.education.orderList
+      orderList: state.education.orderList,
+      currentHintStep: state.education.currentHintStep,
     }),
     shallowEqual
   );
@@ -25,23 +29,34 @@ export default function useMain() {
 
   useEffect(() => {
     handlePopup("common/Alert", "", {
-      desc: "무공돈까스를 클릭해주세요!",
-      autoClose: { time: 3000 }
+      desc: hint[currentHintStep].desc,
+      autoClose: { time: 3000 },
     });
+  }, [currentHintStep]);
 
-    // step별로 누르면 다름 hintStep으로 넘어가기
+  useEffect(() => {
+    console.log(111, timeOutId, currentHintStep);
 
-    // const introHint = setTimeout(() => {
-    //   // setHint(1);
-    // }, 7000);
-  }, []);
+    if (timeOutId) {
+      console.log("clear", timeOutId);
+      clearTimeout(timeOutId);
+    }
 
-  const handleOrderListWithSide = useCallback(order => {
+    // 바뀌면 넣기
+    if (currentHintStep === 0) {
+      timeOutId = setTimeout(() => {
+        console.log(currentHintStep, "wowowo");
+        // setHint(currentHintStep);
+      }, 3000);
+    }
+  }, [currentHintStep]);
+
+  const handleOrderListWithSide = useCallback((order) => {
     let payload = {
       type: order.type,
       name: order.name,
       price: order.price,
-      count: 1
+      count: 1,
     } as IOrderList;
 
     if (order.side.length) {
@@ -52,24 +67,28 @@ export default function useMain() {
   }, []);
 
   const handleOrderList = useCallback((order: IOrderList) => {
+    if (order.name === "무공돈까스") {
+      dispatch(setCurrentHintStep(1));
+    }
+
     if (!order.side) {
       return dispatch(
         addOrderList({
           type: order.type,
           name: order.name,
           price: order.price,
-          count: 1
+          count: 1,
         })
       );
     }
 
     handleDomainPopup("kiosk/components/popup/OrderDetailPop", "주문디테일", {
       order,
-      onClose: handleOrderListWithSide
+      onClose: handleOrderListWithSide,
     });
   }, []);
 
-  const deleteOrder = useCallback(event => {
+  const deleteOrder = useCallback((event) => {
     dispatch(removeOrderList(event.target.dataset.name));
   }, []);
 
@@ -86,7 +105,7 @@ export default function useMain() {
   const totalOrder = useMemo(() => {
     let count = 0;
     let price = 0;
-    orderList.forEach(order => {
+    orderList.forEach((order) => {
       price += order.totalPrice;
       count += order.count;
     });
@@ -97,14 +116,14 @@ export default function useMain() {
     handleDomainPopup("kiosk/components/popup/OrderListPop", "주문리스트", {
       orderList,
       totalOrder,
-      onClose: popPayment
+      onClose: popPayment,
     });
   }, [orderList]);
 
   const popPayment = useCallback(({ type }: { type: string }) => {
     handleDomainPopup("kiosk/components/popup/OrderPayment", "결제", {
       type,
-      onClose: () => router.push("/education")
+      onClose: () => router.push("/education"),
     });
   }, []);
 
@@ -117,6 +136,6 @@ export default function useMain() {
     handleCount,
     totalOrder,
     confirmOrder,
-    handleOrderReset
+    handleOrderReset,
   };
 }
