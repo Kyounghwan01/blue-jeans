@@ -15,13 +15,13 @@ const Index = ({ hint }: { hint: { desc: string }[] }) => {
     totalOrder,
     confirmOrder,
     handleOrderReset,
+    visualHint
   } = useMain({ hint });
 
   return (
     <Block>
-      {JSON.stringify(hint)}
       <section className="tab">
-        {kioskTab.map((tab) => (
+        {kioskTab.map(tab => (
           <div key={tab.type} onClick={() => setTab(tab.type)}>
             <span>{tab.label}</span>
           </div>
@@ -30,12 +30,14 @@ const Index = ({ hint }: { hint: { desc: string }[] }) => {
 
       <div className="main">
         {kioskProducts
-          .filter((product) => product.type === tab)
-          .map((product) => (
+          .filter(product => product.type === tab)
+          .map(product => (
             <Card
               key={product.name}
               product={product}
               onClick={handleOrderList}
+              visualHint={visualHint}
+              isHintIcon={product.name === "무공돈까스"}
             />
           ))}
       </div>
@@ -49,7 +51,7 @@ const Index = ({ hint }: { hint: { desc: string }[] }) => {
             <div></div>
           </div>
           <div className="bill__list__menu">
-            {orderList.map((order) => (
+            {orderList.map(order => (
               <div className="bill__list__menu__wrapper" key={order.name}>
                 <div className="bill__list__menu__name">{order.name}</div>
                 <div className="bill__list__menu__count">

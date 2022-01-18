@@ -74,7 +74,7 @@ const Block = styled.article<{ visualHint: number }>`
       font-size: 18px;
       font-weight: bold;
       ${props =>
-        props.visualHint === 1 &&
+        props.visualHint === 0 &&
         css`
           animation: ${BlinkHint} 1.5s step-end infinite;
         `}

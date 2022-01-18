@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IEductionSlice } from "features/types/educationSliceType";
+import { IEductionSlice, IOrderList } from "features/types/educationSliceType";
 
 const initialState: IEductionSlice = {
   orderList: [],
@@ -17,6 +17,9 @@ export const educationSlice = createSlice({
     },
     setCurrentHintStep: (state, action: PayloadAction<number>) => {
       state.currentHintStep = action.payload;
+    },
+    setCurrentOrder: (state, action: PayloadAction<IOrderList>) => {
+      state.currentOrder = action.payload;
     },
     addOrderList: (
       state,
@@ -78,7 +81,8 @@ export const {
   removeOrderList,
   handleOrderCount,
   resetOrderList,
-  setCurrentHintStep
+  setCurrentHintStep,
+  setCurrentOrder
 } = educationSlice.actions;
 
 export default educationSlice.reducer;

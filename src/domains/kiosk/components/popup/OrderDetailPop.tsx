@@ -95,6 +95,7 @@ const OrderDetailPop = ({
             <div className="side__desc">추가시 선택해주세요</div>
             <div className="side__content">
               {currentOrder.side.map(side => (
+                // todo: 무공돈까일때 공깃밥이면 true
                 <div
                   key={side.name}
                   className="side__content__card"
