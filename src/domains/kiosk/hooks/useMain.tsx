@@ -7,13 +7,13 @@ import {
   handleOrderCount,
   resetOrderList,
   setCurrentHintStep,
-  setCurrentOrder
+  setCurrentOrder,
 } from "features/educationSlice";
 import { IOrderList } from "features/types/educationSliceType";
 import { RootState } from "app/store";
 import usePopup from "hooks/usePopup";
 
-let timeOutId: NodeJS.Timeout | null = null;
+// let timeOutId: NodeJS.Timeout | null = null;
 
 export default function useMain({ hint }: { hint: { desc: string }[] }) {
   const router = useRouter();
@@ -22,27 +22,27 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
     (state: RootState) => ({
       orderList: state.education.orderList,
       currentOrder: state.education.currentOrder,
-      currentHintStep: state.education.currentHintStep
+      currentHintStep: state.education.currentHintStep,
     }),
     shallowEqual
   );
   const [tab, setTab] = useState<string>("fork");
-  const [visualHint, setVisualHint] = useState<number>(-1);
+  // const [visualHint, setVisualHint] = useState<number>(-1);
   const { handleDomainPopup, handlePopup } = usePopup();
 
   useEffect(() => {
-    if (timeOutId) {
-      clearTimeout(timeOutId);
-    }
+    // if (timeOutId) {
+    //   clearTimeout(timeOutId);
+    // }
 
-    timeOutId = setTimeout(() => {
-      setVisualHint(currentHintStep);
-    }, 10000);
+    // timeOutId = setTimeout(() => {
+    //   setVisualHint(currentHintStep);
+    // }, 10000);
 
     handlePopup("common/Alert", "", {
       desc: hint[currentHintStep].desc,
       autoClose: { time: 3000 },
-      onClose: popupCallback
+      onClose: popupCallback,
     });
   }, [currentHintStep]);
 
@@ -53,18 +53,19 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
           "주문디테일",
           {
             order: currentOrder,
-            onClose: handleOrderListWithSide
+            visualHint: currentHintStep,
+            onClose: handleOrderListWithSide,
           }
         )
       : null;
   }, [currentHintStep]);
 
-  const handleOrderListWithSide = useCallback(order => {
+  const handleOrderListWithSide = useCallback((order) => {
     let payload = {
       type: order.type,
       name: order.name,
       price: order.price,
-      count: 1
+      count: 1,
     } as IOrderList;
 
     if (order.side.length) {
@@ -79,7 +80,6 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
       dispatch(setCurrentOrder(order));
 
       if (order.name === "무공돈까스" && currentHintStep === 0) {
-        setVisualHint(-1);
         return dispatch(setCurrentHintStep(1));
       }
 
@@ -89,20 +89,21 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
             type: order.type,
             name: order.name,
             price: order.price,
-            count: 1
+            count: 1,
           })
         );
       }
 
       handleDomainPopup("kiosk/components/popup/OrderDetailPop", "주문디테일", {
         order,
-        onClose: handleOrderListWithSide
+        visualHint: currentHintStep,
+        onClose: handleOrderListWithSide,
       });
     },
     [currentHintStep]
   );
 
-  const deleteOrder = useCallback(event => {
+  const deleteOrder = useCallback((event) => {
     dispatch(removeOrderList(event.target.dataset.name));
   }, []);
 
@@ -119,7 +120,7 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
   const totalOrder = useMemo(() => {
     let count = 0;
     let price = 0;
-    orderList.forEach(order => {
+    orderList.forEach((order) => {
       price += order.totalPrice;
       count += order.count;
     });
@@ -130,14 +131,14 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
     handleDomainPopup("kiosk/components/popup/OrderListPop", "주문리스트", {
       orderList,
       totalOrder,
-      onClose: popPayment
+      onClose: popPayment,
     });
   }, [orderList]);
 
   const popPayment = useCallback(({ type }: { type: string }) => {
     handleDomainPopup("kiosk/components/popup/OrderPayment", "결제", {
       type,
-      onClose: () => router.push("/education")
+      onClose: () => router.push("/education"),
     });
   }, []);
 
@@ -151,6 +152,7 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
     totalOrder,
     confirmOrder,
     handleOrderReset,
-    visualHint
+    currentHintStep,
+    // visualHint,
   };
 }

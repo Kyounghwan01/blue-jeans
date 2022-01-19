@@ -4,16 +4,12 @@ import { IMenu } from "features/types/educationSliceType";
 interface ICard {
   product: IMenu;
   onClick: any;
-  visualHint: number;
-  isHintIcon: boolean;
+  isHint: boolean;
 }
 
-const Card = ({ product, onClick, visualHint, isHintIcon }: ICard) => {
+const Card = ({ product, onClick, isHint }: ICard) => {
   return (
-    <CardBlock
-      visualHint={visualHint >= 0 && isHintIcon}
-      onClick={() => onClick(product)}
-    >
+    <CardBlock isHint={isHint} onClick={() => onClick(product)}>
       <div className="img"></div>
       <div className="content">
         {product.name} <br /> {product.price.toLocaleString()}원
@@ -30,11 +26,11 @@ const BlinkHint = keyframes`
   }
 `;
 
-const CardBlock = styled.div<{ visualHint: boolean }>`
+const CardBlock = styled.section<{ isHint: boolean }>`
   border-radius: 4px;
   background-color: grey;
-  ${props =>
-    props.visualHint &&
+  ${(props) =>
+    props.isHint &&
     css`
       animation: ${BlinkHint} 1.5s step-end infinite;
     `}

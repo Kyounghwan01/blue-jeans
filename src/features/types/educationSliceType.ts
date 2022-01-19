@@ -30,3 +30,9 @@ export interface IMenu {
     img?: string;
   }[];
 }
+
+export interface ISide {
+  name: string;
+  price: number;
+  img?: string;
+}

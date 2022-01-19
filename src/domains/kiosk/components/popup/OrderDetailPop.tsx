@@ -1,12 +1,13 @@
 import { useState, useCallback, useMemo } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { IOrderList } from "features/types/educationSliceType";
 import { PopLayoutBlock } from "components/common/BasicLayout/BasicLayout.styled";
-import CheckCircleSharpIcon from "@mui/icons-material/CheckCircleSharp";
+import OrderSide from "domains/kiosk/components/popup/OrderSide";
 
 interface IAlert {
   extraData: {
     order: IOrderList;
+    visualHint: number;
     onClose: (order: any) => void;
   };
   hideModal: () => void;
@@ -23,16 +24,21 @@ const OrderDetailPop = ({
       type: "",
       count: 0,
       totalPrice: 0,
-      side: [{ name: "", price: 0 }]
-    }
-  }
+      side: [{ name: "", price: 0 }],
+    },
+    visualHint: 0,
+  },
 }: IAlert) => {
   const [currentOrder, setCurrentOrder] = useState(extraData.order);
+  const [isOrderHint, setIsOrderHint] = useState<boolean>(false);
 
-  const handleSideMenu = useCallback(product => {
-    setCurrentOrder(prev => {
-      const newSide = prev.side?.map(side => {
+  const handleSideMenu = useCallback((product) => {
+    setCurrentOrder((prev) => {
+      const newSide = prev.side?.map((side) => {
         if (side.name === product.name) {
+          if (currentOrder.name === "무공돈까스" && product.name === "공깃밥") {
+            setIsOrderHint(!side.checked);
+          }
           return { ...side, checked: !side.checked };
         } else {
           return side;
@@ -46,7 +52,7 @@ const OrderDetailPop = ({
     let sidePrice = currentOrder.price;
 
     if (currentOrder.side?.length) {
-      currentOrder.side?.forEach(side => {
+      currentOrder.side?.forEach((side) => {
         if (side.checked) {
           sidePrice += side.price;
         }
@@ -59,12 +65,13 @@ const OrderDetailPop = ({
   const handleCart = () => {
     const payloadSide =
       currentOrder.side
-        ?.map(side => {
+        ?.map((side) => {
           return side.checked ? side.name : null;
         })
-        .filter(side => side) || [];
+        .filter((side) => side) || [];
 
     hideModal();
+    // todo: hint를 [{desc: '', done: false/true}] 로 해야겠는데
     if (typeof extraData.onClose === "function") {
       extraData.onClose({
         ...currentOrder,
@@ -72,7 +79,7 @@ const OrderDetailPop = ({
           ? `${currentOrder.name} (${payloadSide.join(",")})`
           : currentOrder.name,
         price: totalPrice,
-        side: payloadSide
+        side: payloadSide,
       });
     }
   };
@@ -94,24 +101,19 @@ const OrderDetailPop = ({
           <section className="side">
             <div className="side__desc">추가시 선택해주세요</div>
             <div className="side__content">
-              {currentOrder.side.map(side => (
-                // todo: 무공돈까일때 공깃밥이면 true, 이전스텝은 계속 깜빡이자
-                <div
+              {currentOrder.side.map((side) => (
+                <OrderSide
                   key={side.name}
-                  className="side__content__card"
-                  onClick={() => handleSideMenu(side)}
-                >
-                  {side.checked && (
-                    <div className="side__content__card__checked">
-                      <CheckCircleSharpIcon color="primary" />
-                    </div>
-                  )}
-                  <div className="side__content__card__image"></div>
-                  <div className="side__content__card__content txt-c">
-                    <span>{side.name}</span>
-                    <span>+{side.price}</span>
-                  </div>
-                </div>
+                  side={side}
+                  handleSideMenu={handleSideMenu}
+                  // 공깃밥 넣고
+                  isHint={
+                    currentOrder.name === "무공돈까스" &&
+                    side.name === "공깃밥" &&
+                    extraData.visualHint >= 1 &&
+                    !isOrderHint
+                  }
+                />
               ))}
             </div>
           </section>
@@ -120,7 +122,12 @@ const OrderDetailPop = ({
           <button className="footer-cancel" onClick={hideModal}>
             취 소
           </button>
-          <button className="footer-cancel footer-cart" onClick={handleCart}>
+          <button
+            className={`footer-cancel footer-cart ${
+              isOrderHint ? "blink" : ""
+            }`}
+            onClick={handleCart}
+          >
             주문담기
           </button>
         </footer>
@@ -130,6 +137,12 @@ const OrderDetailPop = ({
 };
 
 export default OrderDetailPop;
+
+const BlinkHint = keyframes`
+  50% {
+    opacity: 0.5;
+  }
+`;
 
 const OrderDetailPopBlock = styled(PopLayoutBlock)`
   article {
@@ -180,10 +193,10 @@ const OrderDetailPopBlock = styled(PopLayoutBlock)`
       }
     }
     &__content {
-      display: flex;
       padding: 0 8px;
       height: 350px;
       &__card {
+        display: inline-block;
         position: relative;
         width: 90px;
         height: 130px;
@@ -229,5 +242,8 @@ const OrderDetailPopBlock = styled(PopLayoutBlock)`
     .footer-cart {
       background: #6796fc;
     }
+  }
+  .blink {
+    animation: ${BlinkHint} 1.5s step-end infinite;
   }
 `;
