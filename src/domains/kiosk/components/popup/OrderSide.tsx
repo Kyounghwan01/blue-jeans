@@ -1,5 +1,5 @@
 import { memo } from "react";
-import styled, { css, keyframes } from "styled-components";
+import styled from "styled-components";
 import CheckCircleSharpIcon from "@mui/icons-material/CheckCircleSharp";
 import { ISide } from "features/types/educationSliceType";
 
@@ -14,7 +14,7 @@ const OrderSide = ({ side, handleSideMenu, isHint }: IOrderSide) => {
     <OrderSideBlock
       key={side.name}
       onClick={() => handleSideMenu(side)}
-      isHint={isHint}
+      className={`${isHint && "blink"}`}
     >
       {side.checked && (
         <div className="checked">
@@ -24,24 +24,13 @@ const OrderSide = ({ side, handleSideMenu, isHint }: IOrderSide) => {
       <div className="image"></div>
       <div className="content txt-c">
         <span>{side.name}</span>
-        <span>+{side.price}</span>
+        <span>+{side.price.toLocaleString()}</span>
       </div>
     </OrderSideBlock>
   );
 };
 
-const BlinkHint = keyframes`
-  50% {
-    opacity: 0.5;
-  }
-`;
-
-const OrderSideBlock = styled.section<{ isHint: boolean }>`
-  ${(props) =>
-    props.isHint &&
-    css`
-      animation: ${BlinkHint} 1.5s step-end infinite;
-    `}
+const OrderSideBlock = styled.section`
   position: relative;
   width: 90px;
   height: 130px;

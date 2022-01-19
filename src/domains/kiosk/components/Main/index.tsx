@@ -4,7 +4,7 @@ import KioskCounter from "components/molecules/KioskCounter";
 import Card from "components/atom/Card";
 import useMain from "domains/kiosk/hooks/useMain";
 
-const Index = ({ hint }: { hint: { desc: string }[] }) => {
+const Index = () => {
   const {
     tab,
     setTab,
@@ -15,14 +15,13 @@ const Index = ({ hint }: { hint: { desc: string }[] }) => {
     totalOrder,
     confirmOrder,
     handleOrderReset,
-    currentHintStep,
-  } = useMain({ hint });
+    currentHintStep
+  } = useMain();
 
   return (
     <Block>
-      {currentHintStep}
       <section className="tab">
-        {kioskTab.map((tab) => (
+        {kioskTab.map(tab => (
           <div key={tab.type} onClick={() => setTab(tab.type)}>
             <span>{tab.label}</span>
           </div>
@@ -31,13 +30,13 @@ const Index = ({ hint }: { hint: { desc: string }[] }) => {
 
       <div className="main">
         {kioskProducts
-          .filter((product) => product.type === tab)
-          .map((product) => (
+          .filter(product => product.type === tab)
+          .map(product => (
             <Card
               key={product.name}
               product={product}
               onClick={handleOrderList}
-              isHint={product.name === "무공돈까스" && currentHintStep >= 0}
+              isHint={product.name === "무공돈까스" && currentHintStep <= 1}
             />
           ))}
       </div>
@@ -51,7 +50,7 @@ const Index = ({ hint }: { hint: { desc: string }[] }) => {
             <div></div>
           </div>
           <div className="bill__list__menu">
-            {orderList.map((order) => (
+            {orderList.map(order => (
               <div className="bill__list__menu__wrapper" key={order.name}>
                 <div className="bill__list__menu__name">{order.name}</div>
                 <div className="bill__list__menu__count">
@@ -60,6 +59,9 @@ const Index = ({ hint }: { hint: { desc: string }[] }) => {
                     order={order.name}
                     increse={handleCount}
                     decrese={handleCount}
+                    isHint={
+                      order.name.includes("무공돈까스") && currentHintStep === 2
+                    }
                   />
                 </div>
                 <div>{order.totalPrice.toLocaleString()}</div>
@@ -92,7 +94,12 @@ const Index = ({ hint }: { hint: { desc: string }[] }) => {
               취소
             </div>
             <div className="bill__footer__card__payment">payco</div>
-            <div className="bill__footer__card__payment" onClick={confirmOrder}>
+            <div
+              className={`bill__footer__card__payment ${
+                currentHintStep === 3 && "blink"
+              }`}
+              onClick={confirmOrder}
+            >
               카드결제
             </div>
           </div>

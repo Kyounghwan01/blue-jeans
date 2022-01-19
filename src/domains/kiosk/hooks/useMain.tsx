@@ -6,43 +6,36 @@ import {
   removeOrderList,
   handleOrderCount,
   resetOrderList,
-  setCurrentHintStep,
   setCurrentOrder,
+  setKioskTutotialHint
 } from "features/educationSlice";
 import { IOrderList } from "features/types/educationSliceType";
 import { RootState } from "app/store";
 import usePopup from "hooks/usePopup";
 
-// let timeOutId: NodeJS.Timeout | null = null;
-
-export default function useMain({ hint }: { hint: { desc: string }[] }) {
+export default function useMain() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { orderList, currentHintStep, currentOrder } = useSelector(
-    (state: RootState) => ({
-      orderList: state.education.orderList,
-      currentOrder: state.education.currentOrder,
-      currentHintStep: state.education.currentHintStep,
-    }),
-    shallowEqual
-  );
+  const { orderList, currentHintStep, currentOrder, kioskTutorialHint } =
+    useSelector(
+      (state: RootState) => ({
+        orderList: state.education.orderList,
+        currentOrder: state.education.currentOrder,
+        currentHintStep: state.education.currentHintStep,
+        kioskTutorialHint: state.education.kioskTutorialHint
+      }),
+      shallowEqual
+    );
   const [tab, setTab] = useState<string>("fork");
-  // const [visualHint, setVisualHint] = useState<number>(-1);
   const { handleDomainPopup, handlePopup } = usePopup();
 
   useEffect(() => {
-    // if (timeOutId) {
-    //   clearTimeout(timeOutId);
-    // }
-
-    // timeOutId = setTimeout(() => {
-    //   setVisualHint(currentHintStep);
-    // }, 10000);
+    if (!kioskTutorialHint[currentHintStep].desc) return;
 
     handlePopup("common/Alert", "", {
-      desc: hint[currentHintStep].desc,
+      desc: kioskTutorialHint[currentHintStep].desc,
       autoClose: { time: 3000 },
-      onClose: popupCallback,
+      onClose: popupCallback
     });
   }, [currentHintStep]);
 
@@ -52,20 +45,22 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
           "kiosk/components/popup/OrderDetailPop",
           "주문디테일",
           {
-            order: currentOrder,
+            order: currentOrder as IOrderList & {
+              side: { name: string; price: number }[];
+            },
             visualHint: currentHintStep,
-            onClose: handleOrderListWithSide,
+            onClose: handleOrderListWithSide
           }
         )
       : null;
   }, [currentHintStep]);
 
-  const handleOrderListWithSide = useCallback((order) => {
+  const handleOrderListWithSide = useCallback(order => {
     let payload = {
       type: order.type,
       name: order.name,
       price: order.price,
-      count: 1,
+      count: 1
     } as IOrderList;
 
     if (order.side.length) {
@@ -80,7 +75,7 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
       dispatch(setCurrentOrder(order));
 
       if (order.name === "무공돈까스" && currentHintStep === 0) {
-        return dispatch(setCurrentHintStep(1));
+        return dispatch(setKioskTutotialHint(1));
       }
 
       if (!order.side) {
@@ -89,7 +84,7 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
             type: order.type,
             name: order.name,
             price: order.price,
-            count: 1,
+            count: 1
           })
         );
       }
@@ -97,17 +92,22 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
       handleDomainPopup("kiosk/components/popup/OrderDetailPop", "주문디테일", {
         order,
         visualHint: currentHintStep,
-        onClose: handleOrderListWithSide,
+        onClose: handleOrderListWithSide
       });
     },
     [currentHintStep]
   );
 
-  const deleteOrder = useCallback((event) => {
+  const deleteOrder = useCallback(event => {
     dispatch(removeOrderList(event.target.dataset.name));
   }, []);
 
-  const handleCount = useCallback((type, product) => {
+  const handleCount = useCallback((type, product, isHint) => {
+    //
+    console.log(11, isHint);
+    if (isHint) {
+      dispatch(setKioskTutotialHint(3));
+    }
     dispatch(handleOrderCount({ type, product }));
   }, []);
 
@@ -120,7 +120,7 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
   const totalOrder = useMemo(() => {
     let count = 0;
     let price = 0;
-    orderList.forEach((order) => {
+    orderList.forEach(order => {
       price += order.totalPrice;
       count += order.count;
     });
@@ -128,17 +128,19 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
   }, [orderList]);
 
   const confirmOrder = useCallback(() => {
+    dispatch(setKioskTutotialHint(4));
+
     handleDomainPopup("kiosk/components/popup/OrderListPop", "주문리스트", {
       orderList,
       totalOrder,
-      onClose: popPayment,
+      onClose: popPayment
     });
   }, [orderList]);
 
   const popPayment = useCallback(({ type }: { type: string }) => {
     handleDomainPopup("kiosk/components/popup/OrderPayment", "결제", {
       type,
-      onClose: () => router.push("/education"),
+      onClose: () => router.push("/education")
     });
   }, []);
 
@@ -152,7 +154,7 @@ export default function useMain({ hint }: { hint: { desc: string }[] }) {
     totalOrder,
     confirmOrder,
     handleOrderReset,
-    currentHintStep,
+    currentHintStep
     // visualHint,
   };
 }

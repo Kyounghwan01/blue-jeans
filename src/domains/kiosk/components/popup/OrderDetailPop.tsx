@@ -1,12 +1,16 @@
 import { useState, useCallback, useMemo } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import { IOrderList } from "features/types/educationSliceType";
 import { PopLayoutBlock } from "components/common/BasicLayout/BasicLayout.styled";
 import OrderSide from "domains/kiosk/components/popup/OrderSide";
+import { setKioskTutotialHint } from "features/educationSlice";
 
 interface IAlert {
   extraData: {
-    order: IOrderList;
+    order: IOrderList & {
+      side: { name: string; price: number }[];
+    };
     visualHint: number;
     onClose: (order: any) => void;
   };
@@ -24,17 +28,18 @@ const OrderDetailPop = ({
       type: "",
       count: 0,
       totalPrice: 0,
-      side: [{ name: "", price: 0 }],
+      side: [{ name: "", price: 0 }]
     },
-    visualHint: 0,
-  },
+    visualHint: 0
+  }
 }: IAlert) => {
+  const dispatch = useDispatch();
   const [currentOrder, setCurrentOrder] = useState(extraData.order);
   const [isOrderHint, setIsOrderHint] = useState<boolean>(false);
 
-  const handleSideMenu = useCallback((product) => {
-    setCurrentOrder((prev) => {
-      const newSide = prev.side?.map((side) => {
+  const handleSideMenu = useCallback(product => {
+    setCurrentOrder(prev => {
+      const newSide = prev.side.map(side => {
         if (side.name === product.name) {
           if (currentOrder.name === "무공돈까스" && product.name === "공깃밥") {
             setIsOrderHint(!side.checked);
@@ -51,8 +56,8 @@ const OrderDetailPop = ({
   const totalPrice = useMemo(() => {
     let sidePrice = currentOrder.price;
 
-    if (currentOrder.side?.length) {
-      currentOrder.side?.forEach((side) => {
+    if (currentOrder.side.length) {
+      currentOrder.side.forEach(side => {
         if (side.checked) {
           sidePrice += side.price;
         }
@@ -63,15 +68,25 @@ const OrderDetailPop = ({
   }, [currentOrder]);
 
   const handleCart = () => {
+    const index = currentOrder.side.findIndex(side => {
+      return side.name === "공깃밥";
+    });
+    if (
+      index >= -1 &&
+      currentOrder.name === "무공돈까스" &&
+      !!currentOrder.side[index].checked
+    ) {
+      dispatch(setKioskTutotialHint(2));
+    }
+
     const payloadSide =
       currentOrder.side
-        ?.map((side) => {
+        .map(side => {
           return side.checked ? side.name : null;
         })
-        .filter((side) => side) || [];
+        .filter(side => side) || [];
 
     hideModal();
-    // todo: hint를 [{desc: '', done: false/true}] 로 해야겠는데
     if (typeof extraData.onClose === "function") {
       extraData.onClose({
         ...currentOrder,
@@ -79,7 +94,7 @@ const OrderDetailPop = ({
           ? `${currentOrder.name} (${payloadSide.join(",")})`
           : currentOrder.name,
         price: totalPrice,
-        side: payloadSide,
+        side: payloadSide
       });
     }
   };
@@ -101,16 +116,15 @@ const OrderDetailPop = ({
           <section className="side">
             <div className="side__desc">추가시 선택해주세요</div>
             <div className="side__content">
-              {currentOrder.side.map((side) => (
+              {currentOrder.side.map(side => (
                 <OrderSide
                   key={side.name}
                   side={side}
                   handleSideMenu={handleSideMenu}
-                  // 공깃밥 넣고
                   isHint={
                     currentOrder.name === "무공돈까스" &&
                     side.name === "공깃밥" &&
-                    extraData.visualHint >= 1 &&
+                    extraData.visualHint <= 1 &&
                     !isOrderHint
                   }
                 />
@@ -137,12 +151,6 @@ const OrderDetailPop = ({
 };
 
 export default OrderDetailPop;
-
-const BlinkHint = keyframes`
-  50% {
-    opacity: 0.5;
-  }
-`;
 
 const OrderDetailPopBlock = styled(PopLayoutBlock)`
   article {
@@ -242,8 +250,5 @@ const OrderDetailPopBlock = styled(PopLayoutBlock)`
     .footer-cart {
       background: #6796fc;
     }
-  }
-  .blink {
-    animation: ${BlinkHint} 1.5s step-end infinite;
   }
 `;

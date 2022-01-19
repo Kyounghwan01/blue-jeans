@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
 import usePopup from "hooks/usePopup";
-import { setCurrentHintStep } from "features/educationSlice";
+import { resetStore } from "features/educationSlice";
 
 const Index = ({
   next,
@@ -16,7 +16,7 @@ const Index = ({
   const [visualHint, setVisualHint] = useState<number>(-1);
 
   useEffect(() => {
-    dispatch(setCurrentHintStep(0));
+    dispatch(resetStore());
     handlePopup("common/Alert", "", {
       desc: hint[0].desc,
       autoClose: { time: 3000 }
@@ -26,18 +26,11 @@ const Index = ({
       setVisualHint(0);
     }, 7000);
 
-    // step으로 나누고 힌트도 null이거나 스탭 명으로 주면 되겠네.
-    // 그에따라 props으로 css 힌트 값을 넘기면 되겠네
     return () => clearTimeout(introHint);
   }, []);
 
   return (
     <Block visualHint={visualHint}>
-      {/* {hint && (
-        <article className="hint">
-          <div className="hint__order-button" />
-        </article>
-      )} */}
       <article className="main">
         <button className="main__order-button" onClick={next}>
           주문하기
@@ -75,21 +68,6 @@ const Block = styled.article<{ visualHint: number }>`
         css`
           animation: ${BlinkHint} 1.5s step-end infinite;
         `}
-    }
-  }
-  .hint {
-    /* 여기는 힌트가 있을때만 발현할꺼야, 그리고 힌트의 number에 따라서 HTML CSS가 달라져야해 */
-    height: 100%;
-    width: 100%;
-    top: 0;
-    &__order-button {
-      width: calc(50% + 30px);
-      height: 100px;
-      background: white;
-      border-radius: 32px;
-      position: fixed;
-      left: calc(50% - 25vw - 15px); // 원본 left - 늘어난width/2
-      bottom: 75px; // 원복 Height - (원본 height - 배경 height) / 2
     }
   }
 `;

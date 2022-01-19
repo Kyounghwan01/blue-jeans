@@ -16,6 +16,7 @@ export interface IEductionSlice {
   orderList: IOrderList[];
   currentOrder: IOrderList | null;
   currentHintStep: number;
+  kioskTutorialHint: { desc: string; done: boolean }[];
 }
 
 export interface IMenu {
