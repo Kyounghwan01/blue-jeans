@@ -1,10 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IEductionSlice } from "features/types/educationSliceType";
+import { IEductionSlice, IOrderList } from "features/types/educationSliceType";
 
 const initialState: IEductionSlice = {
-  currentStep: 0,
   orderList: [],
-  currentOrder: null
+  currentOrder: null,
+  currentHintStep: 0,
+  kioskTutorialHint: [
+    { desc: "무공 돈까스를 클릭해주세요!", done: false },
+    { desc: "무공 돈까스에 공깃밥을 추가해주세요!", done: false },
+    { desc: "무공 돈까스를 하나 더 추가해주세요!", done: false },
+    { desc: "결제 버튼을 클릭해주세요!", done: false },
+    { desc: "", done: false }
+  ]
 };
 
 export const educationSlice = createSlice({
@@ -12,11 +19,14 @@ export const educationSlice = createSlice({
   initialState,
   reducers: {
     resetStore: state => {
-      state.currentStep = 0;
       state.orderList = [];
+      state.kioskTutorialHint = state.kioskTutorialHint.map(hint => {
+        return { ...hint, done: false };
+      });
+      state.currentHintStep = 0;
     },
-    setCurrentStep: (state, action: PayloadAction<number>) => {
-      state.currentStep = action.payload;
+    setCurrentOrder: (state, action: PayloadAction<IOrderList>) => {
+      state.currentOrder = action.payload;
     },
     addOrderList: (
       state,
@@ -68,17 +78,23 @@ export const educationSlice = createSlice({
     },
     resetOrderList: state => {
       state.orderList = [];
+    },
+    setKioskTutotialHint: (state, action: PayloadAction<number>) => {
+      state.currentHintStep = action.payload;
+      state.kioskTutorialHint[action.payload].done =
+        !state.kioskTutorialHint[action.payload].done;
     }
   }
 });
 
 export const {
-  setCurrentStep,
   resetStore,
   addOrderList,
   removeOrderList,
   handleOrderCount,
-  resetOrderList
+  resetOrderList,
+  setCurrentOrder,
+  setKioskTutotialHint
 } = educationSlice.actions;
 
 export default educationSlice.reducer;

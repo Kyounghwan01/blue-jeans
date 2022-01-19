@@ -1,5 +1,11 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, keyframes } from "styled-components";
 import { normalize } from "styled-normalize";
+
+const BlinkHint = keyframes`
+  50% {
+    opacity: 0.6;
+  }
+`;
 
 export const GlobalStyle = createGlobalStyle`
   ${normalize}
@@ -21,6 +27,10 @@ export const GlobalStyle = createGlobalStyle`
   }
   .txt-l {
     text-align: left;
+  }
+
+  .blink {
+    animation: ${BlinkHint} 1.5s step-end infinite;
   }
 
   p {

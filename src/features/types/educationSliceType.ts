@@ -13,9 +13,10 @@ export interface IOrderList {
   }[];
 }
 export interface IEductionSlice {
-  currentStep: number;
   orderList: IOrderList[];
   currentOrder: IOrderList | null;
+  currentHintStep: number;
+  kioskTutorialHint: { desc: string; done: boolean }[];
 }
 
 export interface IMenu {
@@ -29,4 +30,10 @@ export interface IMenu {
     price: number;
     img?: string;
   }[];
+}
+
+export interface ISide {
+  name: string;
+  price: number;
+  img?: string;
 }

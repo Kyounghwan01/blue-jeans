@@ -3,7 +3,6 @@ import { kioskProducts, kioskTab } from "utils/constants";
 import KioskCounter from "components/molecules/KioskCounter";
 import Card from "components/atom/Card";
 import useMain from "domains/kiosk/hooks/useMain";
-import { IMenu } from "features/types/educationSliceType";
 
 const Index = () => {
   const {
@@ -15,7 +14,8 @@ const Index = () => {
     handleCount,
     totalOrder,
     confirmOrder,
-    handleOrderReset
+    handleOrderReset,
+    currentHintStep
   } = useMain();
 
   return (
@@ -36,6 +36,7 @@ const Index = () => {
               key={product.name}
               product={product}
               onClick={handleOrderList}
+              isHint={product.name === "무공돈까스" && currentHintStep <= 1}
             />
           ))}
       </div>
@@ -58,6 +59,9 @@ const Index = () => {
                     order={order.name}
                     increse={handleCount}
                     decrese={handleCount}
+                    isHint={
+                      order.name.includes("무공돈까스") && currentHintStep === 2
+                    }
                   />
                 </div>
                 <div>{order.totalPrice.toLocaleString()}</div>
@@ -90,7 +94,12 @@ const Index = () => {
               취소
             </div>
             <div className="bill__footer__card__payment">payco</div>
-            <div className="bill__footer__card__payment" onClick={confirmOrder}>
+            <div
+              className={`bill__footer__card__payment ${
+                currentHintStep === 3 && "blink"
+              }`}
+              onClick={confirmOrder}
+            >
               카드결제
             </div>
           </div>

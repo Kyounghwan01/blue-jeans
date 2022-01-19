@@ -1,12 +1,17 @@
 import { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import { IOrderList } from "features/types/educationSliceType";
 import { PopLayoutBlock } from "components/common/BasicLayout/BasicLayout.styled";
-import CheckCircleSharpIcon from "@mui/icons-material/CheckCircleSharp";
+import OrderSide from "domains/kiosk/components/popup/OrderSide";
+import { setKioskTutotialHint } from "features/educationSlice";
 
 interface IAlert {
   extraData: {
-    order: IOrderList;
+    order: IOrderList & {
+      side: { name: string; price: number }[];
+    };
+    visualHint: number;
     onClose: (order: any) => void;
   };
   hideModal: () => void;
@@ -24,15 +29,21 @@ const OrderDetailPop = ({
       count: 0,
       totalPrice: 0,
       side: [{ name: "", price: 0 }]
-    }
+    },
+    visualHint: 0
   }
 }: IAlert) => {
+  const dispatch = useDispatch();
   const [currentOrder, setCurrentOrder] = useState(extraData.order);
+  const [isOrderHint, setIsOrderHint] = useState<boolean>(false);
 
   const handleSideMenu = useCallback(product => {
     setCurrentOrder(prev => {
-      const newSide = prev.side?.map(side => {
+      const newSide = prev.side.map(side => {
         if (side.name === product.name) {
+          if (currentOrder.name === "무공돈까스" && product.name === "공깃밥") {
+            setIsOrderHint(!side.checked);
+          }
           return { ...side, checked: !side.checked };
         } else {
           return side;
@@ -45,8 +56,8 @@ const OrderDetailPop = ({
   const totalPrice = useMemo(() => {
     let sidePrice = currentOrder.price;
 
-    if (currentOrder.side?.length) {
-      currentOrder.side?.forEach(side => {
+    if (currentOrder.side.length) {
+      currentOrder.side.forEach(side => {
         if (side.checked) {
           sidePrice += side.price;
         }
@@ -57,9 +68,20 @@ const OrderDetailPop = ({
   }, [currentOrder]);
 
   const handleCart = () => {
+    const index = currentOrder.side.findIndex(side => {
+      return side.name === "공깃밥";
+    });
+    if (
+      index >= -1 &&
+      currentOrder.name === "무공돈까스" &&
+      !!currentOrder.side[index].checked
+    ) {
+      dispatch(setKioskTutotialHint(2));
+    }
+
     const payloadSide =
       currentOrder.side
-        ?.map(side => {
+        .map(side => {
           return side.checked ? side.name : null;
         })
         .filter(side => side) || [];
@@ -95,22 +117,17 @@ const OrderDetailPop = ({
             <div className="side__desc">추가시 선택해주세요</div>
             <div className="side__content">
               {currentOrder.side.map(side => (
-                <div
+                <OrderSide
                   key={side.name}
-                  className="side__content__card"
-                  onClick={() => handleSideMenu(side)}
-                >
-                  {side.checked && (
-                    <div className="side__content__card__checked">
-                      <CheckCircleSharpIcon color="primary" />
-                    </div>
-                  )}
-                  <div className="side__content__card__image"></div>
-                  <div className="side__content__card__content txt-c">
-                    <span>{side.name}</span>
-                    <span>+{side.price}</span>
-                  </div>
-                </div>
+                  side={side}
+                  handleSideMenu={handleSideMenu}
+                  isHint={
+                    currentOrder.name === "무공돈까스" &&
+                    side.name === "공깃밥" &&
+                    extraData.visualHint <= 1 &&
+                    !isOrderHint
+                  }
+                />
               ))}
             </div>
           </section>
@@ -119,7 +136,12 @@ const OrderDetailPop = ({
           <button className="footer-cancel" onClick={hideModal}>
             취 소
           </button>
-          <button className="footer-cancel footer-cart" onClick={handleCart}>
+          <button
+            className={`footer-cancel footer-cart ${
+              isOrderHint ? "blink" : ""
+            }`}
+            onClick={handleCart}
+          >
             주문담기
           </button>
         </footer>
@@ -134,7 +156,7 @@ const OrderDetailPopBlock = styled(PopLayoutBlock)`
   article {
     position: relative;
     background: white;
-    width: 90vw;
+    width: calc(100% - 10px);
     height: 80vh;
     border-radius: 4px;
   }
@@ -179,10 +201,10 @@ const OrderDetailPopBlock = styled(PopLayoutBlock)`
       }
     }
     &__content {
-      display: flex;
       padding: 0 8px;
       height: 350px;
       &__card {
+        display: inline-block;
         position: relative;
         width: 90px;
         height: 130px;

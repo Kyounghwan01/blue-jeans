@@ -4,15 +4,19 @@ import AddSharpIcon from "@mui/icons-material/AddSharp";
 
 export default function CountIcon({
   type,
-  onClick
+  onClick,
+  isHint
 }: {
   type: string;
   onClick: () => void;
+  isHint: boolean;
 }) {
   return (
     <CountIconBlock onClick={onClick}>
       {type === "add" ? (
-        <AddSharpIcon style={{ color: "white" }} />
+        <div className={`${isHint && "blink"}`}>
+          <AddSharpIcon style={{ color: "white" }} />
+        </div>
       ) : (
         <RemoveSharpIcon style={{ color: "white" }} />
       )}

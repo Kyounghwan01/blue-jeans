@@ -68,14 +68,43 @@ export const kioskProducts = [
     name: "치즈돈까스",
     price: 7900,
     img: "",
-    desc: "치즈돈까스가 맛있다는 코멘트"
+    desc: "치즈돈까스가 맛있다는 코멘트",
+    side: [
+      {
+        name: "공깃밥",
+        price: 1000,
+        img: ""
+      },
+      {
+        name: "돈까스 추가",
+        price: 3000,
+        img: ""
+      },
+      {
+        name: "돈까스 두개 추가",
+        price: 4500,
+        img: ""
+      }
+    ]
   },
   {
     type: "fork",
     name: "옛날돈까스",
     price: 7900,
     img: "",
-    desc: "옛날돈가 맛있다는 코멘트"
+    desc: "옛날돈가 맛있다는 코멘트",
+    side: [
+      {
+        name: "돈까스 추가",
+        price: 3000,
+        img: ""
+      },
+      {
+        name: "돈까스 두개 추가",
+        price: 4500,
+        img: ""
+      }
+    ]
   },
   {
     type: "fork",

@@ -5,16 +5,31 @@ import CountIcon from "components/atom/CountIcon";
 interface IKioskCounter {
   count: number;
   order: string;
-  increse: (type: string, order: string) => void;
-  decrese: (type: string, order: string) => void;
+  increse: (type: string, order: string, isHint: boolean) => void;
+  decrese: (type: string, order: string, isHint: boolean) => void;
+  isHint: boolean;
 }
 
-const KioskCounter = ({ count, order, increse, decrese }: IKioskCounter) => {
+const KioskCounter = ({
+  count,
+  order,
+  increse,
+  decrese,
+  isHint
+}: IKioskCounter) => {
   return (
     <KioskCounterBlock>
-      <CountIcon type="decrese" onClick={() => decrese("remove", order)} />
+      <CountIcon
+        type="decrese"
+        onClick={() => decrese("remove", order, false)}
+        isHint={false}
+      />
       <div className="count">{count}</div>
-      <CountIcon type="add" onClick={() => increse("add", order)} />
+      <CountIcon
+        type="add"
+        isHint={isHint}
+        onClick={() => increse("add", order, isHint)}
+      />
     </KioskCounterBlock>
   );
 };

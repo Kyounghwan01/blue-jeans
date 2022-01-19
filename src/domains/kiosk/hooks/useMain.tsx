@@ -1,11 +1,13 @@
-import { useState, useMemo, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useRouter } from "next/router";
 import {
   addOrderList,
   removeOrderList,
   handleOrderCount,
-  resetOrderList
+  resetOrderList,
+  setCurrentOrder,
+  setKioskTutotialHint
 } from "features/educationSlice";
 import { IOrderList } from "features/types/educationSliceType";
 import { RootState } from "app/store";
@@ -14,9 +16,44 @@ import usePopup from "hooks/usePopup";
 export default function useMain() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { orderList } = useSelector((state: RootState) => state.education);
+  const { orderList, currentHintStep, currentOrder, kioskTutorialHint } =
+    useSelector(
+      (state: RootState) => ({
+        orderList: state.education.orderList,
+        currentOrder: state.education.currentOrder,
+        currentHintStep: state.education.currentHintStep,
+        kioskTutorialHint: state.education.kioskTutorialHint
+      }),
+      shallowEqual
+    );
   const [tab, setTab] = useState<string>("fork");
-  const { handleDomainPopup } = usePopup();
+  const { handleDomainPopup, handlePopup } = usePopup();
+
+  useEffect(() => {
+    if (!kioskTutorialHint[currentHintStep].desc) return;
+
+    handlePopup("common/Alert", "", {
+      desc: kioskTutorialHint[currentHintStep].desc,
+      autoClose: { time: 3000 },
+      onClose: popupCallback
+    });
+  }, [currentHintStep]);
+
+  const popupCallback = useCallback(() => {
+    return currentHintStep === 1
+      ? handleDomainPopup(
+          "kiosk/components/popup/OrderDetailPop",
+          "주문디테일",
+          {
+            order: currentOrder as IOrderList & {
+              side: { name: string; price: number }[];
+            },
+            visualHint: currentHintStep,
+            onClose: handleOrderListWithSide
+          }
+        )
+      : null;
+  }, [currentHintStep]);
 
   const handleOrderListWithSide = useCallback(order => {
     let payload = {
@@ -33,35 +70,52 @@ export default function useMain() {
     return dispatch(addOrderList(payload));
   }, []);
 
-  const handleOrderList = useCallback((order: IOrderList) => {
-    if (!order.side) {
-      return dispatch(
-        addOrderList({
-          type: order.type,
-          name: order.name,
-          price: order.price,
-          count: 1
-        })
-      );
-    }
+  const handleOrderList = useCallback(
+    (order: IOrderList) => {
+      dispatch(setCurrentOrder(order));
 
-    handleDomainPopup("kiosk/components/popup/OrderDetailPop", "주문디테일", {
-      order,
-      onClose: handleOrderListWithSide
-    });
-  }, []);
+      if (order.name === "무공돈까스" && currentHintStep === 0) {
+        return dispatch(setKioskTutotialHint(1));
+      }
+
+      if (!order.side) {
+        return dispatch(
+          addOrderList({
+            type: order.type,
+            name: order.name,
+            price: order.price,
+            count: 1
+          })
+        );
+      }
+
+      handleDomainPopup("kiosk/components/popup/OrderDetailPop", "주문디테일", {
+        order,
+        visualHint: currentHintStep,
+        onClose: handleOrderListWithSide
+      });
+    },
+    [currentHintStep]
+  );
 
   const deleteOrder = useCallback(event => {
     dispatch(removeOrderList(event.target.dataset.name));
   }, []);
 
-  const handleCount = useCallback((type, product) => {
+  const handleCount = useCallback((type, product, isHint) => {
+    //
+    console.log(11, isHint);
+    if (isHint) {
+      dispatch(setKioskTutotialHint(3));
+    }
     dispatch(handleOrderCount({ type, product }));
   }, []);
 
   const handleOrderReset = useCallback(() => {
-    dispatch(resetOrderList());
-  }, []);
+    if (orderList.length) {
+      dispatch(resetOrderList());
+    }
+  }, [orderList]);
 
   const totalOrder = useMemo(() => {
     let count = 0;
@@ -74,6 +128,8 @@ export default function useMain() {
   }, [orderList]);
 
   const confirmOrder = useCallback(() => {
+    dispatch(setKioskTutotialHint(4));
+
     handleDomainPopup("kiosk/components/popup/OrderListPop", "주문리스트", {
       orderList,
       totalOrder,
@@ -97,6 +153,8 @@ export default function useMain() {
     handleCount,
     totalOrder,
     confirmOrder,
-    handleOrderReset
+    handleOrderReset,
+    currentHintStep
+    // visualHint,
   };
 }
