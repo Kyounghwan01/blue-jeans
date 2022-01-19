@@ -137,9 +137,7 @@ const OrderDetailPop = ({
             취 소
           </button>
           <button
-            className={`footer-cancel footer-cart ${
-              isOrderHint ? "blink" : ""
-            }`}
+            className={`footer-cancel footer-cart ${isOrderHint && "blink"}`}
             onClick={handleCart}
           >
             주문담기
