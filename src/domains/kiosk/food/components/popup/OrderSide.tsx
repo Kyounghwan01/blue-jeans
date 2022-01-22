@@ -1,7 +1,7 @@
 import { memo } from "react";
 import styled from "styled-components";
 import CheckCircleSharpIcon from "@mui/icons-material/CheckCircleSharp";
-import { ISide } from "features/types/educationSliceType";
+import { ISide } from "features/types/foodKioskSliceType";
 
 interface IOrderSide {
   side: ISide & { checked?: boolean };

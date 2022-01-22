@@ -8,10 +8,12 @@ import {
   resetOrderList,
   setCurrentOrder,
   setKioskTutotialHint
-} from "features/educationSlice";
-import { IOrderList } from "features/types/educationSliceType";
+} from "features/kiosk/foodKioskSlice";
+import { IOrderList } from "features/types/foodKioskSliceType";
 import { RootState } from "app/store";
 import usePopup from "hooks/usePopup";
+
+const BasicPopRoute = "kiosk/food/components/popup";
 
 export default function useMain() {
   const router = useRouter();
@@ -19,10 +21,10 @@ export default function useMain() {
   const { orderList, currentHintStep, currentOrder, kioskTutorialHint } =
     useSelector(
       (state: RootState) => ({
-        orderList: state.education.orderList,
-        currentOrder: state.education.currentOrder,
-        currentHintStep: state.education.currentHintStep,
-        kioskTutorialHint: state.education.kioskTutorialHint
+        orderList: state.foodKiosk.orderList,
+        currentOrder: state.foodKiosk.currentOrder,
+        currentHintStep: state.foodKiosk.currentHintStep,
+        kioskTutorialHint: state.foodKiosk.kioskTutorialHint
       }),
       shallowEqual
     );
@@ -41,17 +43,13 @@ export default function useMain() {
 
   const popupCallback = useCallback(() => {
     return currentHintStep === 1
-      ? handleDomainPopup(
-          "kiosk/components/popup/OrderDetailPop",
-          "주문디테일",
-          {
-            order: currentOrder as IOrderList & {
-              side: { name: string; price: number }[];
-            },
-            visualHint: currentHintStep,
-            onClose: handleOrderListWithSide
-          }
-        )
+      ? handleDomainPopup(`${BasicPopRoute}/OrderDetailPop`, "주문디테일", {
+          order: currentOrder as IOrderList & {
+            side: { name: string; price: number }[];
+          },
+          visualHint: currentHintStep,
+          onClose: handleOrderListWithSide
+        })
       : null;
   }, [currentHintStep]);
 
@@ -89,7 +87,7 @@ export default function useMain() {
         );
       }
 
-      handleDomainPopup("kiosk/components/popup/OrderDetailPop", "주문디테일", {
+      handleDomainPopup(`${BasicPopRoute}/OrderDetailPop`, "주문디테일", {
         order,
         visualHint: currentHintStep,
         onClose: handleOrderListWithSide
@@ -130,7 +128,7 @@ export default function useMain() {
   const confirmOrder = useCallback(() => {
     dispatch(setKioskTutotialHint(4));
 
-    handleDomainPopup("kiosk/components/popup/OrderListPop", "주문리스트", {
+    handleDomainPopup(`${BasicPopRoute}/OrderListPop`, "주문리스트", {
       orderList,
       totalOrder,
       onClose: popPayment
@@ -138,7 +136,7 @@ export default function useMain() {
   }, [orderList]);
 
   const popPayment = useCallback(({ type }: { type: string }) => {
-    handleDomainPopup("kiosk/components/popup/OrderPayment", "결제", {
+    handleDomainPopup(`${BasicPopRoute}/OrderPayment`, "결제", {
       type,
       onClose: () => router.push("/education")
     });

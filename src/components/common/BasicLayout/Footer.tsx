@@ -25,7 +25,7 @@ const Footer = ({ tab, setTab }: IFooter) => {
     router.push("/friend-chat");
   }, []);
 
-  const goEducation = useCallback(() => {
+  const goKiosk = useCallback(() => {
     router.push("/education");
   }, []);
 
@@ -53,8 +53,8 @@ const Footer = ({ tab, setTab }: IFooter) => {
             icon={<FavoriteIcon />}
           />
           <BottomNavigationAction
-            onClick={goEducation}
-            label="education"
+            onClick={goKiosk}
+            label="kiosk"
             icon={<FavoriteIcon />}
           />
           <BottomNavigationAction

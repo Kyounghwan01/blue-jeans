@@ -1,4 +1,4 @@
-import { IMenu } from "features/types/educationSliceType";
+import { IMenu } from "features/types/foodKioskSliceType";
 
 export const KAKAO_REDIRECT_URI = `${
   process.env.NODE_ENV !== "production"

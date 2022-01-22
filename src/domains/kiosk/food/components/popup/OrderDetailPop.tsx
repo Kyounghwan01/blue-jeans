@@ -1,10 +1,10 @@
 import { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { IOrderList } from "features/types/educationSliceType";
+import { IOrderList } from "features/types/foodKioskSliceType";
 import { PopLayoutBlock } from "components/common/BasicLayout/BasicLayout.styled";
-import OrderSide from "domains/kiosk/components/popup/OrderSide";
-import { setKioskTutotialHint } from "features/educationSlice";
+import OrderSide from "domains/kiosk/food/components/popup/OrderSide";
+import { setKioskTutotialHint } from "features/kiosk/foodKioskSlice";
 
 interface IAlert {
   extraData: {

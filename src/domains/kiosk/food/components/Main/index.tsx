@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { kioskProducts, kioskTab } from "utils/constants";
 import KioskCounter from "components/molecules/KioskCounter";
 import Card from "components/atom/Card";
-import useMain from "domains/kiosk/hooks/useMain";
+import useMain from "domains/kiosk/food/hooks/useMain";
 
 const Index = () => {
   const {

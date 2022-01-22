@@ -7,7 +7,7 @@ import {
 import commonSlice from "features/commonSlice";
 import userSlice from "features/userSlice";
 import qnaSlice from "features/qnaSlice";
-import educationSlice from "features/educationSlice";
+import foodKioskSlice from "features/kiosk/foodKioskSlice";
 import { HYDRATE, createWrapper } from "next-redux-wrapper";
 import logger from "redux-logger";
 
@@ -17,7 +17,7 @@ const combinedReducers = combineReducers({
   user: userSlice,
   qna: qnaSlice,
   common: commonSlice,
-  education: educationSlice
+  foodKiosk: foodKioskSlice
 });
 const reducer = (state: RootState | undefined, action: AnyAction) => {
   if (action.type === HYDRATE) {
@@ -36,9 +36,8 @@ export const store = configureStore({
   devTools: process.env.NODE_ENV !== "production"
 });
 
-// export const store = createStore(reducer, {}, composeWithDevTools());
-
 export const wrapper = createWrapper(makeStore, {
   debug: process.env.NODE_ENV !== "production"
 });
+
 export type AppDispatch = typeof store.dispatch;

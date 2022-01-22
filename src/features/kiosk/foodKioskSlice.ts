@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IEductionSlice, IOrderList } from "features/types/educationSliceType";
+import { IEductionSlice, IOrderList } from "features/types/foodKioskSliceType";
 
 const initialState: IEductionSlice = {
   orderList: [],
@@ -14,8 +14,8 @@ const initialState: IEductionSlice = {
   ]
 };
 
-export const educationSlice = createSlice({
-  name: "education",
+export const foodKioskSlice = createSlice({
+  name: "foodKiosk",
   initialState,
   reducers: {
     resetStore: state => {
@@ -95,6 +95,6 @@ export const {
   resetOrderList,
   setCurrentOrder,
   setKioskTutotialHint
-} = educationSlice.actions;
+} = foodKioskSlice.actions;
 
-export default educationSlice.reducer;
+export default foodKioskSlice.reducer;

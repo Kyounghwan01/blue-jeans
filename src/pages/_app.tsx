@@ -13,9 +13,12 @@ import useGetUsers from "hooks/useGetUsers";
 import { setFontSizeType } from "features/commonSlice";
 import { fontSizeType as typeFontSize } from "features/types/commonSliceType";
 import { GlobalStyle } from "styles/global-styles";
-import "utils/api/firebase";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
+import dayjs from "dayjs";
+import "utils/api/firebase";
+import "dayjs/locale/ko";
+dayjs.locale("ko");
 
 if (process.env.NODE_ENV === "production") {
   Sentry.init({

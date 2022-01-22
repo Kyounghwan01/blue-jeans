@@ -5,7 +5,7 @@ type MyProps = {
   next: () => Promise<boolean>;
   movePage: (pathName: string) => Promise<boolean>;
   name: string;
-  hint: { desc: string }[];
+  hint?: { desc: string }[];
 };
 
 type MyState = {

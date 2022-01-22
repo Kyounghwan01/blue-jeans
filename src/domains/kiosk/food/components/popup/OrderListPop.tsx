@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
-import { IOrderList } from "features/types/educationSliceType";
+import { IOrderList } from "features/types/foodKioskSliceType";
 import { PopLayoutBlock } from "components/common/BasicLayout/BasicLayout.styled";
 
 interface IAlert {
