@@ -45,6 +45,16 @@ export const transportation = {
       header: false
     },
     {
+      step: "SelectDestination",
+      title: "도착지 선택",
+      header: false
+    },
+    {
+      step: "SelectDestination",
+      title: "도착지 선택",
+      header: false
+    },
+    {
       step: "Main",
       title: "메뉴 선택",
       header: false,
