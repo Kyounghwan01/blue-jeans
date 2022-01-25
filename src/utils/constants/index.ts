@@ -228,3 +228,149 @@ export const quilFormats = [
 //     matchVisual: false
 //   }
 // };
+
+export const locations = ["전체", "강원도", "충남", "충북", "전남", "경남"];
+
+export const terminals = [
+  {
+    id: 1,
+    label: "내촌",
+    word: "ㄴ",
+    location: "경기도"
+  },
+  {
+    id: 2,
+    label: "삼척",
+    word: "ㅅ",
+    location: "강원도"
+  },
+  {
+    id: 3,
+    label: "상남",
+    word: "ㅅ",
+    location: "경남"
+  },
+  {
+    id: 4,
+    label: "양양",
+    word: "ㅇ",
+    location: "강원도"
+  },
+  {
+    id: 5,
+    label: "원주",
+    word: "ㅇ",
+    location: "강원도"
+  },
+  {
+    id: 6,
+    label: "양평",
+    word: "ㅇ",
+    location: "경기도"
+  },
+  {
+    id: 7,
+    label: "의정부",
+    word: "ㅇ",
+    location: "경기도"
+  },
+  {
+    id: 8,
+    label: "평택",
+    word: "ㅍ",
+    location: "경기도"
+  },
+  {
+    id: 9,
+    label: "당진",
+    word: "ㄷ",
+    location: "충남"
+  },
+  {
+    id: 10,
+    label: "아산",
+    word: "ㅇ",
+    location: "충남"
+  },
+  {
+    id: 11,
+    label: "천안",
+    word: "ㅊ",
+    location: "충남"
+  },
+  {
+    id: 12,
+    label: "단양",
+    word: "ㄷ",
+    location: "충북"
+  },
+  {
+    id: 13,
+    label: "진천",
+    word: "ㅈ",
+    location: "충북"
+  },
+  {
+    id: 14,
+    label: "청주",
+    word: "ㅊ",
+    location: "충북"
+  },
+  {
+    id: 15,
+    label: "목포",
+    word: "ㅁ",
+    location: "전남"
+  },
+  {
+    id: 16,
+    label: "순천",
+    word: "ㅅ",
+    location: "전남"
+  },
+  {
+    id: 17,
+    label: "여수",
+    word: "ㅇ",
+    location: "전남"
+  },
+  {
+    id: 18,
+    label: "마산",
+    word: "ㅁ",
+    location: "경남"
+  },
+  {
+    id: 19,
+    label: "진주",
+    word: "ㅈ",
+    location: "경남"
+  },
+  {
+    id: 20,
+    label: "통영",
+    word: "ㅌ",
+    location: "경남"
+  }
+] as {
+  id: number;
+  label: string;
+  word: string;
+  location: string;
+}[];
+
+export const word = [
+  "ㄱ",
+  "ㄴ",
+  "ㄷ",
+  "ㄹ",
+  "ㅁ",
+  "ㅂ",
+  "ㅅ",
+  "ㅇ",
+  "ㅈ",
+  "ㅊ",
+  "ㅌ",
+  "ㅍ",
+  "ㅎ"
+];

@@ -1,17 +1,20 @@
-import {
-  KeyboardEvent,
-  ChangeEvent,
-  useEffect,
-  useState,
-  useCallback
-} from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import usePopup from "hooks/usePopup";
 import useByTicket from "domains/kiosk/transportation/hooks/useByTicket";
+import { locations, word } from "utils/constants";
+import WordCard from "./WordCard";
 
 const Index = ({ next }: { next: () => Promise<boolean> }) => {
-  const { currentStep, currentDate, handleCurrentDate } = useByTicket();
-  const [search, setSearch] = useState<string>("");
+  const {
+    currentStep,
+    currentDate,
+    handleCurrentDate,
+    locationCondition,
+    handleSearch,
+    searchLocation,
+    handleCondition
+  } = useByTicket({ next });
   const { handlePopup } = usePopup();
 
   useEffect(() => {
@@ -25,17 +28,11 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
     });
   }, [currentStep]);
 
-  const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.currentTarget);
-    const value = e.currentTarget.value;
-    setSearch(value);
-  }, []);
-
-  const searchKeyword = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      // search!!
-    }
-  }, []);
+  // const searchKeyword = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === "Enter") {
+  //     // search!!
+  //   }
+  // }, []);
 
   return (
     <>
@@ -51,8 +48,12 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
             </div>
           </section>
           {/* store date 값에 의해 validation */}
-          <button>이전날</button>
-          <button>다음날</button>
+          <button onClick={() => handleCurrentDate({ type: "prev" })}>
+            이전날
+          </button>
+          <button onClick={() => handleCurrentDate({ type: "next" })}>
+            다음날
+          </button>
 
           <section>
             <div>
@@ -72,13 +73,50 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
           <p>도착지를 선택해주세요!</p>
         </SelectDestinationBlock>
       ) : (
-        <div>
-          <input
-            value={search}
-            onKeyPress={searchKeyword}
-            onChange={handleSearch}
-          />
-        </div>
+        <SearchDestionBlock>
+          <section className="search">
+            <input
+              value={locationCondition.keyword}
+              // onKeyPress={searchKeyword}
+              onChange={handleSearch}
+            />
+          </section>
+
+          <section className="content">
+            <div className="content__location">
+              {locations.map(locations => (
+                <WordCard
+                  onClick={handleCondition}
+                  type="location"
+                  key={locations}
+                  word={locations}
+                />
+              ))}
+            </div>
+
+            <div className="content__word">
+              {word.map(word => (
+                <WordCard
+                  onClick={handleCondition}
+                  type="word"
+                  key={word}
+                  word={word}
+                />
+              ))}
+            </div>
+
+            <div className="content__search-location">
+              {searchLocation.map(location => (
+                <WordCard
+                  onClick={handleCondition}
+                  type="searchLocation"
+                  key={location.id}
+                  word={location.label}
+                />
+              ))}
+            </div>
+          </section>
+        </SearchDestionBlock>
       )}
     </>
   );
@@ -95,6 +133,26 @@ const SelectDestinationBlock = styled.article`
     width: 100px;
     margin: 20px auto;
     background: grey;
+  }
+`;
+
+const SearchDestionBlock = styled.article`
+  .content {
+    display: grid;
+    grid-template-columns: 3fr 3fr 10fr;
+    padding: 10px 18px;
+    &__location {
+      margin: 0 auto;
+    }
+    &__word {
+      margin: 0 auto;
+    }
+    &__search-location {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px 20px;
+      height: 0px;
+    }
   }
 `;
 

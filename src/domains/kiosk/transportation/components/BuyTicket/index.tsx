@@ -5,10 +5,10 @@ import useByTicket from "domains/kiosk/transportation/hooks/useByTicket";
 
 const Index = ({ next }: { next: () => Promise<boolean> }) => {
   const { handlePopup } = usePopup();
-  const { currentDate, handleCurrentDate } = useByTicket();
+  const { currentDate, handleCurrentDate } = useByTicket({ next });
 
   useEffect(() => {
-    handleCurrentDate();
+    handleCurrentDate({ type: "current" });
 
     handlePopup("common/Alert", "", {
       desc: "승차권 구매를 눌러주세요!",
