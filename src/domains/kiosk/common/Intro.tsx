@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
+import PlainButton from "components/atom/PlainButton";
 
 const Index = ({
   next,
@@ -21,9 +22,9 @@ const Index = ({
       <article className="main">
         <section className="main__title">{title}</section>
         <section className="main__type">{type}</section>
-        <button className="main__order-button blink" onClick={next}>
-          시작하기
-        </button>
+        <div className="main__start-btn">
+          <PlainButton isBlink={true} onClick={next} text="시작하기" />
+        </div>
       </article>
     </Block>
   );
@@ -50,18 +51,10 @@ const Block = styled.article`
       margin-top: 50px;
       font-size: 20px;
     }
-    &__order-button {
-      width: 50vw;
-      height: 50px;
-      border-radius: 8px;
-      border: none;
-      background-color: dodgerblue;
-      color: white;
+    &__start-btn {
       position: fixed;
       bottom: 100px;
       left: calc(50% - 25vw);
-      font-size: 18px;
-      font-weight: bold;
     }
   }
 `;

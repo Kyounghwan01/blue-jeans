@@ -1,9 +1,11 @@
-import { ChangeEvent, useEffect, useState, useCallback, useMemo } from "react";
+import { ChangeEvent, useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { RootState } from "app/store";
-import { setData } from "features/kiosk/transportationKioskSlice";
-import { terminals, locations, word } from "utils/constants";
-import dayjs from "dayjs";
+import {
+  setData,
+  setCurrentDate
+} from "features/kiosk/transportationKioskSlice";
+import { terminals } from "utils/constants";
 
 const useByTicket = ({ next }: { next: () => Promise<boolean> }) => {
   const dispatch = useDispatch();
@@ -32,38 +34,9 @@ const useByTicket = ({ next }: { next: () => Promise<boolean> }) => {
 
   const handleCurrentDate = useCallback(
     ({ type }: { type: "current" | "prev" | "next" }) => {
-      let curDate = currentDate;
-      const dateFormat = "YYYY-MM-DD (ddd) HH:mm";
-      const nowDate = dayjs().format(dateFormat);
-
-      if (type === "current") {
-        curDate = nowDate;
-      } else if (type === "prev") {
-        curDate = dayjs(currentDate, dateFormat)
-          .subtract(1, "day")
-          .format("YYYY-MM-DD (ddd) 00:00");
-
-        const diffDate = curDate.split(" ")[0] < nowDate.split(" ")[0];
-
-        if (diffDate) {
-          return;
-        } else if (curDate.split(" ")[0] === nowDate.split(" ")[0]) {
-          curDate = nowDate;
-        }
-      } else {
-        curDate = dayjs(currentDate, dateFormat)
-          .add(1, "day")
-          .format("YYYY-MM-DD (ddd) 00:00");
-      }
-
-      dispatch(
-        setData({
-          key: "currentDate",
-          value: curDate
-        })
-      );
+      dispatch(setCurrentDate({ type }));
     },
-    [currentDate]
+    []
   );
 
   const searchLocation = useMemo(() => {
@@ -112,24 +85,23 @@ const useByTicket = ({ next }: { next: () => Promise<boolean> }) => {
     });
   }, [locationCondition]);
 
-  const handleCondition = useCallback((type, word) => {
-    if (type === "location" && word === "전체") {
-      return setLocationCondition({ word: "", location: "", keyword: "" });
-    }
+  const handleCondition = useCallback(
+    (type, word) => {
+      if (type === "location" && word === "전체") {
+        return setLocationCondition({ word: "", location: "", keyword: "" });
+      }
 
-    // if (type === "location" && word === "전체") {
-    //   return setLocationCondition({ word: "", location: "", keyword: "" });
-    // }
-    if (word === "양양") {
-      dispatch(setData({ key: "location", value: word }));
-      next();
-    }
-    // todo: 양양 누르면 다음 스텝 이동, 뒤돌아오면 location 초기화
+      if (word === "양양") {
+        dispatch(setData({ key: "location", value: word }));
+        return next();
+      }
 
-    setLocationCondition(prev => {
-      return { ...prev, [type]: word };
-    });
-  }, []);
+      setLocationCondition(prev => {
+        return { ...prev, [type]: word };
+      });
+    },
+    [next]
+  );
 
   return {
     currentStep,

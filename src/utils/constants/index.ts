@@ -1,4 +1,5 @@
 import { IMenu } from "features/types/foodKioskSliceType";
+import { ITicket } from "features/types/transportationKioskSliceType";
 
 export const KAKAO_REDIRECT_URI = `${
   process.env.NODE_ENV !== "production"
@@ -374,3 +375,204 @@ export const word = [
   "ㅍ",
   "ㅎ"
 ];
+
+export const busTimeList = [
+  {
+    id: 1,
+    startAt: "10:00",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "common",
+    lastSeat: 20
+  },
+  {
+    id: 2,
+    startAt: "10:25",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "common",
+    lastSeat: 17
+  },
+  {
+    id: 3,
+    startAt: "11:00",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "top",
+    lastSeat: 8
+  },
+  {
+    id: 4,
+    startAt: "11:15",
+    type: "경",
+    company: "청춘고속",
+    time: 2.5,
+    grade: "common",
+    lastSeat: 15
+  },
+  {
+    id: 5,
+    startAt: "12:00",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "top",
+    lastSeat: 10
+  },
+  {
+    id: 6,
+    startAt: "12:20",
+    type: "경",
+    company: "청춘고속",
+    time: 2.5,
+    grade: "common",
+    lastSeat: 18
+  },
+  {
+    id: 7,
+    startAt: "12:55",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "common",
+    lastSeat: 9
+  },
+  {
+    id: 8,
+    startAt: "13:30",
+    type: "경",
+    company: "청춘고속",
+    time: 2.5,
+    grade: "common",
+    lastSeat: 11
+  },
+  {
+    id: 9,
+    startAt: "14:10",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "common",
+    lastSeat: 19
+  },
+  {
+    id: 10,
+    startAt: "14:35",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "top",
+    lastSeat: 23
+  },
+  {
+    id: 11,
+    startAt: "15:00",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "common",
+    lastSeat: 8
+  },
+  {
+    id: 12,
+    startAt: "15:25",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "common",
+    lastSeat: 12
+  },
+  {
+    id: 13,
+    startAt: "16:00",
+    type: "경",
+    company: "청춘고속",
+    time: 2.5,
+    grade: "common",
+    lastSeat: 15
+  },
+  {
+    id: 14,
+    startAt: "16:30",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "common",
+    lastSeat: 19
+  },
+  {
+    id: 15,
+    startAt: "17:10",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "common",
+    lastSeat: 20
+  },
+  {
+    id: 16,
+    startAt: "18:00",
+    type: "경",
+    company: "청춘고속",
+    time: 2.5,
+    grade: "common",
+    lastSeat: 30
+  },
+  {
+    id: 17,
+    startAt: "18:20",
+    type: "경",
+    company: "청춘고속",
+    time: 2.5,
+    grade: "common",
+    lastSeat: 32
+  },
+  {
+    id: 18,
+    startAt: "18:40",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "top",
+    lastSeat: 18
+  },
+  {
+    id: 19,
+    startAt: "19:20",
+    type: "경",
+    company: "청춘고속",
+    time: 2.5,
+    grade: "common",
+    lastSeat: 20
+  },
+  {
+    id: 20,
+    startAt: "20:00",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "top",
+    lastSeat: 13
+  },
+  {
+    id: 21,
+    startAt: "20:40",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "top",
+    lastSeat: 10
+  },
+  {
+    id: 22,
+    startAt: "21:20",
+    type: "직",
+    company: "청춘고속",
+    time: 2,
+    grade: "top",
+    lastSeat: 5
+  }
+] as ITicket[];
