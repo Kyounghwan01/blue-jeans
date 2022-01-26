@@ -384,7 +384,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "common",
-    lastSeat: 20
+    lastSeat: 19
   },
   {
     id: 2,
@@ -420,7 +420,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 10
+    lastSeat: 1
   },
   {
     id: 6,
@@ -429,7 +429,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2.5,
     grade: "common",
-    lastSeat: 18
+    lastSeat: 9
   },
   {
     id: 7,
@@ -456,7 +456,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "common",
-    lastSeat: 19
+    lastSeat: 9
   },
   {
     id: 10,
@@ -465,7 +465,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 23
+    lastSeat: 3
   },
   {
     id: 11,
@@ -510,7 +510,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "common",
-    lastSeat: 20
+    lastSeat: 10
   },
   {
     id: 16,
@@ -519,7 +519,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2.5,
     grade: "common",
-    lastSeat: 30
+    lastSeat: 12
   },
   {
     id: 17,
@@ -528,7 +528,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2.5,
     grade: "common",
-    lastSeat: 32
+    lastSeat: 14
   },
   {
     id: 18,
@@ -537,7 +537,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 18
+    lastSeat: 5
   },
   {
     id: 19,
@@ -546,7 +546,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2.5,
     grade: "common",
-    lastSeat: 20
+    lastSeat: 13
   },
   {
     id: 20,
@@ -555,7 +555,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 13
+    lastSeat: 8
   },
   {
     id: 21,
@@ -564,7 +564,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 10
+    lastSeat: 9
   },
   {
     id: 22,
@@ -573,6 +573,6 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 5
+    lastSeat: 17
   }
 ] as ITicket[];

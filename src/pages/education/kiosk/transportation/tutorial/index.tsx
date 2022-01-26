@@ -64,7 +64,6 @@ const Index = () => {
         back={back}
         next={next}
         movePage={movePage}
-        hint={transportation.components[currentStep].hint}
       />
     </BasicLayout>
   );
