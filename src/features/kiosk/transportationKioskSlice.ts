@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ITransportation,
-  ITicket
+  ITicket,
+  busSeatType
 } from "features/types/transportationKioskSliceType";
 import dayjs from "dayjs";
 
@@ -10,8 +11,9 @@ const initialState: ITransportation = {
   currentDate: "",
   location: "",
   startTime: "",
-  seats: [],
-  price: 0,
+  selectedSeats: [],
+  currentSeat: { seat: 0, personType: "adult", price: 10000 },
+  totalPrice: 0,
   ticket: {
     id: 0,
     grade: "common",
@@ -20,7 +22,8 @@ const initialState: ITransportation = {
     startAt: "",
     type: "직",
     time: 0
-  }
+  },
+  seats: []
 };
 
 export const transportationKioskSlice = createSlice({
@@ -74,6 +77,35 @@ export const transportationKioskSlice = createSlice({
     },
     setBusTime: (state, action: PayloadAction<ITicket>) => {
       state.ticket = action.payload;
+    },
+    setSeats: (state, action: PayloadAction<busSeatType[]>) => {
+      state.seats = action.payload;
+    },
+    setCurrentSeat: (
+      state,
+      action: PayloadAction<{
+        type: "seat" | "personType" | "price";
+        value: string | number;
+      }>
+    ) => {
+      state.currentSeat = {
+        ...state.currentSeat,
+        [action.payload.type]: action.payload.value
+      };
+
+      if (action.payload.type === "price") {
+        const index = state.seats.findIndex(
+          seat => seat.value === state.currentSeat.seat
+        );
+        state.seats[index].type = "selected";
+        state.selectedSeats.push(state.currentSeat);
+        state.totalPrice += Number(action.payload.value);
+      }
+    },
+    resetSelectedSeats: state => {
+      state.currentSeat = { seat: 0, personType: "adult", price: 10000 };
+      state.totalPrice = 0;
+      state.selectedSeats = [];
     }
   }
 });
@@ -83,7 +115,10 @@ export const {
   setCurrentStep,
   setData,
   setCurrentDate,
-  setBusTime
+  setBusTime,
+  setCurrentSeat,
+  setSeats,
+  resetSelectedSeats
 } = transportationKioskSlice.actions;
 
 export default transportationKioskSlice.reducer;

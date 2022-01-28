@@ -26,7 +26,7 @@ const useSelectTime = ({ next }: { next: () => Promise<boolean> }) => {
   );
 
   const handleStartTime = useCallback((timeId: number) => {
-    dispatch(setBusTime(busTimeList[timeId]));
+    dispatch(setBusTime(busTimeList[timeId - 1]));
     next();
   }, []);
 

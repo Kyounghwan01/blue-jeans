@@ -8,12 +8,19 @@ export interface ITicket {
   time: number;
 }
 
+export type busSeatType = {
+  type: "active" | "inactive" | "empty" | "selected";
+  value: string | number;
+};
+
 export interface ITransportation {
   currentStep: number;
   currentDate: string;
   location: string;
   startTime: string;
-  seats: { number: number; person: string }[];
-  price: number;
+  selectedSeats: { seat: number; personType: string; price: number }[];
+  totalPrice: number;
   ticket: ITicket;
+  currentSeat: { seat: number; personType: string; price: number };
+  seats: busSeatType[];
 }
