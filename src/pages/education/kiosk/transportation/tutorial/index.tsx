@@ -1,7 +1,6 @@
 import { useMemo, useEffect, useCallback } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useRouter } from "next/router";
-import { resetStore } from "features/kiosk/transportationKioskSlice";
 import BasicLayout from "components/common/BasicLayout";
 import Step from "components/common/Step";
 import { transportation } from "utils/constants/componentsPath";
@@ -22,7 +21,7 @@ const Index = () => {
     if (router.asPath.split("?page=")[1]) {
       router.push(`${transportation.basicRoute}/?page=Intro`);
     }
-    dispatch(resetStore());
+    dispatch(setCurrentStep(0));
   }, []);
 
   const page = useMemo(() => {

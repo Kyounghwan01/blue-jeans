@@ -53,8 +53,8 @@ const useSeats = ({ next }: { next: () => Promise<boolean> }) => {
   const [isSelected, setIsSelected] = useState<boolean>(false);
 
   useEffect(() => {
-    // price랑 seats가 리셋되어야되
     dispatch(resetSelectedSeats());
+
     const randomSeatArr = getRamdomSeat(ticket.lastSeat - 1);
     const seat = [] as busSeatType[];
 

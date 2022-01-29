@@ -17,7 +17,6 @@ export interface ITransportation {
   currentStep: number;
   currentDate: string;
   location: string;
-  startTime: string;
   selectedSeats: { seat: number; personType: string; price: number }[];
   totalPrice: number;
   ticket: ITicket;

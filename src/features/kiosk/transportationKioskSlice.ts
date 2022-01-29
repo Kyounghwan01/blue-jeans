@@ -10,7 +10,6 @@ const initialState: ITransportation = {
   currentStep: 0,
   currentDate: "",
   location: "",
-  startTime: "",
   selectedSeats: [],
   currentSeat: { seat: 0, personType: "adult", price: 10000 },
   totalPrice: 0,
@@ -30,16 +29,13 @@ export const transportationKioskSlice = createSlice({
   name: "transportationKiosk",
   initialState,
   reducers: {
-    resetStore: state => {
-      state.currentStep = 0;
-    },
     setCurrentStep: (state, action: PayloadAction<number>) => {
       state.currentStep = action.payload;
     },
     setData: (
       state,
       action: PayloadAction<{
-        key: "location" | "startTime";
+        key: "location";
         value: string;
       }>
     ) => {
@@ -111,7 +107,6 @@ export const transportationKioskSlice = createSlice({
 });
 
 export const {
-  resetStore,
   setCurrentStep,
   setData,
   setCurrentDate,
