@@ -54,7 +54,7 @@ const Index = () => {
   return (
     <BasicLayout
       headerTitle={transportation.components[currentStep].title}
-      back={true}
+      back={![8, 9].includes(currentStep)}
       footer={false}
       backFunc={handleBackButton}
     >

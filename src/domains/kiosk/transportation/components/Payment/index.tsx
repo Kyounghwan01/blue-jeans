@@ -1,9 +1,15 @@
-import { useCallback } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useCallback, useEffect } from "react";
+import { useSelector, shallowEqual } from "react-redux";
 import { RootState } from "app/store";
 import styled from "styled-components";
 
-const Index = ({ next }: { next: () => Promise<boolean> }) => {
+const Index = ({
+  back,
+  next
+}: {
+  back: () => Promise<boolean>;
+  next: () => Promise<boolean>;
+}) => {
   const { selectedSeats, ticket, currentDate, location, totalPrice } =
     useSelector((state: RootState) => {
       const { selectedSeats, ticket, currentDate, location, totalPrice } =
@@ -17,21 +23,32 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
       };
     }, shallowEqual);
 
-  // todo: seats type 커스텀, 몇초후에 완료화면으로 이동
-  const mapSeatType = useCallback((type: string) => {
-    // 한번에 맵 돌려서 어떠한 타입이 몇매인지 알아야함
+  useEffect(() => {
+    const timer: NodeJS.Timeout = setTimeout(() => {
+      next();
+    }, 7000);
 
-    switch (type) {
-      case "adult":
-        return "어른";
-      case "child":
-        return "어린이/초등";
-      case "kid":
-        return "청소년";
-      default:
-        break;
-    }
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
+
+  // todo: seats type 커스텀, 몇초후에 완료화면으로 이동
+  const mapSeatType = useCallback(
+    (type: string) => {
+      switch (type) {
+        case "adult":
+          return "어른";
+        case "child":
+          return "어린이/초등";
+        case "kid":
+          return "청소년";
+        default:
+          return "어른";
+      }
+    },
+    [selectedSeats]
+  );
 
   return (
     <PaymentBlock>
@@ -39,23 +56,43 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
 
       <div>
         <div>동서울 터미널 / 버스 회사 / {ticket.company}</div>
+        <div>도착지: {location}</div>
       </div>
       <div>
-        {Math.floor(ticket.time)}시간 {!Number.isInteger(ticket.time) && "30분"}{" "}
+        {Math.floor(ticket.time)}시간 {!Number.isInteger(ticket.time) && "30분"}
         소요
       </div>
       <div>버스등급: {ticket.grade === "common" ? "일반" : "우등"}</div>
       <div>티켓수량: {selectedSeats.length}</div>
       <div>
         {selectedSeats.map((seat, index) => (
-          <div key={index}>{seat.personType}</div>
+          <div key={index}>
+            {seat.seat} / {mapSeatType(seat.personType)}
+          </div>
         ))}
       </div>
 
-      <div>{JSON.stringify(selectedSeats)}</div>
-      <div>{JSON.stringify(ticket)}</div>
-      <div>{JSON.stringify(location)}</div>
-      <div>{JSON.stringify(totalPrice)}</div>
+      <div
+        style={{
+          border: "1px solid grey",
+          display: "flex",
+          justifyContent: "space-between"
+        }}
+      >
+        <div>결제금액</div>
+        <div>{totalPrice.toLocaleString()}원</div>
+      </div>
+
+      <div
+        style={{ border: "1px solid gray", height: "100px" }}
+        className="txt-c"
+      >
+        카드 투입 설명 이미지
+      </div>
+
+      <div>* IC 카드를 투입해주세요.</div>
+
+      <button onClick={back}>결제 취소</button>
     </PaymentBlock>
   );
 };
