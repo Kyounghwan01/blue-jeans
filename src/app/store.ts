@@ -8,6 +8,7 @@ import commonSlice from "features/commonSlice";
 import userSlice from "features/userSlice";
 import qnaSlice from "features/qnaSlice";
 import foodKioskSlice from "features/kiosk/foodKioskSlice";
+import transportationKioskSlice from "features/kiosk/transportationKioskSlice";
 import { HYDRATE, createWrapper } from "next-redux-wrapper";
 import logger from "redux-logger";
 
@@ -17,7 +18,8 @@ const combinedReducers = combineReducers({
   user: userSlice,
   qna: qnaSlice,
   common: commonSlice,
-  foodKiosk: foodKioskSlice
+  foodKiosk: foodKioskSlice,
+  transportationKiosk: transportationKioskSlice
 });
 const reducer = (state: RootState | undefined, action: AnyAction) => {
   if (action.type === HYDRATE) {

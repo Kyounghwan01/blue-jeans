@@ -101,8 +101,6 @@ export default function useMain() {
   }, []);
 
   const handleCount = useCallback((type, product, isHint) => {
-    //
-    console.log(11, isHint);
     if (isHint) {
       dispatch(setKioskTutotialHint(3));
     }
