@@ -4,7 +4,7 @@ import {
   ITicket,
   busSeatType
 } from "features/types/transportationKioskSliceType";
-import dayjs from "dayjs";
+import { getDateFormat, addSubtractDate } from "utils";
 
 const initialState: ITransportation = {
   currentStep: 0,
@@ -46,15 +46,18 @@ export const transportationKioskSlice = createSlice({
       action: PayloadAction<{ type: "current" | "prev" | "next" }>
     ) => {
       let curDate = state.currentDate;
-      const dateFormat = "YYYY-MM-DD (ddd) HH:mm";
-      const nowDate = dayjs().format(dateFormat);
+      const nowDate = getDateFormat();
 
       if (action.payload.type === "current") {
         curDate = nowDate;
       } else if (action.payload.type === "prev") {
-        curDate = dayjs(state.currentDate, dateFormat)
-          .subtract(1, "day")
-          .format("YYYY-MM-DD (ddd) 00:00");
+        curDate = addSubtractDate(
+          state.currentDate,
+          "dateFullZeroTime",
+          "subtract",
+          1,
+          "day"
+        );
 
         const diffDate = curDate.split(" ")[0] < nowDate.split(" ")[0];
 
@@ -64,9 +67,13 @@ export const transportationKioskSlice = createSlice({
           curDate = nowDate;
         }
       } else {
-        curDate = dayjs(state.currentDate, dateFormat)
-          .add(1, "day")
-          .format("YYYY-MM-DD (ddd) 00:00");
+        curDate = addSubtractDate(
+          state.currentDate,
+          "dateFullZeroTime",
+          "add",
+          1,
+          "day"
+        );
       }
 
       state.currentDate = curDate;

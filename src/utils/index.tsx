@@ -1,10 +1,11 @@
 import imageCompression from "browser-image-compression";
+import dayjs from "dayjs";
 
 export const compressImage = async (image: File) => {
   try {
     const options = {
       maxSizeMb: 1,
-      maxWidthOrHeight: 300,
+      maxWidthOrHeight: 300
     };
     return await imageCompression(image, options);
   } catch (e) {
@@ -25,8 +26,8 @@ export const getPathStorageFromUrl = (url: string) => {
 export const validtionCriteria = {
   nickName: {
     pattern: /^[가-힣a-zA-Z\s]{2,12}$/,
-    error: "2자 이상 12자 이하 한글/영문으로 입력해 주세요",
-  },
+    error: "2자 이상 12자 이하 한글/영문으로 입력해 주세요"
+  }
 };
 
 export const validation = (
@@ -46,4 +47,39 @@ export const handleFileButton = (
   e.preventDefault();
   if (!fileRef.current) return;
   fileRef.current.click();
+};
+
+/** 날짜 유틸 */
+const format = {
+  dateFullFormat: "YYYY-MM-DD (ddd) HH:mm",
+  dateFormatWithoutTime: "YYYY-MM-DD (ddd)",
+  dateFullZeroTime: "YYYY-MM-DD (ddd) 00:00"
+} as { [key: string]: string };
+
+export const getDateFormat = () => {
+  return dayjs().format(format.dateFullFormat);
+};
+
+export const currentDateWithoutTime = (date: string): string => {
+  return dayjs(date, format.dateFullFormat).format(
+    format.dateFormatWithoutTime
+  );
+};
+
+export const addSubtractDate = (
+  date: string,
+  dateFormat = "dateFullFormat",
+  type: "add" | "subtract",
+  days = 1,
+  handleingType: "day" | "month" | "year"
+) => {
+  if (type === "add") {
+    return dayjs(date, format.dateFullFormat)
+      .add(days, handleingType)
+      .format(format[dateFormat]);
+  } else {
+    return dayjs(date, format.dateFullFormat)
+      .subtract(days, handleingType)
+      .format(format[dateFormat]);
+  }
 };

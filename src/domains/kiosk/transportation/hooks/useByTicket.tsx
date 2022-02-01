@@ -6,6 +6,7 @@ import {
   setCurrentDate
 } from "features/kiosk/transportationKioskSlice";
 import { terminals } from "utils/constants";
+import { currentDateWithoutTime } from "utils";
 
 const useByTicket = ({ next }: { next: () => Promise<boolean> }) => {
   const dispatch = useDispatch();
@@ -103,6 +104,10 @@ const useByTicket = ({ next }: { next: () => Promise<boolean> }) => {
     [next]
   );
 
+  const dateWithoutTime = useMemo(() => {
+    return currentDateWithoutTime(currentDate);
+  }, [currentDate]);
+
   return {
     currentStep,
     currentDate,
@@ -110,7 +115,8 @@ const useByTicket = ({ next }: { next: () => Promise<boolean> }) => {
     locationCondition,
     searchLocation,
     handleCondition,
-    handleSearch
+    handleSearch,
+    dateWithoutTime
   };
 };
 
