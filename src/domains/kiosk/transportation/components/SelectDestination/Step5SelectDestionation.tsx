@@ -1,8 +1,9 @@
-import { memo } from "react";
+import { useEffect, memo } from "react";
 import styled from "styled-components";
 import useByTicket from "domains/kiosk/transportation/hooks/useByTicket";
 import WordCard from "./WordCard";
 import { locations, word } from "utils/constants";
+import usePopup from "hooks/usePopup";
 
 const Step5SelectDestionation = ({
   next
@@ -11,12 +12,20 @@ const Step5SelectDestionation = ({
 }) => {
   const { locationCondition, handleSearch, searchLocation, handleCondition } =
     useByTicket({ next });
+  const { handlePopup } = usePopup();
 
   // const searchKeyword = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
   //   if (e.key === "Enter") {
   //     // search!!
   //   }
   // }, []);
+
+  useEffect(() => {
+    handlePopup("common/Alert", "", {
+      desc: `<div>강원도 - 양양을 선택해주세요!</div>`,
+      autoClose: { time: 3000 }
+    });
+  }, []);
 
   return (
     <SearchDestionBlock>

@@ -39,14 +39,14 @@ const busSeats = [
   19
 ];
 
-const useSeats = ({ next }: { next: () => Promise<boolean> }) => {
+const useSeats = () => {
   const dispatch = useDispatch();
-  const { currentStep, ticket, seats, totalPrice } = useSelector(
+  const { currentSeat, ticket, seats, totalPrice } = useSelector(
     (state: RootState) => ({
-      currentStep: state.transportationKiosk.currentStep,
       ticket: state.transportationKiosk.ticket,
       seats: state.transportationKiosk.seats,
-      totalPrice: state.transportationKiosk.totalPrice
+      totalPrice: state.transportationKiosk.totalPrice,
+      currentSeat: state.transportationKiosk.currentSeat
     }),
     shallowEqual
   );
@@ -115,13 +115,13 @@ const useSeats = ({ next }: { next: () => Promise<boolean> }) => {
   }, []);
 
   return {
-    ticket,
     seats,
     clickSeat,
     isSelected,
     setIsSelected,
     clickPersonType,
-    totalPrice
+    totalPrice,
+    currentSeat
   };
 };
 

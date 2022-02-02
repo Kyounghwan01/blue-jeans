@@ -44,7 +44,7 @@ const Alert = ({
       <article>
         <header>{title}</header>
         <section>
-          <p>{extraData.desc}</p>
+          <p dangerouslySetInnerHTML={{ __html: extraData.desc }} />
           <div className="btn-group">
             <button className="btn-group__ok-btn" onClick={close}>
               <span>확인</span>

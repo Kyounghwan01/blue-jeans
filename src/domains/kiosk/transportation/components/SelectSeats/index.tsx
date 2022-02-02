@@ -1,46 +1,62 @@
+import { useEffect, useCallback } from "react";
 import styled from "styled-components";
 import useSeats from "domains/kiosk/transportation/hooks/useSeats";
+import usePopup from "hooks/usePopup";
+import { busSeatType } from "features/types/transportationKioskSliceType";
+import SelectPersonPop from "./pop/SelectPersonPop";
 
 const Index = ({ next }: { next: () => Promise<boolean> }) => {
   const {
-    ticket,
+    currentSeat,
     seats,
     isSelected,
     clickSeat,
     setIsSelected,
     clickPersonType,
     totalPrice
-  } = useSeats({
-    next
-  });
+  } = useSeats();
+  const { handlePopup } = usePopup();
+
+  useEffect(() => {
+    handlePopup("common/Alert", "", {
+      desc: `<div>12번 좌석 선택 후 어른을 누르세요 <br />그리고 선택완료를 누르세요</div>`,
+      autoClose: { time: 3000 }
+    });
+  }, []);
+
+  const isBlink = useCallback((seat: busSeatType) => {
+    if (seat.value === 12) {
+      return `${seat.type} ${seat.type !== "selected" && "blink"}`;
+    } else {
+      return seat.type;
+    }
+  }, []);
 
   return (
     <SelectSeatsBlock>
       {seats.length && (
         <div className="seat">
           <div className="seat__row">
-            {seats.map((seat, index) => (
-              <div
-                onClick={() => clickSeat(seat)}
-                className={seat.type}
-                key={index}
-              >
-                {seat.value !== "empty" && seat.value}
-              </div>
-            ))}
+            {seats.map((seat, index) => {
+              return (
+                <div
+                  onClick={() => clickSeat(seat)}
+                  className={isBlink(seat)}
+                  key={index}
+                >
+                  {seat.value !== "empty" && seat.value}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
-      {/* {JSON.stringify(ticket)} */}
       {isSelected && (
-        <SelectPersonTypeBlock>
-          <p onClick={() => clickPersonType("adult")}>어른</p>
-          <p onClick={() => clickPersonType("child")}>어린이/초등</p>
-          <p onClick={() => clickPersonType("kid")}>청소년</p>
-          <p style={{ background: "grey" }}>보훈30</p>
-          <p style={{ background: "grey" }}>보훈70</p>
-          <p onClick={() => setIsSelected(prev => !prev)}>X 취소</p>
-        </SelectPersonTypeBlock>
+        <SelectPersonPop
+          clickPersonType={clickPersonType}
+          setIsSelected={setIsSelected}
+          seatNumber={currentSeat.seat}
+        />
       )}
 
       <section className="bottom-area">
@@ -48,7 +64,12 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
           <div>총 결제금액</div>
           <div>{totalPrice.toLocaleString()}원</div>
         </div>
-        <button onClick={next}>선택완료</button>
+        <button
+          className={`${seats[19].type === "selected" && "blink"}`}
+          onClick={next}
+        >
+          선택완료
+        </button>
       </section>
     </SelectSeatsBlock>
   );
@@ -90,23 +111,6 @@ const SelectSeatsBlock = styled.article`
     &__pay {
       display: flex;
     }
-  }
-`;
-
-const SelectPersonTypeBlock = styled.article`
-  position: absolute;
-  background: white;
-  top: 20vh;
-  left: 10%;
-  z-index: 2;
-  border: 1px solid gray;
-  width: 100px;
-  padding: 30px 10px 20px;
-  p {
-    padding: 3px;
-    text-align: center;
-    border: 1px solid gray;
-    margin-bottom: 10px;
   }
 `;
 
