@@ -65,7 +65,7 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
           <div>{totalPrice.toLocaleString()}원</div>
         </div>
         <button
-          className={`${seats[19].type === "selected" && "blink"}`}
+          className={`${seats[19]?.type === "selected" && "blink"}`}
           onClick={next}
         >
           선택완료
