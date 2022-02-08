@@ -3,7 +3,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useRouter } from "next/router";
 import BasicLayout from "components/common/BasicLayout";
 import Step from "components/common/Step";
-import { transportation } from "utils/constants/componentsPath";
+import { movie } from "utils/constants/componentsPath";
 import { RootState } from "app/store";
 import { setCurrentStep } from "features/kiosk/transportationKioskSlice";
 
@@ -19,7 +19,7 @@ const Index = () => {
 
   useEffect(() => {
     if (router.asPath.split("?page=")[1]) {
-      router.push(`${transportation.basicRoute}/?page=Intro`);
+      router.push(`${movie.basicRoute}/?page=Intro`);
     }
     dispatch(setCurrentStep(0));
   }, []);
@@ -29,7 +29,7 @@ const Index = () => {
   }, [router.query]);
 
   const movePage = useCallback((pageName: string) => {
-    const path = `${transportation.basicRoute}?page=${pageName}`;
+    const path = `${movie.basicRoute}?page=${pageName}`;
     return router.push(path, path, { shallow: true });
   }, []);
 
@@ -37,14 +37,14 @@ const Index = () => {
     const backIndex = currentStep - 1;
     if (currentStep > 0) {
       dispatch(setCurrentStep(backIndex));
-      return movePage(transportation.components[backIndex].step);
+      return movePage(movie.components[backIndex].step);
     }
   }, [currentStep]);
 
   const next = useCallback(() => {
     const nextIndex = currentStep + 1;
     dispatch(setCurrentStep(nextIndex));
-    return movePage(transportation.components[nextIndex].step);
+    return movePage(movie.components[nextIndex].step);
   }, [currentStep]);
 
   const handleBackButton = useCallback(() => {
@@ -53,13 +53,13 @@ const Index = () => {
 
   return (
     <BasicLayout
-      headerTitle={transportation.components[currentStep].title}
+      headerTitle={movie.components[currentStep].title}
       back={![8, 9].includes(currentStep)}
       footer={false}
       backFunc={handleBackButton}
     >
       <Step
-        name={`kiosk/transportation/components/${page}`}
+        name={`kiosk/movie/components/${page}`}
         back={back}
         next={next}
         movePage={movePage}
