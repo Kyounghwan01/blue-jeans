@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useCallback } from "react";
+import styled from "styled-components";
 import { compressImage } from "utils";
 import dynamic from "next/dynamic";
 import BasicLayout from "components/common/BasicLayout";
@@ -69,35 +70,55 @@ const Index = () => {
 
   return (
     <BasicLayout headerTitle="커뮤니티 글작성" back={true} footer={true}>
-      <input
-        ref={fileRef}
-        id="file"
-        type="file"
-        onChange={handleFileOnChange}
-        hidden={true}
-      />
+      <CommunityEditorBlock>
+        <input
+          ref={fileRef}
+          id="file"
+          type="file"
+          onChange={handleFileOnChange}
+          hidden={true}
+        />
 
-      <QuillNoSSRWrapper
-        modules={modules}
-        formats={quilFormats}
-        theme="snow"
-        value={value || ""}
-        onChange={(content, delta, source, editor) =>
-          setValue(editor.getHTML())
-        }
-      />
+        <QuillNoSSRWrapper
+          modules={modules}
+          formats={quilFormats}
+          theme="snow"
+          value={value || ""}
+          onChange={(content, delta, source, editor) =>
+            setValue(editor.getHTML())
+          }
+        />
 
-      {previewURLs.map((url, index) => (
-        <div className="add-image-container__image" key={index}>
-          <img src={url.url} alt="카카오로그인버튼" />
-          <CancelIcon
-            className="add-image-container__image__close"
-            onClick={() => deleteImage(index)}
-          />
-        </div>
-      ))}
+        {previewURLs.map((url, index) => (
+          <div className="image" key={index}>
+            <img src={url.url} alt="커뮤니티 추가 이미지" />
+            <div className="image__close" onClick={() => deleteImage(index)}>
+              <CancelIcon />
+            </div>
+          </div>
+        ))}
+      </CommunityEditorBlock>
     </BasicLayout>
   );
 };
+
+const CommunityEditorBlock = styled.article`
+  .image {
+    position: relative;
+    &__close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 2px;
+      background: white;
+      width: 25px;
+      border-radius: 50%;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+`;
 
 export default Index;
