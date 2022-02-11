@@ -4,7 +4,7 @@ import {
   ITicket,
   busSeatType
 } from "features/types/transportationKioskSliceType";
-import { getDateFormat, addSubtractDate } from "utils";
+import { getDateCustomFormat, addSubtractDate } from "utils";
 
 const initialState: ITransportation = {
   currentStep: 0,
@@ -46,7 +46,7 @@ export const transportationKioskSlice = createSlice({
       action: PayloadAction<{ type: "current" | "prev" | "next" }>
     ) => {
       let curDate = state.currentDate;
-      const nowDate = getDateFormat();
+      const nowDate = getDateCustomFormat("YYYY-MM-DD (ddd) HH:mm");
 
       if (action.payload.type === "current") {
         curDate = nowDate;

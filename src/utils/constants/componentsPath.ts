@@ -97,7 +97,32 @@ export const movie = {
     },
     {
       step: "BuyTicket",
-      title: "상영시간표 확인",
+      title: "티켓 구매",
+      header: false
+    },
+    {
+      step: "MovieTable",
+      title: "상영시간표",
+      header: false
+    },
+    {
+      step: "SelectSeat",
+      title: "좌석 선택",
+      header: false
+    },
+    {
+      step: "ConfirmMovie",
+      title: "예매 내역 확인",
+      header: false
+    },
+    {
+      step: "Payment",
+      title: "결제",
+      header: false
+    },
+    {
+      step: "ReservationTicket",
+      title: "예매 티켓 출력",
       header: false
     }
   ]

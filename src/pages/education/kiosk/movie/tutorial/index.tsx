@@ -5,14 +5,14 @@ import BasicLayout from "components/common/BasicLayout";
 import Step from "components/common/Step";
 import { movie } from "utils/constants/componentsPath";
 import { RootState } from "app/store";
-import { setCurrentStep } from "features/kiosk/transportationKioskSlice";
+import { setCurrentStep } from "features/kiosk/movieKioskSlice";
 
 const Index = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { currentStep } = useSelector(
     (state: RootState) => ({
-      currentStep: state.transportationKiosk.currentStep
+      currentStep: state.movieKiosk.currentStep
     }),
     shallowEqual
   );
@@ -34,18 +34,30 @@ const Index = () => {
   }, []);
 
   const back = useCallback(() => {
-    const backIndex = currentStep - 1;
+    let backIndex = currentStep - 1;
+    if (movie.components[currentStep].step === "ReservationTicket") {
+      backIndex = 3;
+    }
+
     if (currentStep > 0) {
       dispatch(setCurrentStep(backIndex));
       return movePage(movie.components[backIndex].step);
     }
   }, [currentStep]);
 
-  const next = useCallback(() => {
-    const nextIndex = currentStep + 1;
-    dispatch(setCurrentStep(nextIndex));
-    return movePage(movie.components[nextIndex].step);
-  }, [currentStep]);
+  const next = useCallback(
+    (nextComponent?: string) => {
+      let nextIndex = currentStep + 1;
+      if (nextComponent && typeof nextComponent === "string") {
+        nextIndex = movie.components.findIndex(
+          comp => comp.step === nextComponent
+        );
+      }
+      dispatch(setCurrentStep(nextIndex));
+      return movePage(movie.components[nextIndex].step);
+    },
+    [currentStep]
+  );
 
   const handleBackButton = useCallback(() => {
     return currentStep !== 0 ? back() : router.push("/education");
@@ -58,12 +70,7 @@ const Index = () => {
       footer={false}
       backFunc={handleBackButton}
     >
-      <Step
-        name={`kiosk/movie/components/${page}`}
-        back={back}
-        next={next}
-        movePage={movePage}
-      />
+      <Step name={`kiosk/movie/components/${page}`} back={back} next={next} />
     </BasicLayout>
   );
 };

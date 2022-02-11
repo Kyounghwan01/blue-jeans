@@ -3,7 +3,6 @@ import React from "react";
 type MyProps = {
   back: () => Promise<boolean> | undefined;
   next: () => Promise<boolean>;
-  movePage: (pathName: string) => Promise<boolean>;
   name: string;
   hint?: { desc: string }[];
 };

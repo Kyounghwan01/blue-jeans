@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import cloneDeep from "lodash/cloneDeep";
 import TextField from "@mui/material/TextField";
 import CancelIcon from "@mui/icons-material/Cancel";
+import CloseBtn from "components/atom/CloseBtn";
 import { RootState } from "app/store";
 import { QuestionType } from "utils/constants";
 import setDocFirebase from "utils/api/setDocFirebase";
@@ -186,10 +187,7 @@ const Question = () => {
           {previewURLs.map((url, index) => (
             <div className="add-image-container__image" key={index}>
               <img src={url.url} alt="카카오로그인버튼" />
-              <CancelIcon
-                className="add-image-container__image__close"
-                onClick={() => deleteImage(index)}
-              />
+              <CloseBtn onClick={() => deleteImage(index)} />
             </div>
           ))}
         </section>
@@ -226,14 +224,6 @@ const Block = styled.article`
       margin-right: 10px;
       border-radius: 8px;
       position: relative;
-      &__close {
-        font-size: 30px;
-        position: absolute;
-        top: -10px;
-        right: -10px;
-        background: white;
-        border-radius: 50%;
-      }
       img {
         width: inherit;
         height: inherit;

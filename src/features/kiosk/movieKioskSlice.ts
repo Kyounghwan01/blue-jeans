@@ -1,9 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IMovie } from "features/types/movieSliceType";
+import { IMovie, ICurrentMovie } from "features/types/movieSliceType";
 
 const initialState: IMovie = {
   currentStep: 0,
-  seats: []
+  isViewTotalMovie: false,
+  seats: [],
+  movie: {
+    id: 16,
+    title: "청춘을 사랑합니다",
+    startAt: "24:00",
+    endAt: "26:00",
+    img: "",
+    lastSeats: 80,
+    grade: 19
+  }
 };
 
 export const movieKioskSlice = createSlice({
@@ -12,10 +22,17 @@ export const movieKioskSlice = createSlice({
   reducers: {
     setCurrentStep: (state, action: PayloadAction<number>) => {
       state.currentStep = action.payload;
+    },
+    setIsViewTotalMovie: (state, action: PayloadAction<boolean>) => {
+      state.isViewTotalMovie = action.payload;
+    },
+    setSelectMovie: (state, action: PayloadAction<ICurrentMovie>) => {
+      state.movie = action.payload;
     }
   }
 });
 
-export const { setCurrentStep } = movieKioskSlice.actions;
+export const { setCurrentStep, setIsViewTotalMovie, setSelectMovie } =
+  movieKioskSlice.actions;
 
 export default movieKioskSlice.reducer;

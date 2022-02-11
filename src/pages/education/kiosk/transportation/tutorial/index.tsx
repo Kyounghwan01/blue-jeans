@@ -62,7 +62,6 @@ const Index = () => {
         name={`kiosk/transportation/components/${page}`}
         back={back}
         next={next}
-        movePage={movePage}
       />
     </BasicLayout>
   );

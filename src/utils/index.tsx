@@ -56,8 +56,8 @@ const format = {
   dateFullZeroTime: "YYYY-MM-DD (ddd) 00:00"
 } as { [key: string]: string };
 
-export const getDateFormat = () => {
-  return dayjs().format(format.dateFullFormat);
+export const getDateCustomFormat = (format: string) => {
+  return dayjs().format(format);
 };
 
 export const currentDateWithoutTime = (date: string): string => {
