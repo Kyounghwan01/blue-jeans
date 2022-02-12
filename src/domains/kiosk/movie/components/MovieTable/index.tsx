@@ -1,7 +1,7 @@
 import { useMemo, useCallback } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { RootState } from "app/store";
+import { useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import { movieList } from "utils/constants";
 import {
   setIsViewTotalMovie,
@@ -12,13 +12,10 @@ import { IComponentRoute } from "features/types/commonSliceType";
 
 const Index = ({ next }: IComponentRoute) => {
   const dispatch = useDispatch();
-  const { isViewTotalMovie, currentTime } = useSelector(
-    (state: RootState) => ({
-      isViewTotalMovie: state.movieKiosk.isViewTotalMovie,
-      currentTime: state.common.currentTime
-    }),
-    shallowEqual
-  );
+  const { isViewTotalMovie, currentTime } = useSelectorTyped(state => ({
+    isViewTotalMovie: state.movieKiosk.isViewTotalMovie,
+    currentTime: state.common.currentTime
+  }));
 
   const timeFilterMovieList = useMemo(() => {
     return movieList.filter(movie => movie.startAt > currentTime);

@@ -1,59 +1,69 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import styled from "styled-components";
 import { PopLayoutBlock } from "components/common/BasicLayout/BasicLayout.styled";
 import CloseBtn from "components/atom/CloseBtn";
+import { IMovieSeats } from "features/types/movieSliceType";
 
 interface IAlert {
   hideModal: () => void;
   extraData: {
-    onClose: { cancel: () => void; confirm: () => void };
+    onClose: { cancel: () => void; confirm: (seat: IMovieSeats[]) => void };
   };
 }
 
-const SelectSeatsNum = ({ hideModal, extraData }: IAlert) => {
-  // data init
+const SelectSeatsNumPop = ({ hideModal, extraData }: IAlert) => {
   const [personCount, setPersonCount] = useState({ type: "", count: 0 });
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     hideModal();
     extraData.onClose.cancel();
-  };
+  }, []);
 
-  const handleConfirm = () => {
-    extraData.onClose.confirm();
-    // todo: 사람 count 변수 slice에 어떻게 넣을지, seats는 어떻게 데이터를 다룰지 생각해보고 SelectSeat에서 props 내려
-    // hideModal();
-  };
+  const handleConfirm = useCallback(() => {
+    if (!personCount.count) {
+      return;
+    }
 
-  useEffect(() => {
-    console.log(personCount);
+    const seats = Array.from({ length: personCount.count }).map(() => {
+      return { type: personCount.type, seat: "" };
+    }) as IMovieSeats[];
+
+    extraData.onClose.confirm(seats);
+    hideModal();
   }, [personCount]);
 
   return (
-    <SelectSeatsNumBlock>
+    <SelectSeatsNumPopBlock>
       <article>
         <div className="txt-c">관람 인원수를 선택해주세요</div>
         <div>총 2 명</div>
-        {["일반", "청소년", "장애인", "경로우대"].map(personType => {
+        {[
+          { type: "adult", label: "일반" },
+          { type: "children", label: "청소년" },
+          { type: "disabled", label: "장애인" },
+          { type: "older", label: "경로우대" }
+        ].map(personType => {
           return (
             <div
-              key={personType}
+              key={personType.type}
               style={{ display: "flex", borderBottom: "1px solid gray" }}
             >
-              <div>{personType}</div>
+              <div>{personType.label}</div>
               {[0, 1, 2, 3, 4, 5].map(count => {
                 return (
                   <div
                     style={{
                       marginLeft: "10px",
                       background:
-                        personCount.type === personType &&
+                        personCount.type === personType.type &&
                         personCount.count === count
                           ? "red"
                           : "white"
                     }}
                     key={count}
-                    onClick={() => setPersonCount({ type: personType, count })}
+                    onClick={() =>
+                      setPersonCount({ type: personType.type, count })
+                    }
                   >
                     {count}
                   </div>
@@ -67,11 +77,11 @@ const SelectSeatsNum = ({ hideModal, extraData }: IAlert) => {
 
         <CloseBtn onClick={handleCancel} />
       </article>
-    </SelectSeatsNumBlock>
+    </SelectSeatsNumPopBlock>
   );
 };
 
-const SelectSeatsNumBlock = styled(PopLayoutBlock)`
+const SelectSeatsNumPopBlock = styled(PopLayoutBlock)`
   article {
     position: relative;
     background: white;
@@ -96,4 +106,4 @@ const SelectSeatsNumBlock = styled(PopLayoutBlock)`
   }
 `;
 
-export default SelectSeatsNum;
+export default SelectSeatsNumPop;

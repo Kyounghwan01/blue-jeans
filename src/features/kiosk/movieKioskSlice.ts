@@ -4,7 +4,7 @@ import { IMovie, ICurrentMovie } from "features/types/movieSliceType";
 const initialState: IMovie = {
   currentStep: 0,
   isViewTotalMovie: false,
-  seats: [],
+  seatsInfo: [],
   movie: {
     id: 16,
     title: "청춘을 사랑합니다",
@@ -28,11 +28,18 @@ export const movieKioskSlice = createSlice({
     },
     setSelectMovie: (state, action: PayloadAction<ICurrentMovie>) => {
       state.movie = action.payload;
+    },
+    setSeatInfo: (state, action) => {
+      state.seatsInfo = action.payload;
     }
   }
 });
 
-export const { setCurrentStep, setIsViewTotalMovie, setSelectMovie } =
-  movieKioskSlice.actions;
+export const {
+  setCurrentStep,
+  setIsViewTotalMovie,
+  setSelectMovie,
+  setSeatInfo
+} = movieKioskSlice.actions;
 
 export default movieKioskSlice.reducer;

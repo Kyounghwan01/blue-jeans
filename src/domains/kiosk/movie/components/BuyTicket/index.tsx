@@ -1,10 +1,10 @@
 import { useEffect, useCallback } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setIsViewTotalMovie } from "features/kiosk/movieKioskSlice";
 import { setCurrentDate } from "features/commonSlice";
 import { getDateCustomFormat } from "utils";
-import { RootState } from "app/store";
+import useSelectorTyped from "features/useSelectorTyped";
 
 const Index = ({
   next
@@ -12,13 +12,10 @@ const Index = ({
   next: (nextComponent?: string) => Promise<boolean>;
 }) => {
   const dispatch = useDispatch();
-  const { currentDate, currentTime } = useSelector(
-    (state: RootState) => ({
-      currentDate: state.common.currentDate,
-      currentTime: state.common.currentTime
-    }),
-    shallowEqual
-  );
+  const { currentDate, currentTime } = useSelectorTyped(state => ({
+    currentDate: state.common.currentDate,
+    currentTime: state.common.currentTime
+  }));
 
   useEffect(() => {
     dispatch(

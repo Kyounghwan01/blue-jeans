@@ -9,12 +9,12 @@ export interface ICurrentMovie {
 }
 
 export interface IMovieSeats {
-  type: "active" | "inactive" | "empty" | "selected";
-  value: string | number;
+  type: "adult" | "children" | "disabled" | "older";
+  seat: string;
 }
 export interface IMovie {
   currentStep: number;
   isViewTotalMovie: boolean;
   movie: ICurrentMovie;
-  seats: IMovieSeats[];
+  seatsInfo: IMovieSeats[];
 }

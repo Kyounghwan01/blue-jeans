@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styled from "styled-components";
 import CancelIcon from "@mui/icons-material/Cancel";
 
@@ -26,4 +27,4 @@ const CloseBtnBlock = styled.div`
   }
 `;
 
-export default CloseBtn;
+export default memo(CloseBtn);
