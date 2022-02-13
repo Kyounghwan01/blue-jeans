@@ -17,4 +17,5 @@ export interface IMovie {
   isViewTotalMovie: boolean;
   movie: ICurrentMovie;
   seatsInfo: IMovieSeats[];
+  totalPrice: number;
 }

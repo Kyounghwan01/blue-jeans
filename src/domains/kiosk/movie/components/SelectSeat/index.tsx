@@ -6,12 +6,18 @@ import { setSeatInfo } from "features/kiosk/movieKioskSlice";
 import usePopup from "hooks/usePopup";
 import { IMovieSeats } from "features/types/movieSliceType";
 import { MovieSeats } from "utils/constants";
+import useSelectorTyped from "features/useSelectorTyped";
 
 const SelectSeat = ({ back, next }: IComponentRoute) => {
   const { handleDomainPopup } = usePopup();
   const dispatch = useDispatch();
+  const { totalPrice } = useSelectorTyped(state => ({
+    totalPrice: state.movieKiosk.totalPrice
+  }));
 
   useEffect(() => {
+    dispatch(setSeatInfo([]));
+
     handleDomainPopup(
       `kiosk/movie/components/SelectSeat/pop/SelectSeatsNumPop`,
       "",
@@ -27,7 +33,7 @@ const SelectSeat = ({ back, next }: IComponentRoute) => {
   return (
     <SelectSeatBlock>
       좌석 선택
-      <div>총금액 14,000원</div>
+      <div>총금액 {totalPrice.toLocaleString()}원</div>
       <div>SCREEN</div>
       <div className="seat-wrapper">
         {MovieSeats.map((seat, index) => {
