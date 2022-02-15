@@ -56,7 +56,6 @@ const Index = () => {
         name={`kiosk/food/components/${page}`}
         back={back}
         next={next}
-        movePage={movePage}
         hint={food.components[currentStep].hint}
       />
     </BasicLayout>

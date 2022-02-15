@@ -76,3 +76,59 @@ export const transportation = {
     }
   ]
 };
+
+export const movie = {
+  basicRoute: "/education/kiosk/movie/tutorial",
+  components: [
+    {
+      step: "Intro",
+      title: "키오스크 체험",
+      header: false
+    },
+    {
+      step: "Mission",
+      title: "미션",
+      header: false
+    },
+    {
+      step: "BuyStart",
+      title: "주문 시작",
+      header: false
+    },
+    {
+      step: "BuyTicket",
+      title: "티켓 구매",
+      header: false
+    },
+    {
+      step: "MovieTable",
+      title: "상영시간표",
+      header: false
+    },
+    {
+      step: "SelectSeat",
+      title: "좌석 선택",
+      header: false
+    },
+    {
+      step: "ConfirmMovie",
+      title: "예매 내역 확인",
+      header: false
+    },
+    {
+      step: "Payment",
+      title: "결제",
+      header: false
+    },
+    {
+      step: "ReservationTicket",
+      title: "티켓 출력",
+      header: false
+    },
+    {
+      step: "Finish",
+      title: "키오스크 체험",
+      header: false
+    }
+  ]
+};

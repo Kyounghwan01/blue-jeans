@@ -576,3 +576,208 @@ export const busTimeList = [
     lastSeat: 17
   }
 ] as ITicket[];
+
+export const movieList = [
+  {
+    id: 1,
+    title: "청춘 일병 구하기",
+    startAt: "09:00",
+    endAt: "11:00",
+    img: "",
+    lastSeats: 72,
+    grade: 15
+  },
+  {
+    id: 2,
+    title: "사운드 오브 멜로디",
+    startAt: "09:40",
+    endAt: "11:40",
+    img: "",
+    lastSeats: 120,
+    grade: 12
+  },
+  {
+    id: 3,
+    title: "청춘: 빛나는 깃발",
+    startAt: "10:20",
+    endAt: "10:40",
+    img: "",
+    lastSeats: 82,
+    grade: 15
+  },
+  {
+    id: 4,
+    title: "퀸 메이커",
+    startAt: "11:00",
+    endAt: "13:00",
+    img: "",
+    lastSeats: 20,
+    grade: 12
+  },
+  {
+    id: 5,
+    title: "사운드 오브 멜로디",
+    startAt: "11:35",
+    endAt: "13:35",
+    img: "",
+    lastSeats: 101,
+    grade: 12
+  },
+  {
+    id: 6,
+    title: "퀸 메이커",
+    startAt: "13:05",
+    endAt: "15:05",
+    img: "",
+    lastSeats: 8,
+    grade: 12
+  },
+  {
+    id: 7,
+    title: "청춘 스토리 3",
+    startAt: "14:00",
+    endAt: "16:00",
+    img: "",
+    lastSeats: 62,
+    grade: 8
+  },
+  {
+    id: 8,
+    title: "청춘 일병 구하기",
+    startAt: "14:50",
+    endAt: "16:50",
+    img: "",
+    lastSeats: 48,
+    grade: 15
+  },
+  {
+    id: 9,
+    title: "청춘 스토리 3",
+    startAt: "15:50",
+    endAt: "17:50",
+    img: "",
+    lastSeats: 70,
+    grade: 8
+  },
+  {
+    id: 10,
+    title: "청춘: 빛나는 깃발",
+    startAt: "16:40",
+    endAt: "18:40",
+    img: "",
+    lastSeats: 32,
+    grade: 15
+  },
+  {
+    id: 11,
+    title: "퀸 메이커",
+    startAt: "17:30",
+    endAt: "19:30",
+    img: "",
+    lastSeats: 40,
+    grade: 12
+  },
+  {
+    id: 12,
+    title: "청춘 일병 구하기",
+    startAt: "20:00",
+    endAt: "22:00",
+    img: "",
+    lastSeats: 50,
+    grade: 15
+  },
+  {
+    id: 13,
+    title: "청춘 일병 구하기",
+    startAt: "20:30",
+    endAt: "22:30",
+    img: "",
+    lastSeats: 55,
+    grade: 15
+  },
+  {
+    id: 14,
+    title: "사운드 오브 멜로디",
+    startAt: "21:00",
+    endAt: "23:00",
+    img: "",
+    lastSeats: 72,
+    grade: 15
+  },
+  {
+    id: 15,
+    title: "청춘: 빛나는 깃발",
+    startAt: "22:20",
+    endAt: "24:00",
+    img: "",
+    lastSeats: 100,
+    grade: 15
+  },
+  {
+    id: 16,
+    title: "청춘을 사랑합니다",
+    startAt: "24:00",
+    endAt: "26:00",
+    img: "",
+    lastSeats: 80,
+    grade: 19
+  }
+];
+
+export const MovieSeats = [
+  { label: "A", value: "", isSelected: false },
+  { label: 1, value: "A1", isSelected: false },
+  { label: 2, value: "A2", isSelected: false },
+  { label: 3, value: "A3", isSelected: false },
+  { label: 4, value: "A4", isSelected: false },
+  { label: "", value: "", isSelected: false },
+  { label: 5, value: "A5", isSelected: false },
+  { label: 6, value: "A6", isSelected: false },
+  { label: 7, value: "A7", isSelected: false },
+  { label: 8, value: "A8", isSelected: false },
+  { label: "A", value: "", isSelected: false },
+  { label: "B", value: "", isSelected: false },
+  { label: 1, value: "B1", isSelected: false },
+  { label: 2, value: "B2", isSelected: false },
+  { label: 3, value: "B3", isSelected: false },
+  { label: 4, value: "B4", isSelected: false },
+  { label: "", value: "", isSelected: false },
+  { label: 5, value: "B5", isSelected: false },
+  { label: 6, value: "B6", isSelected: false },
+  { label: 7, value: "B7", isSelected: false },
+  { label: 8, value: "B8", isSelected: false },
+  { label: "B", value: "", isSelected: false },
+  { label: "C", value: "", isSelected: false },
+  { label: 1, value: "C1", isSelected: false },
+  { label: 2, value: "C2", isSelected: false },
+  { label: 3, value: "C3", isSelected: false },
+  { label: 4, value: "C4", isSelected: false },
+  { label: "", value: "", isSelected: false },
+  { label: 5, value: "C5", isSelected: false },
+  { label: 6, value: "C6", isSelected: false },
+  { label: 7, value: "C7", isSelected: false },
+  { label: 8, value: "C8", isSelected: false },
+  { label: "C", value: "", isSelected: false },
+  { label: "D", value: "", isSelected: false },
+  { label: 1, value: "D1", isSelected: false },
+  { label: 2, value: "D2", isSelected: false },
+  { label: 3, value: "D3", isSelected: false },
+  { label: 4, value: "D4", isSelected: false },
+  { label: "", value: "", isSelected: false },
+  { label: 5, value: "D5", isSelected: false },
+  { label: 6, value: "D6", isSelected: false },
+  { label: 7, value: "D7", isSelected: false },
+  { label: 8, value: "D8", isSelected: false },
+  { label: "D", value: "", isSelected: false },
+  { label: "E", value: "", isSelected: false },
+  { label: 1, value: "E1", isSelected: false },
+  { label: 2, value: "E2", isSelected: false },
+  { label: 3, value: "E3", isSelected: false },
+  { label: 4, value: "E4", isSelected: false },
+  { label: "", value: "", isSelected: false },
+  { label: 5, value: "E5", isSelected: false },
+  { label: 6, value: "E6", isSelected: false },
+  { label: 7, value: "E7", isSelected: false },
+  { label: 8, value: "E8", isSelected: false },
+  { label: "E", value: "", isSelected: false }
+];
