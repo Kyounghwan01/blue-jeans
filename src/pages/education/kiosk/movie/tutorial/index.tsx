@@ -34,10 +34,10 @@ const Index = () => {
   }, []);
 
   const back = useCallback(() => {
-    let backIndex = currentStep - 1;
-    if (movie.components[currentStep].step === "ReservationTicket") {
-      backIndex = 3;
-    }
+    const backIndex = currentStep - 1;
+    // if (movie.components[currentStep].step === "ReservationTicket") {
+    //   backIndex = 3;
+    // }
 
     if (currentStep > 0) {
       dispatch(setCurrentStep(backIndex));
@@ -66,7 +66,7 @@ const Index = () => {
   return (
     <BasicLayout
       headerTitle={movie.components[currentStep].title}
-      back={![8, 9].includes(currentStep)}
+      back={true}
       footer={false}
       backFunc={handleBackButton}
     >

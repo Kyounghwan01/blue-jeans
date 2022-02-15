@@ -10,5 +10,7 @@ export interface ICommonSlice {
 
 export interface IComponentRoute {
   back: (backComponent?: string) => Promise<boolean>;
-  next: (nextComponent?: string) => Promise<boolean>;
+  next: (
+    nextComponent?: string | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => Promise<boolean>;
 }

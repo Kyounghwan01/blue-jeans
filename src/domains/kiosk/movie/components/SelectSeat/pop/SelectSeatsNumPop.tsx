@@ -36,7 +36,7 @@ const SelectSeatsNumPop = ({ hideModal, extraData }: IAlert) => {
     <SelectSeatsNumPopBlock>
       <article>
         <div className="txt-c">관람 인원수를 선택해주세요</div>
-        <div>총 2 명</div>
+        <div className="txt-c">총 {personCount.count} 명</div>
         {[
           { type: "adult", label: "일반" },
           { type: "children", label: "청소년" },
@@ -49,7 +49,7 @@ const SelectSeatsNumPop = ({ hideModal, extraData }: IAlert) => {
               style={{ display: "flex", borderBottom: "1px solid gray" }}
             >
               <div>{personType.label}</div>
-              {[0, 1, 2, 3, 4, 5].map(count => {
+              {[1, 2, 3, 4].map(count => {
                 return (
                   <div
                     style={{
@@ -73,7 +73,9 @@ const SelectSeatsNumPop = ({ hideModal, extraData }: IAlert) => {
           );
         })}
 
-        <button onClick={handleConfirm}>확인</button>
+        <div className="txt-c">
+          <button onClick={handleConfirm}>확인</button>
+        </div>
 
         <CloseBtn onClick={handleCancel} />
       </article>

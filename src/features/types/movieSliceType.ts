@@ -18,4 +18,5 @@ export interface IMovie {
   movie: ICurrentMovie;
   seatsInfo: IMovieSeats[];
   totalPrice: number;
+  seats: { label: number | string; value: string; isSelected: boolean }[];
 }

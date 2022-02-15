@@ -122,7 +122,12 @@ export const movie = {
     },
     {
       step: "ReservationTicket",
-      title: "예매 티켓 출력",
+      title: "티켓 출력",
+      header: false
+    },
+    {
+      step: "Finish",
+      title: "키오스크 체험",
       header: false
     }
   ]
