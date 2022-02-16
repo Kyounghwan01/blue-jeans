@@ -1,20 +1,23 @@
 import { useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { setIsViewTotalMovie } from "features/kiosk/movieKioskSlice";
+import {
+  setIsViewTotalMovie,
+  setSeatInfo,
+} from "features/kiosk/movieKioskSlice";
 import { setCurrentDate } from "features/commonSlice";
 import { getDateCustomFormat } from "utils";
 import useSelectorTyped from "features/useSelectorTyped";
 
 const Index = ({
-  next
+  next,
 }: {
   next: (nextComponent?: string) => Promise<boolean>;
 }) => {
   const dispatch = useDispatch();
-  const { currentDate, currentTime } = useSelectorTyped(state => ({
+  const { currentDate, currentTime } = useSelectorTyped((state) => ({
     currentDate: state.common.currentDate,
-    currentTime: state.common.currentTime
+    currentTime: state.common.currentTime,
   }));
 
   useEffect(() => {
@@ -22,23 +25,40 @@ const Index = ({
       setCurrentDate([
         {
           type: "currentDate",
-          value: getDateCustomFormat("M월 DD일 (ddd)")
+          value: getDateCustomFormat("M월 DD일 (ddd)"),
         },
         {
           type: "currentTime",
-          value: getDateCustomFormat("HH:mm")
-        }
+          value: getDateCustomFormat("HH:mm"),
+        },
       ])
     );
   }, []);
 
   const handleNext = useCallback(
     (type: string | React.MouseEvent<HTMLDivElement>) => {
-      dispatch(setIsViewTotalMovie(type === "totalView"));
+      dispatch(setIsViewTotalMovie({ type: "isReservation", value: false }));
+      dispatch(
+        setIsViewTotalMovie({
+          type: "isViewTotalMovie",
+          value: type === "totalView",
+        })
+      );
       next();
     },
     []
   );
+
+  const handleReserverationTicket = useCallback(() => {
+    dispatch(setIsViewTotalMovie({ type: "isReservation", value: true }));
+    dispatch(
+      setSeatInfo([
+        { type: "adult", seat: "" },
+        { type: "adult", seat: "" },
+      ])
+    );
+    next("CheckReservation");
+  }, []);
 
   return (
     <BuyTicketBlock>
@@ -59,8 +79,7 @@ const Index = ({
           <div className="content__box__img">티켓 구매 이미지</div>
         </div>
 
-        {/* <div className="content__box" onClick={() => next("ReservationTicket")}> */}
-        <div className="content__box" onClick={() => next("ConfirmMovie")}>
+        <div className="content__box" onClick={handleReserverationTicket}>
           <div>예매 티켓 출력</div>
           <div className="content__box__img">티켓 구매 이미지</div>
         </div>

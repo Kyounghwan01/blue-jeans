@@ -2,13 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   IMovie,
   ICurrentMovie,
-  IMovieSeats
+  IMovieSeats,
 } from "features/types/movieSliceType";
 import { MovieSeats } from "utils/constants";
 
 const initialState: IMovie = {
   currentStep: 0,
   isViewTotalMovie: false,
+  isReservation: false,
   seatsInfo: [],
   totalPrice: 0,
   seats: MovieSeats || [],
@@ -19,8 +20,8 @@ const initialState: IMovie = {
     endAt: "26:00",
     img: "",
     lastSeats: 80,
-    grade: 19
-  }
+    grade: 19,
+  },
 };
 
 export const movieKioskSlice = createSlice({
@@ -30,8 +31,14 @@ export const movieKioskSlice = createSlice({
     setCurrentStep: (state, action: PayloadAction<number>) => {
       state.currentStep = action.payload;
     },
-    setIsViewTotalMovie: (state, action: PayloadAction<boolean>) => {
-      state.isViewTotalMovie = action.payload;
+    setIsViewTotalMovie: (
+      state,
+      action: PayloadAction<{
+        type: "isViewTotalMovie" | "isReservation";
+        value: boolean;
+      }>
+    ) => {
+      state[action.payload.type] = action.payload.value;
     },
     setSelectMovie: (state, action: PayloadAction<ICurrentMovie>) => {
       state.movie = action.payload;
@@ -51,10 +58,10 @@ export const movieKioskSlice = createSlice({
       state.seats[action.payload].isSelected =
         !state.seats[action.payload].isSelected;
     },
-    resetSeats: state => {
+    resetSeats: (state) => {
       state.seats = MovieSeats;
-    }
-  }
+    },
+  },
 });
 
 const switchMoviePrice = (
@@ -78,7 +85,7 @@ export const {
   setSelectMovie,
   setSeatInfo,
   setSeats,
-  resetSeats
+  resetSeats,
 } = movieKioskSlice.actions;
 
 export default movieKioskSlice.reducer;

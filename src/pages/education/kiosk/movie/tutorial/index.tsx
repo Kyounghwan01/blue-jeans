@@ -10,9 +10,10 @@ import { setCurrentStep } from "features/kiosk/movieKioskSlice";
 const Index = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { currentStep } = useSelector(
+  const { currentStep, isReservation } = useSelector(
     (state: RootState) => ({
-      currentStep: state.movieKiosk.currentStep
+      currentStep: state.movieKiosk.currentStep,
+      isReservation: state.movieKiosk.isReservation,
     }),
     shallowEqual
   );
@@ -34,10 +35,13 @@ const Index = () => {
   }, []);
 
   const back = useCallback(() => {
-    const backIndex = currentStep - 1;
-    // if (movie.components[currentStep].step === "ReservationTicket") {
-    //   backIndex = 3;
-    // }
+    let backIndex = currentStep - 1;
+    if (
+      movie.components[currentStep].step === "CheckReservation" &&
+      isReservation
+    ) {
+      backIndex = 3;
+    }
 
     if (currentStep > 0) {
       dispatch(setCurrentStep(backIndex));
@@ -50,7 +54,7 @@ const Index = () => {
       let nextIndex = currentStep + 1;
       if (nextComponent && typeof nextComponent === "string") {
         nextIndex = movie.components.findIndex(
-          comp => comp.step === nextComponent
+          (comp) => comp.step === nextComponent
         );
       }
       dispatch(setCurrentStep(nextIndex));

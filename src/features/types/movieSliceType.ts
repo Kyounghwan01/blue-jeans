@@ -15,6 +15,7 @@ export interface IMovieSeats {
 export interface IMovie {
   currentStep: number;
   isViewTotalMovie: boolean;
+  isReservation: boolean;
   movie: ICurrentMovie;
   seatsInfo: IMovieSeats[];
   totalPrice: number;

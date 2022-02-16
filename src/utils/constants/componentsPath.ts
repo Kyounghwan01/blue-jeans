@@ -5,7 +5,7 @@ export const food = {
       step: "Intro",
       title: "주문시작",
       header: false,
-      hint: [{ desc: "주문하기 버튼을 클릭해주세요!" }]
+      hint: [{ desc: "주문하기 버튼을 클릭해주세요!" }],
     },
     {
       step: "Main",
@@ -15,10 +15,10 @@ export const food = {
         { desc: "무공 돈까스를 클릭해주세요!" },
         { desc: "무공 돈까스에 공깃밥을 추가해주세요!" },
         { desc: "무공 돈까스를 하나 더 추가해주세요!" },
-        { desc: "결제 버튼을 클릭해주세요!" }
-      ]
-    }
-  ]
+        { desc: "결제 버튼을 클릭해주세요!" },
+      ],
+    },
+  ],
 };
 
 export const transportation = {
@@ -27,54 +27,54 @@ export const transportation = {
     {
       step: "Intro",
       title: "키오스크 체험",
-      header: false
+      header: false,
     },
     {
       step: "Mission",
       title: "미션",
-      header: false
+      header: false,
     },
     {
       step: "BuyStart",
       title: "구매 시작",
-      header: false
+      header: false,
     },
     {
       step: "BuyTicket",
       title: "티켓 구매",
-      header: false
+      header: false,
     },
     {
       step: "SelectDestination",
       title: "도착지 선택",
-      header: false
+      header: false,
     },
     {
       step: "SelectDestination",
       title: "도착지 선택",
-      header: false
+      header: false,
     },
     {
       step: "SelectTime",
       title: "시간 선택",
-      header: false
+      header: false,
     },
     {
       step: "SelectSeats",
       title: "좌석 선택",
-      header: false
+      header: false,
     },
     {
       step: "Payment",
       title: "결제",
-      header: false
+      header: false,
     },
     {
       step: "Finish",
       title: "키오스크 체험",
-      header: false
-    }
-  ]
+      header: false,
+    },
+  ],
 };
 
 export const movie = {
@@ -83,52 +83,57 @@ export const movie = {
     {
       step: "Intro",
       title: "키오스크 체험",
-      header: false
+      header: false,
     },
     {
       step: "Mission",
       title: "미션",
-      header: false
+      header: false,
     },
     {
       step: "BuyStart",
       title: "주문 시작",
-      header: false
+      header: false,
     },
     {
       step: "BuyTicket",
       title: "티켓 구매",
-      header: false
+      header: false,
     },
     {
       step: "MovieTable",
       title: "상영시간표",
-      header: false
+      header: false,
     },
     {
       step: "SelectSeat",
       title: "좌석 선택",
-      header: false
+      header: false,
     },
     {
       step: "ConfirmMovie",
       title: "예매 내역 확인",
-      header: false
+      header: false,
     },
     {
       step: "Payment",
       title: "결제",
-      header: false
+      header: false,
     },
     {
       step: "ReservationTicket",
       title: "티켓 출력",
-      header: false
+      header: false,
     },
     {
       step: "Finish",
       title: "키오스크 체험",
-      header: false
-    }
-  ]
+      header: false,
+    },
+    {
+      step: "CheckReservation",
+      title: "예매 티켓 출력",
+      header: false,
+    },
+  ],
 };

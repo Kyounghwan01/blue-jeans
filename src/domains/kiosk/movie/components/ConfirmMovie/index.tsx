@@ -3,30 +3,26 @@ import styled from "styled-components";
 import useSelectorTyped from "features/useSelectorTyped";
 
 const Index = ({ next }: { next: () => Promise<boolean> }) => {
-  const { seatsInfo, currentDate, movie } = useSelectorTyped(state => ({
+  const { seatsInfo, currentDate, movie } = useSelectorTyped((state) => ({
     movie: state.movieKiosk.movie,
     seatsInfo: state.movieKiosk.seatsInfo,
-    currentDate: state.common.currentDate
+    currentDate: state.common.currentDate,
   }));
   const [personTypeAndCount, setPersonTypeAndCount] = useState<
     { label: string; count: number }[]
   >([]);
 
   useEffect(() => {
-    if (!seatsInfo.length) {
-      setPersonTypeAndCount([{ label: "일반", count: 2 }]);
-    }
-
     const res = {
       adult: { label: "일반", count: 0 },
       children: { label: "청소년", count: 0 },
       disabled: { label: "장애인", count: 0 },
-      older: { label: "경로우대", count: 0 }
+      older: { label: "경로우대", count: 0 },
     };
-    seatsInfo.forEach(seat => {
+    seatsInfo.forEach((seat) => {
       res[seat.type].count++;
     });
-    setPersonTypeAndCount(Object.values(res).filter(type => type.count));
+    setPersonTypeAndCount(Object.values(res).filter((type) => type.count));
   }, [seatsInfo]);
 
   return (
@@ -41,7 +37,7 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
           <div>
             {currentDate} {movie.startAt}~{movie.endAt}
           </div>
-          {personTypeAndCount.map(person => (
+          {personTypeAndCount.map((person) => (
             <div key={person.label}>
               {person.label} {person.count}매
             </div>
