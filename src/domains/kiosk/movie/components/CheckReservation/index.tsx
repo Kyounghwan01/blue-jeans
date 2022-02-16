@@ -30,7 +30,15 @@ const Index = () => {
   );
 
   const handleSetNum = useCallback((string: string) => {
-    setNum((str) => str + string);
+    console.log(string);
+    if (string === "X") {
+      console.log(11);
+      setNum((str) => str.slice(0, -1));
+    } else if (string === "V") {
+      // submit
+    } else {
+      setNum((str) => str + string);
+    }
   }, []);
 
   return (
@@ -41,7 +49,7 @@ const Index = () => {
         setTab={handleChangeTab}
       />
       {num}
-      {/* {!tab ? <div>0029 | 뒷자리(11자)</div> : <div>__</div>} */}
+      {!tab ? <div>0029 | 뒷자리(11자) {num}</div> : <div>__</div>}
 
       <MemoKeypad setNum={handleSetNum} />
     </CheckReservationBlock>

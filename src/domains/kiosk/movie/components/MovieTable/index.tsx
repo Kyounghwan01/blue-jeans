@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import useSelectorTyped from "features/useSelectorTyped";
@@ -9,13 +9,21 @@ import {
 } from "features/kiosk/movieKioskSlice";
 import { ICurrentMovie } from "features/types/movieSliceType";
 import { IComponentRoute } from "features/types/commonSliceType";
+import usePopup from "hooks/usePopup";
 
 const Index = ({ next }: IComponentRoute) => {
   const dispatch = useDispatch();
+  const { handlePopup } = usePopup();
   const { isViewTotalMovie, currentTime } = useSelectorTyped((state) => ({
     isViewTotalMovie: state.movieKiosk.isViewTotalMovie,
     currentTime: state.common.currentTime,
   }));
+
+  useEffect(() => {
+    handlePopup("common/Alert", "", {
+      desc: "<div>전체상영 시간표<br /> 보러가기를<br /> 누르세요!</div>",
+    });
+  }, []);
 
   const timeFilterMovieList = useMemo(() => {
     return movieList.filter((movie) => movie.startAt > currentTime);

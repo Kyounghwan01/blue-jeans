@@ -8,6 +8,7 @@ import {
 import { setCurrentDate } from "features/commonSlice";
 import { getDateCustomFormat } from "utils";
 import useSelectorTyped from "features/useSelectorTyped";
+import usePopup from "hooks/usePopup";
 
 const Index = ({
   next,
@@ -15,12 +16,17 @@ const Index = ({
   next: (nextComponent?: string) => Promise<boolean>;
 }) => {
   const dispatch = useDispatch();
+  const { handlePopup } = usePopup();
   const { currentDate, currentTime } = useSelectorTyped((state) => ({
     currentDate: state.common.currentDate,
     currentTime: state.common.currentTime,
   }));
 
   useEffect(() => {
+    handlePopup("common/Alert", "", {
+      desc: "티켓구매를 누르세요.",
+    });
+
     dispatch(
       setCurrentDate([
         {
@@ -69,7 +75,7 @@ const Index = ({
       </div>
 
       <div className="content">
-        <div className="content__box" onClick={handleNext}>
+        <div className="content__box blink" onClick={handleNext}>
           <div>티켓 구매</div>
           <div className="content__box__img">티켓 구매 이미지</div>
         </div>
