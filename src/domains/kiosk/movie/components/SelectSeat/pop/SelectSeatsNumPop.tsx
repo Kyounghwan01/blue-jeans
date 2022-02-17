@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { PopLayoutBlock } from "components/common/BasicLayout/BasicLayout.styled";
 import CloseBtn from "components/atom/CloseBtn";
@@ -7,12 +7,24 @@ import { IMovieSeats } from "features/types/movieSliceType";
 interface IAlert {
   hideModal: () => void;
   extraData: {
-    onClose: { cancel: () => void; confirm: (seat: IMovieSeats[]) => void };
+    onClose: {
+      cancel: () => void;
+      confirm: (seat: IMovieSeats[]) => void;
+      lastSeats: number;
+    };
   };
 }
 
+const initPersonSet = {
+  adult: { label: "일반", count: 0 },
+  children: { label: "청소년", count: 0 },
+  disabled: { label: "장애인", count: 0 },
+  older: { label: "경로우대", count: 0 }
+} as { [index: string]: { label: string; count: number } };
+
 const SelectSeatsNumPop = ({ hideModal, extraData }: IAlert) => {
-  const [personCount, setPersonCount] = useState({ type: "", count: 0 });
+  const [personCount, setPersonCount] = useState(initPersonSet);
+  const [onError, setOnError] = useState<boolean>(false);
 
   const handleCancel = useCallback(() => {
     hideModal();
@@ -20,49 +32,66 @@ const SelectSeatsNumPop = ({ hideModal, extraData }: IAlert) => {
   }, []);
 
   const handleConfirm = useCallback(() => {
-    if (!personCount.count) {
+    if (!totalCount) {
       return;
     }
 
-    const seats = Array.from({ length: personCount.count }).map(() => {
-      return { type: personCount.type, seat: "" };
-    }) as IMovieSeats[];
+    const seats = Object.entries(personCount).reduce((acc, cur): any => {
+      const [k, v] = cur;
+      if (!v.count) return acc;
+      return [...acc, { type: k, label: v.label, count: v.count }];
+    }, []);
 
     extraData.onClose.confirm(seats);
     hideModal();
+  }, [personCount]);
+
+  const handlePersonCount = ({
+    type,
+    count,
+    label
+  }: {
+    type: string;
+    count: number;
+    label: string;
+  }) => {
+    setPersonCount(prev => {
+      return { ...prev, [type]: { label, count } };
+    });
+  };
+
+  const totalCount = useMemo(() => {
+    const count = Object.values(personCount).reduce((acc, cur): number => {
+      return acc + cur.count;
+    }, 0);
+
+    setOnError(extraData.onClose.lastSeats < count);
+    return count;
   }, [personCount]);
 
   return (
     <SelectSeatsNumPopBlock>
       <article>
         <div className="txt-c">관람 인원수를 선택해주세요</div>
-        <div className="txt-c">총 {personCount.count} 명</div>
-        {[
-          { type: "adult", label: "일반" },
-          { type: "children", label: "청소년" },
-          { type: "disabled", label: "장애인" },
-          { type: "older", label: "경로우대" }
-        ].map(personType => {
+        <div className="txt-c">총 {totalCount} 명</div>
+        {Object.entries(initPersonSet).map(([type, v]) => {
           return (
             <div
-              key={personType.type}
+              key={type}
               style={{ display: "flex", borderBottom: "1px solid gray" }}
             >
-              <div>{personType.label}</div>
-              {[1, 2, 3, 4].map(count => {
+              <div>{v.label}</div>
+              {[1, 2, 3, 4, 5].map(count => {
                 return (
                   <div
                     style={{
                       marginLeft: "10px",
                       background:
-                        personCount.type === personType.type &&
-                        personCount.count === count
-                          ? "red"
-                          : "white"
+                        count === personCount[type].count ? "red" : "white"
                     }}
                     key={count}
                     onClick={() =>
-                      setPersonCount({ type: personType.type, count })
+                      handlePersonCount({ type: type, count, label: v.label })
                     }
                   >
                     {count}
@@ -74,7 +103,16 @@ const SelectSeatsNumPop = ({ hideModal, extraData }: IAlert) => {
         })}
 
         <div className="txt-c">
-          <button onClick={handleConfirm}>확인</button>
+          {onError && (
+            <div>
+              <span>
+                잔여좌석({extraData.onClose.lastSeats})이하로 선택해주세요!
+              </span>
+            </div>
+          )}
+          <button onClick={handleConfirm} disabled={onError}>
+            확인
+          </button>
         </div>
 
         <CloseBtn onClick={handleCancel} />

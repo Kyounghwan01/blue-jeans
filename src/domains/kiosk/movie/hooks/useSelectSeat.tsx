@@ -4,24 +4,47 @@ import { IComponentRoute } from "features/types/commonSliceType";
 import {
   setSeatInfo,
   setSeats,
-  resetSeats
+  setLastedSeats
 } from "features/kiosk/movieKioskSlice";
 import usePopup from "hooks/usePopup";
 import { IMovieSeats } from "features/types/movieSliceType";
 import useSelectorTyped from "features/useSelectorTyped";
+import { MovieSeats } from "utils/constants";
+import { cloneDeep } from "lodash";
 
 const useSelectSeat = ({ back }: IComponentRoute) => {
   const { handleDomainPopup } = usePopup();
   const dispatch = useDispatch();
-  const { seats, totalPrice, seatsInfo } = useSelectorTyped(state => ({
+  const { seats, totalInfo, movie } = useSelectorTyped(state => ({
     seats: state.movieKiosk.seats,
-    totalPrice: state.movieKiosk.totalPrice,
-    seatsInfo: state.movieKiosk.seatsInfo
+    totalInfo: state.movieKiosk.totalInfo,
+    movie: state.movieKiosk.movie
   }));
 
+  const handleRandomSeat = () => {
+    const randomIndexArray = [];
+    const totalSeats = 40;
+    for (let i = 0; i < totalSeats - movie.lastSeats; i++) {
+      const randomNum = Math.floor(Math.random() * (MovieSeats.length - 1) + 1);
+      if (
+        randomIndexArray.indexOf(randomNum) === -1 &&
+        !MovieSeats[randomNum].alerdySeated
+      ) {
+        randomIndexArray.push(randomNum);
+      } else {
+        i--;
+      }
+    }
+    const newSeats = cloneDeep(MovieSeats);
+    randomIndexArray.forEach(randomSeated => {
+      newSeats[randomSeated].alerdySeated = true;
+    });
+    dispatch(setLastedSeats(newSeats));
+  };
+
   useEffect(() => {
+    handleRandomSeat();
     dispatch(setSeatInfo([]));
-    dispatch(resetSeats());
 
     handleDomainPopup(
       `kiosk/movie/components/SelectSeat/pop/SelectSeatsNumPop`,
@@ -29,7 +52,8 @@ const useSelectSeat = ({ back }: IComponentRoute) => {
       {
         onClose: {
           cancel: back,
-          confirm: (seat: IMovieSeats[]) => dispatch(setSeatInfo(seat))
+          confirm: (seat: IMovieSeats[]) => dispatch(setSeatInfo(seat)),
+          lastSeats: movie.lastSeats
         }
       }
     );
@@ -40,12 +64,12 @@ const useSelectSeat = ({ back }: IComponentRoute) => {
   }, [seats]);
 
   const disabledNextBtn = useMemo(() => {
-    return mapOnlySeatNumber === seatsInfo.length;
-  }, [seats, seatsInfo]);
+    return mapOnlySeatNumber === totalInfo.seat;
+  }, [mapOnlySeatNumber, totalInfo]);
 
   const handleSetSeat = useCallback(
-    (seatNumber: number | string) => {
-      if (!seatNumber) return;
+    (seatNumber: number | string, alerdySeated: boolean) => {
+      if (!seatNumber || alerdySeated) return;
 
       const res = seats.findIndex(el => el.value === seatNumber);
 
@@ -57,11 +81,29 @@ const useSelectSeat = ({ back }: IComponentRoute) => {
     [seats, disabledNextBtn]
   );
 
+  const handleSeatColor = useCallback(
+    seat => {
+      return {
+        border: typeof seat.label === "number" ? "1px solid gray" : "none",
+        background:
+          typeof seat.label === "number" && seat.alerdySeated
+            ? "gray"
+            : seat.isSelected
+            ? "red"
+            : typeof seat.label === "number" && disabledNextBtn
+            ? "gray"
+            : "white"
+      };
+    },
+    [disabledNextBtn]
+  );
+
   return {
     seats,
     handleSetSeat,
-    totalPrice,
-    disabledNextBtn
+    totalInfo,
+    disabledNextBtn,
+    handleSeatColor
   };
 };
 

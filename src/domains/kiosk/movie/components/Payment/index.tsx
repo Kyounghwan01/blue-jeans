@@ -5,8 +5,8 @@ import { IComponentRoute } from "features/types/commonSliceType";
 
 const Payment = ({ next }: IComponentRoute) => {
   const { handleDomainPopup } = usePopup();
-  const { totalPrice } = useSelectorTyped(state => ({
-    totalPrice: state.movieKiosk.totalPrice
+  const { totalInfo } = useSelectorTyped(state => ({
+    totalInfo: state.movieKiosk.totalInfo
   }));
 
   const handlePointModal = () => {
@@ -20,7 +20,7 @@ const Payment = ({ next }: IComponentRoute) => {
       <div className="price-wrapper">
         <div>
           <div>총 결제금액</div>
-          <div>{totalPrice.toLocaleString()}￦</div>
+          <div>{totalInfo.price.toLocaleString()}￦</div>
         </div>
         <div>-</div>
         <div>
@@ -30,7 +30,7 @@ const Payment = ({ next }: IComponentRoute) => {
         <div>=</div>
         <div>
           <div>전체 결제금액</div>
-          <div>{totalPrice.toLocaleString()}￦</div>
+          <div>{totalInfo.price.toLocaleString()}￦</div>
         </div>
       </div>
       <div className="payment-wrapper">

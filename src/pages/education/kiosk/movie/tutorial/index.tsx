@@ -13,7 +13,7 @@ const Index = () => {
   const { currentStep, isReservation } = useSelector(
     (state: RootState) => ({
       currentStep: state.movieKiosk.currentStep,
-      isReservation: state.movieKiosk.isReservation,
+      isReservation: state.movieKiosk.isReservation
     }),
     shallowEqual
   );
@@ -37,10 +37,19 @@ const Index = () => {
   const back = useCallback(() => {
     let backIndex = currentStep - 1;
     if (
-      movie.components[currentStep].step === "CheckReservation" &&
+      ["CheckReservation", "ConfirmMovie"].includes(
+        movie.components[currentStep].step
+      ) &&
       isReservation
     ) {
-      backIndex = 3;
+      const index = movie.components.findIndex(
+        component =>
+          component.step ===
+          (movie.components[currentStep].step === "CheckReservation"
+            ? "BuyTicket"
+            : "CheckReservation")
+      );
+      backIndex = index;
     }
 
     if (currentStep > 0) {
@@ -54,7 +63,7 @@ const Index = () => {
       let nextIndex = currentStep + 1;
       if (nextComponent && typeof nextComponent === "string") {
         nextIndex = movie.components.findIndex(
-          (comp) => comp.step === nextComponent
+          comp => comp.step === nextComponent
         );
       }
       dispatch(setCurrentStep(nextIndex));

@@ -5,7 +5,7 @@ import useSelectorTyped from "features/useSelectorTyped";
 import { movieList } from "utils/constants";
 import {
   setIsViewTotalMovie,
-  setSelectMovie,
+  setSelectMovie
 } from "features/kiosk/movieKioskSlice";
 import { ICurrentMovie } from "features/types/movieSliceType";
 import { IComponentRoute } from "features/types/commonSliceType";
@@ -14,19 +14,21 @@ import usePopup from "hooks/usePopup";
 const Index = ({ next }: IComponentRoute) => {
   const dispatch = useDispatch();
   const { handlePopup } = usePopup();
-  const { isViewTotalMovie, currentTime } = useSelectorTyped((state) => ({
+  const { isViewTotalMovie, currentTime } = useSelectorTyped(state => ({
     isViewTotalMovie: state.movieKiosk.isViewTotalMovie,
-    currentTime: state.common.currentTime,
+    currentTime: state.common.currentTime
   }));
 
   useEffect(() => {
     handlePopup("common/Alert", "", {
-      desc: "<div>전체상영 시간표<br /> 보러가기를<br /> 누르세요!</div>",
+      desc: !isViewTotalMovie
+        ? "<div>전체상영 시간표<br /> 보러가기를<br /> 누르세요!</div>"
+        : `${timeFilterMovieList[0].startAt}시 영화를 클릭하세요!`
     });
-  }, []);
+  }, [isViewTotalMovie]);
 
   const timeFilterMovieList = useMemo(() => {
-    return movieList.filter((movie) => movie.startAt > currentTime);
+    return movieList.filter(movie => movie.startAt > currentTime);
   }, [currentTime]);
 
   const handleCurrentMovie = useCallback((movie: ICurrentMovie) => {
@@ -45,12 +47,12 @@ const Index = ({ next }: IComponentRoute) => {
                 marginTop: "30px",
                 display: "flex",
                 justifyContent: "space-around",
-                padding: "0 18px",
+                padding: "0 18px"
               }}
             >
               {timeFilterMovieList
                 .filter((_, index) => index <= 1)
-                .map((movie) => (
+                .map(movie => (
                   <div
                     key={movie.id}
                     style={{ border: "1px solid gray", padding: "10px" }}
@@ -84,7 +86,7 @@ const Index = ({ next }: IComponentRoute) => {
       ) : (
         <div>
           청춘 영화관
-          {timeFilterMovieList.map((movie) => (
+          {timeFilterMovieList.map(movie => (
             <div
               key={movie.id}
               style={{
@@ -92,7 +94,7 @@ const Index = ({ next }: IComponentRoute) => {
                 padding: "10px",
                 justifyContent: "space-between",
                 border: "1px solid gray",
-                marginBottom: "30px",
+                marginBottom: "30px"
               }}
               onClick={() => handleCurrentMovie(movie)}
             >

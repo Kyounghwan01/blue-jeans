@@ -30,7 +30,6 @@ export const commonSlice = createSlice({
       >
     ) => {
       action.payload.forEach(payload => {
-        console.log(payload);
         state[payload.type] = payload.value;
       });
     }

@@ -9,7 +9,15 @@ const Index = ({ next }: { next: () => Promise<boolean> }) => {
     // dispatch(resetStore());
   };
 
-  return <Intro title="키오스크 체험" type="문화편" next={next} init={init} />;
+  return (
+    <Intro
+      title="키오스크 체험"
+      type="문화편"
+      next={next}
+      init={init}
+      bannerImg="/"
+    />
+  );
 };
 
 export default Index;

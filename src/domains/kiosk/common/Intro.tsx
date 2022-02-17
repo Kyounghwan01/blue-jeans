@@ -6,12 +6,14 @@ const Index = ({
   next,
   init,
   title,
-  type
+  type,
+  bannerImg
 }: {
   next: () => Promise<boolean>;
   init: () => void;
   title: string;
   type: string;
+  bannerImg?: string;
 }) => {
   useEffect(() => {
     init();
@@ -22,6 +24,11 @@ const Index = ({
       <article className="main">
         <section className="main__title">{title}</section>
         <section className="main__type">{type}</section>
+        {bannerImg && (
+          <div className="txt-c">
+            <img src={bannerImg} alt="배너이미지" />
+          </div>
+        )}
         <div className="main__start-btn">
           <PlainButton isBlink={true} onClick={next} text="시작하기" />
         </div>

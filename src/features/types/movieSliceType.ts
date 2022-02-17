@@ -10,7 +10,8 @@ export interface ICurrentMovie {
 
 export interface IMovieSeats {
   type: "adult" | "children" | "disabled" | "older";
-  seat: string;
+  label: string;
+  count: number;
 }
 export interface IMovie {
   currentStep: number;
@@ -18,6 +19,11 @@ export interface IMovie {
   isReservation: boolean;
   movie: ICurrentMovie;
   seatsInfo: IMovieSeats[];
-  totalPrice: number;
-  seats: { label: number | string; value: string; isSelected: boolean }[];
+  totalInfo: { price: number; seat: number };
+  seats: {
+    label: number | string;
+    value: string;
+    isSelected: boolean;
+    alerdySeated: boolean;
+  }[];
 }

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import {
   setIsViewTotalMovie,
-  setSeatInfo,
+  setSeatInfo
 } from "features/kiosk/movieKioskSlice";
 import { setCurrentDate } from "features/commonSlice";
 import { getDateCustomFormat } from "utils";
@@ -11,32 +11,32 @@ import useSelectorTyped from "features/useSelectorTyped";
 import usePopup from "hooks/usePopup";
 
 const Index = ({
-  next,
+  next
 }: {
   next: (nextComponent?: string) => Promise<boolean>;
 }) => {
   const dispatch = useDispatch();
   const { handlePopup } = usePopup();
-  const { currentDate, currentTime } = useSelectorTyped((state) => ({
+  const { currentDate, currentTime } = useSelectorTyped(state => ({
     currentDate: state.common.currentDate,
-    currentTime: state.common.currentTime,
+    currentTime: state.common.currentTime
   }));
 
   useEffect(() => {
     handlePopup("common/Alert", "", {
-      desc: "티켓구매를 누르세요.",
+      desc: "티켓구매를 누르세요."
     });
 
     dispatch(
       setCurrentDate([
         {
           type: "currentDate",
-          value: getDateCustomFormat("M월 DD일 (ddd)"),
+          value: getDateCustomFormat("M월 DD일 (ddd)")
         },
         {
           type: "currentTime",
-          value: getDateCustomFormat("HH:mm"),
-        },
+          value: getDateCustomFormat("HH:mm")
+        }
       ])
     );
   }, []);
@@ -47,7 +47,7 @@ const Index = ({
       dispatch(
         setIsViewTotalMovie({
           type: "isViewTotalMovie",
-          value: type === "totalView",
+          value: type === "totalView"
         })
       );
       next();
@@ -57,12 +57,7 @@ const Index = ({
 
   const handleReserverationTicket = useCallback(() => {
     dispatch(setIsViewTotalMovie({ type: "isReservation", value: true }));
-    dispatch(
-      setSeatInfo([
-        { type: "adult", seat: "" },
-        { type: "adult", seat: "" },
-      ])
-    );
+    dispatch(setSeatInfo([{ type: "adult", count: 2, label: "어른" }]));
     next("CheckReservation");
   }, []);
 
