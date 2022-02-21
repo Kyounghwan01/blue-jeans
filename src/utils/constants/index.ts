@@ -16,32 +16,32 @@ export const NAVER_REDIRECT_URI = `${
 export const QuestionType = [
   {
     value: "not-choice",
-    label: "문의유형을 선택해주세요"
+    label: "문의유형을 선택해주세요",
   },
   {
     value: "user-info",
-    label: "회원정보"
+    label: "회원정보",
   },
   {
     value: "using",
-    label: "이용안내"
+    label: "이용안내",
   },
   {
     value: "trouble",
-    label: "오류/불편"
+    label: "오류/불편",
   },
   {
     value: "partnership",
-    label: "제휴"
+    label: "제휴",
   },
   {
     value: "education",
-    label: "교육문의"
+    label: "교육문의",
   },
   {
     value: "etc",
-    label: "기타"
-  }
+    label: "기타",
+  },
 ];
 
 export const kioskProducts = [
@@ -55,14 +55,14 @@ export const kioskProducts = [
       {
         name: "공깃밥",
         price: 1000,
-        img: ""
+        img: "",
       },
       {
         name: "돈까스 추가",
         price: 3000,
-        img: ""
-      }
-    ]
+        img: "",
+      },
+    ],
   },
   {
     type: "fork",
@@ -74,19 +74,19 @@ export const kioskProducts = [
       {
         name: "공깃밥",
         price: 1000,
-        img: ""
+        img: "",
       },
       {
         name: "돈까스 추가",
         price: 3000,
-        img: ""
+        img: "",
       },
       {
         name: "돈까스 두개 추가",
         price: 4500,
-        img: ""
-      }
-    ]
+        img: "",
+      },
+    ],
   },
   {
     type: "fork",
@@ -98,85 +98,85 @@ export const kioskProducts = [
       {
         name: "돈까스 추가",
         price: 3000,
-        img: ""
+        img: "",
       },
       {
         name: "돈까스 두개 추가",
         price: 4500,
-        img: ""
-      }
-    ]
+        img: "",
+      },
+    ],
   },
   {
     type: "fork",
     name: "함박스테이크",
     price: 8500,
     img: "",
-    desc: ""
+    desc: "",
   },
   {
     type: "rice",
     name: "돈부리",
     price: 8500,
     img: "",
-    desc: ""
+    desc: "",
   },
   {
     type: "rice",
     name: "김치볶음밥",
     price: 8500,
     img: "",
-    desc: ""
+    desc: "",
   },
   {
     type: "noodle",
     name: "칼국수",
     price: 8500,
     img: "",
-    desc: ""
+    desc: "",
   },
   {
     type: "noodle",
     name: "쌀국수",
     price: 18500,
     img: "",
-    desc: ""
+    desc: "",
   },
   {
     type: "side",
     name: "밥",
     price: 1000,
     img: "",
-    desc: ""
+    desc: "",
   },
   {
     type: "side",
     name: "면",
     price: 1000,
     img: "",
-    desc: ""
+    desc: "",
   },
   {
     type: "drink",
     name: "콜라",
     price: 2000,
     img: "",
-    desc: ""
+    desc: "",
   },
   {
     type: "drink",
     name: "사이다",
     price: 2000,
     img: "",
-    desc: ""
+    desc: "",
   },
   {
     type: "drink",
     name: "환타",
     price: 2000,
     img: "",
-    desc: ""
-  }
+    desc: "",
+  },
 ] as IMenu[];
 
 export const kioskTab = [
@@ -184,7 +184,7 @@ export const kioskTab = [
   { type: "rice", label: "덮밥류" },
   { type: "noodle", label: "면류" },
   { type: "side", label: "사이드류" },
-  { type: "drink", label: "음류/주류" }
+  { type: "drink", label: "음류/주류" },
 ];
 
 /*
@@ -206,7 +206,7 @@ export const quilFormats = [
   "indent",
   "link",
   "image",
-  "video"
+  "video",
 ];
 
 // const modules = {
@@ -237,122 +237,122 @@ export const terminals = [
     id: 1,
     label: "내촌",
     word: "ㄴ",
-    location: "경기도"
+    location: "경기도",
   },
   {
     id: 2,
     label: "삼척",
     word: "ㅅ",
-    location: "강원도"
+    location: "강원도",
   },
   {
     id: 3,
     label: "상남",
     word: "ㅅ",
-    location: "경남"
+    location: "경남",
   },
   {
     id: 4,
     label: "양양",
     word: "ㅇ",
-    location: "강원도"
+    location: "강원도",
   },
   {
     id: 5,
     label: "원주",
     word: "ㅇ",
-    location: "강원도"
+    location: "강원도",
   },
   {
     id: 6,
     label: "양평",
     word: "ㅇ",
-    location: "경기도"
+    location: "경기도",
   },
   {
     id: 7,
     label: "의정부",
     word: "ㅇ",
-    location: "경기도"
+    location: "경기도",
   },
   {
     id: 8,
     label: "평택",
     word: "ㅍ",
-    location: "경기도"
+    location: "경기도",
   },
   {
     id: 9,
     label: "당진",
     word: "ㄷ",
-    location: "충남"
+    location: "충남",
   },
   {
     id: 10,
     label: "아산",
     word: "ㅇ",
-    location: "충남"
+    location: "충남",
   },
   {
     id: 11,
     label: "천안",
     word: "ㅊ",
-    location: "충남"
+    location: "충남",
   },
   {
     id: 12,
     label: "단양",
     word: "ㄷ",
-    location: "충북"
+    location: "충북",
   },
   {
     id: 13,
     label: "진천",
     word: "ㅈ",
-    location: "충북"
+    location: "충북",
   },
   {
     id: 14,
     label: "청주",
     word: "ㅊ",
-    location: "충북"
+    location: "충북",
   },
   {
     id: 15,
     label: "목포",
     word: "ㅁ",
-    location: "전남"
+    location: "전남",
   },
   {
     id: 16,
     label: "순천",
     word: "ㅅ",
-    location: "전남"
+    location: "전남",
   },
   {
     id: 17,
     label: "여수",
     word: "ㅇ",
-    location: "전남"
+    location: "전남",
   },
   {
     id: 18,
     label: "마산",
     word: "ㅁ",
-    location: "경남"
+    location: "경남",
   },
   {
     id: 19,
     label: "진주",
     word: "ㅈ",
-    location: "경남"
+    location: "경남",
   },
   {
     id: 20,
     label: "통영",
     word: "ㅌ",
-    location: "경남"
-  }
+    location: "경남",
+  },
 ] as {
   id: number;
   label: string;
@@ -373,7 +373,7 @@ export const word = [
   "ㅊ",
   "ㅌ",
   "ㅍ",
-  "ㅎ"
+  "ㅎ",
 ];
 
 export const busTimeList = [
@@ -384,7 +384,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "common",
-    lastSeat: 19
+    lastSeat: 19,
   },
   {
     id: 2,
@@ -393,7 +393,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "common",
-    lastSeat: 17
+    lastSeat: 17,
   },
   {
     id: 3,
@@ -402,7 +402,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 8
+    lastSeat: 8,
   },
   {
     id: 4,
@@ -411,7 +411,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2.5,
     grade: "common",
-    lastSeat: 15
+    lastSeat: 15,
   },
   {
     id: 5,
@@ -420,7 +420,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 1
+    lastSeat: 1,
   },
   {
     id: 6,
@@ -429,7 +429,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2.5,
     grade: "common",
-    lastSeat: 9
+    lastSeat: 9,
   },
   {
     id: 7,
@@ -438,7 +438,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "common",
-    lastSeat: 9
+    lastSeat: 9,
   },
   {
     id: 8,
@@ -447,7 +447,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2.5,
     grade: "common",
-    lastSeat: 11
+    lastSeat: 11,
   },
   {
     id: 9,
@@ -456,7 +456,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "common",
-    lastSeat: 9
+    lastSeat: 9,
   },
   {
     id: 10,
@@ -465,7 +465,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 3
+    lastSeat: 3,
   },
   {
     id: 11,
@@ -474,7 +474,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "common",
-    lastSeat: 8
+    lastSeat: 8,
   },
   {
     id: 12,
@@ -483,7 +483,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "common",
-    lastSeat: 12
+    lastSeat: 12,
   },
   {
     id: 13,
@@ -492,7 +492,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2.5,
     grade: "common",
-    lastSeat: 15
+    lastSeat: 15,
   },
   {
     id: 14,
@@ -501,7 +501,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "common",
-    lastSeat: 19
+    lastSeat: 19,
   },
   {
     id: 15,
@@ -510,7 +510,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "common",
-    lastSeat: 10
+    lastSeat: 10,
   },
   {
     id: 16,
@@ -519,7 +519,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2.5,
     grade: "common",
-    lastSeat: 12
+    lastSeat: 12,
   },
   {
     id: 17,
@@ -528,7 +528,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2.5,
     grade: "common",
-    lastSeat: 14
+    lastSeat: 14,
   },
   {
     id: 18,
@@ -537,7 +537,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 5
+    lastSeat: 5,
   },
   {
     id: 19,
@@ -546,7 +546,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2.5,
     grade: "common",
-    lastSeat: 13
+    lastSeat: 13,
   },
   {
     id: 20,
@@ -555,7 +555,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 8
+    lastSeat: 8,
   },
   {
     id: 21,
@@ -564,7 +564,7 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 9
+    lastSeat: 9,
   },
   {
     id: 22,
@@ -573,8 +573,8 @@ export const busTimeList = [
     company: "청춘고속",
     time: 2,
     grade: "top",
-    lastSeat: 17
-  }
+    lastSeat: 17,
+  },
 ] as ITicket[];
 
 export const movieList = [
@@ -585,7 +585,7 @@ export const movieList = [
     endAt: "11:00",
     img: "",
     lastSeats: 32,
-    grade: 15
+    grade: 15,
   },
   {
     id: 2,
@@ -594,7 +594,7 @@ export const movieList = [
     endAt: "11:40",
     img: "",
     lastSeats: 28,
-    grade: 12
+    grade: 12,
   },
   {
     id: 3,
@@ -603,7 +603,7 @@ export const movieList = [
     endAt: "10:40",
     img: "",
     lastSeats: 22,
-    grade: 15
+    grade: 15,
   },
   {
     id: 4,
@@ -612,7 +612,7 @@ export const movieList = [
     endAt: "13:00",
     img: "",
     lastSeats: 20,
-    grade: 12
+    grade: 12,
   },
   {
     id: 5,
@@ -621,7 +621,7 @@ export const movieList = [
     endAt: "13:35",
     img: "",
     lastSeats: 18,
-    grade: 12
+    grade: 12,
   },
   {
     id: 6,
@@ -630,7 +630,7 @@ export const movieList = [
     endAt: "15:05",
     img: "",
     lastSeats: 8,
-    grade: 12
+    grade: 12,
   },
   {
     id: 7,
@@ -639,7 +639,7 @@ export const movieList = [
     endAt: "16:00",
     img: "",
     lastSeats: 19,
-    grade: 8
+    grade: 8,
   },
   {
     id: 8,
@@ -648,7 +648,7 @@ export const movieList = [
     endAt: "16:50",
     img: "",
     lastSeats: 11,
-    grade: 15
+    grade: 15,
   },
   {
     id: 9,
@@ -657,7 +657,7 @@ export const movieList = [
     endAt: "17:50",
     img: "",
     lastSeats: 23,
-    grade: 8
+    grade: 8,
   },
   {
     id: 10,
@@ -666,7 +666,7 @@ export const movieList = [
     endAt: "18:40",
     img: "",
     lastSeats: 30,
-    grade: 15
+    grade: 15,
   },
   {
     id: 11,
@@ -675,7 +675,7 @@ export const movieList = [
     endAt: "19:30",
     img: "",
     lastSeats: 40,
-    grade: 12
+    grade: 12,
   },
   {
     id: 12,
@@ -684,7 +684,7 @@ export const movieList = [
     endAt: "22:00",
     img: "",
     lastSeats: 31,
-    grade: 15
+    grade: 15,
   },
   {
     id: 13,
@@ -693,7 +693,7 @@ export const movieList = [
     endAt: "22:30",
     img: "",
     lastSeats: 36,
-    grade: 15
+    grade: 15,
   },
   {
     id: 14,
@@ -702,7 +702,7 @@ export const movieList = [
     endAt: "23:00",
     img: "",
     lastSeats: 20,
-    grade: 15
+    grade: 15,
   },
   {
     id: 15,
@@ -711,7 +711,7 @@ export const movieList = [
     endAt: "24:00",
     img: "",
     lastSeats: 29,
-    grade: 15
+    grade: 15,
   },
   {
     id: 16,
@@ -720,8 +720,8 @@ export const movieList = [
     endAt: "26:00",
     img: "",
     lastSeats: 33,
-    grade: 19
-  }
+    grade: 19,
+  },
 ];
 
 export const MovieSeats = [
@@ -779,5 +779,5 @@ export const MovieSeats = [
   { label: 6, value: "E6", isSelected: false, alerdySeated: false },
   { label: 7, value: "E7", isSelected: false, alerdySeated: false },
   { label: 8, value: "E8", isSelected: false, alerdySeated: false },
-  { label: "E", value: "", isSelected: false, alerdySeated: true }
+  { label: "E", value: "", isSelected: false, alerdySeated: true },
 ];
