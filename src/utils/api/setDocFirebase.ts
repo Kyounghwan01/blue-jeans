@@ -17,10 +17,10 @@ const setDocFirebase = async ({
   try {
     if (setType === "selectKey") {
       await setDoc(doc(db, dbColumn, dbKey), payload, { merge: true });
-      return { isSuccess: true };
+      return { isSuccess: true, id: "" };
     } else {
-      await addDoc(collection(db, dbColumn), payload);
-      return { isSuccess: true };
+      const res = await addDoc(collection(db, dbColumn), payload);
+      return { isSuccess: true, id: res.id };
     }
   } catch (e) {
     return { isSuccess: false, errMessage: JSON.stringify(e) };
