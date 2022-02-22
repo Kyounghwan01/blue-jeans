@@ -19,7 +19,7 @@ const Chat = () => {
 
   const getMemberProfile = async (memberList: string[]) => {
     console.log(memberList);
-    const res = await memberList.reduce(async (acc, cur) => {
+    const res = await memberList.reduce(async (acc, cur): Promise<any> => {
       const jobsArray = (await acc) as {
         profileImage: string;
         nickName: string;
