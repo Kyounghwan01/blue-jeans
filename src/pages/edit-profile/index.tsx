@@ -23,7 +23,7 @@ import deleteImageFirebase from "utils/api/deleteImageFirebase";
 import updateDocFirebase from "utils/api/updateDocFirebase";
 import usePopup from "hooks/usePopup";
 import withAuth from "components/common/withAuth";
-import { collection, query, where, getDocs } from "firebase/firestore/lite";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "utils/api/firebase";
 
 const Index = () => {

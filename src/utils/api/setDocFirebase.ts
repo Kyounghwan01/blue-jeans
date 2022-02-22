@@ -1,5 +1,5 @@
 import { db } from "utils/api/firebase";
-import { setDoc, doc, collection, addDoc } from "firebase/firestore/lite";
+import { setDoc, doc, collection, addDoc } from "firebase/firestore";
 
 interface IsetDocFirebase {
   dbColumn: string;
@@ -12,7 +12,7 @@ const setDocFirebase = async ({
   dbColumn,
   dbKey = "",
   payload,
-  setType = "selectKey",
+  setType = "selectKey"
 }: IsetDocFirebase) => {
   try {
     if (setType === "selectKey") {

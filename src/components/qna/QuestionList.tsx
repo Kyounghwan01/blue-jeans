@@ -1,7 +1,7 @@
 import { useEffect, useCallback, Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { collection, query, where, getDocs } from "firebase/firestore/lite";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "utils/api/firebase";
 import { useSelector, useDispatch } from "react-redux";
 import { getQnaList, setQna } from "features/qnaSlice";

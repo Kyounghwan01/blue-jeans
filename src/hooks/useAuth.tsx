@@ -11,7 +11,7 @@ import {
   getDocs,
   deleteDoc,
   doc
-} from "firebase/firestore/lite";
+} from "firebase/firestore";
 import { db } from "utils/api/firebase";
 import { logoutKakao, withDrawalKakao } from "utils/api/kakao";
 import deleteImageFirebase from "utils/api/deleteImageFirebase";

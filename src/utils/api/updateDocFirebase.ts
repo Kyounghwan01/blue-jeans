@@ -1,5 +1,5 @@
 import { db } from "utils/api/firebase";
-import { updateDoc, doc } from "firebase/firestore/lite";
+import { updateDoc, doc } from "firebase/firestore";
 
 interface IsetDocFirebase {
   dbColumn: string;
@@ -10,7 +10,7 @@ interface IsetDocFirebase {
 const updateDocFirebase = async ({
   dbColumn,
   dbKey = "",
-  payload,
+  payload
 }: IsetDocFirebase): Promise<{
   isSuccess: boolean;
   errMessage: string | null;

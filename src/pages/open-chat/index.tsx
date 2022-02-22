@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import BasicLayout from "components/common/BasicLayout";
 import setDocFirebase from "utils/api/setDocFirebase";
-import { collection, query, getDocs } from "firebase/firestore/lite";
+import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "utils/api/firebase";
 import Link from "next/link";
 import AddIcon from "@mui/icons-material/Add";
@@ -48,7 +48,6 @@ const Index = () => {
         memberCount: 1
       }
     });
-    console.log(res);
 
     const resCreateMember = await setDocFirebase({
       dbColumn: "chat-room-member",

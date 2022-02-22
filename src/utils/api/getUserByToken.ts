@@ -5,7 +5,7 @@ import {
   getDocs,
   doc,
   getDoc
-} from "firebase/firestore/lite";
+} from "firebase/firestore";
 import { db } from "utils/api/firebase";
 import { UserSliceStateType } from "features/types/userSliceType";
 

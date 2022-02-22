@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { setKakao } from "features/commonSlice";
 import { login } from "features/userSlice";
 import { UserSliceStateType } from "features/types/userSliceType";
-import { doc, getDoc } from "firebase/firestore/lite";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "utils/api/firebase";
 import { getKakaoUser } from "utils/api/kakao";
 import { getUserByToken } from "utils/api/getUserByToken";
