@@ -1,0 +1,28 @@
+{
+  "chat": [{
+    "id": "chat_uid",
+    "name": "채팅방",
+    "owner": "owner_uid",
+    "timestamp": "string",
+    "lastMessageSent": "chat_message_uid"
+  }],
+  "chat_member": [{
+    "id": "chat_member_uid",
+    "chat_uid": "chat_uid",
+    "member": ["member1_uid", "member2_uid"]
+  }],
+  "chat_message": [{
+    "chat_uid": [{
+      "uid": "chat_message_uid",
+      "content": "안녕하세요 노경환입니다",
+      "img": "이미지 url",
+      "timestamp": "string",
+      "sentBy": "member1_uid"
+    }]
+  }]
+}
+// 유저가 자신이 속한 채팅방을 찾을때?
+
+// 전체 채팅방 -> 어짜피 다 가져와야하네
+
+// 방 유입 어떻게 시킬것인지??

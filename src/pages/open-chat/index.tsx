@@ -1,29 +1,24 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { RootState } from "app/store";
 import BasicLayout from "components/common/BasicLayout";
 import setDocFirebase from "utils/api/setDocFirebase";
 import { collection, query, getDocs } from "firebase/firestore/lite";
 import { db } from "utils/api/firebase";
 import Link from "next/link";
+import AddIcon from "@mui/icons-material/Add";
+import Fab from "@mui/material/Fab";
 
 interface IChatRoom {
   id: string;
+  desc: string;
+  memberCount: number;
+  owner: string;
+  title: string;
 }
 
 const Index = () => {
   const router = useRouter();
-  const [room, setRoom] = useState<
-    {
-      id: string;
-      desc: string;
-      memberCount: number;
-      owner: string;
-      title: string;
-    }[]
-  >([]);
+  const [room, setRoom] = useState<IChatRoom[]>([]);
 
   useEffect(() => {
     getRoom();
@@ -33,9 +28,9 @@ const Index = () => {
     // 일단 다 긁어오기
     const roomRef = collection(db, "chat-room");
     const data = await getDocs(await query(roomRef));
-    const roomList = data.docs.map((doc) => {
+    const roomList = data.docs.map(doc => {
       return { id: doc.id, ...doc.data() };
-    });
+    }) as IChatRoom[];
     setRoom(roomList);
   };
 
@@ -50,8 +45,8 @@ const Index = () => {
         title: 222,
         desc: 333,
         tag: [1, 2, 3],
-        memberCount: 1,
-      },
+        memberCount: 1
+      }
     });
     console.log(res);
 
@@ -61,8 +56,8 @@ const Index = () => {
       setType: "selectKey",
       payload: {
         owner: "2042204892",
-        member: ["2042204892"],
-      },
+        member: ["2042204892"]
+      }
     });
     console.log(resCreateMember);
   };
@@ -81,7 +76,14 @@ const Index = () => {
       {room.length && (
         <Link href={`/open-chat/${room[0].id}`}>{JSON.stringify(room)}</Link>
       )}
-      <button onClick={createOpenChat}>create</button>
+      <Fab
+        sx={{ position: "absolute", bottom: 16, right: 16 }}
+        aria-label={"Add"}
+        color="primary"
+        onClick={createOpenChat}
+      >
+        <AddIcon />
+      </Fab>
     </BasicLayout>
   );
 };
