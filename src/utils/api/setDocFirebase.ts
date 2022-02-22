@@ -1,5 +1,5 @@
 import { db } from "utils/api/firebase";
-import { setDoc, doc, collection, addDoc } from "firebase/firestore/lite";
+import { setDoc, doc, collection, addDoc } from "firebase/firestore";
 
 interface IsetDocFirebase {
   dbColumn: string;
@@ -12,15 +12,15 @@ const setDocFirebase = async ({
   dbColumn,
   dbKey = "",
   payload,
-  setType = "selectKey",
+  setType = "selectKey"
 }: IsetDocFirebase) => {
   try {
     if (setType === "selectKey") {
       await setDoc(doc(db, dbColumn, dbKey), payload, { merge: true });
-      return { isSuccess: true };
+      return { isSuccess: true, id: "" };
     } else {
-      await addDoc(collection(db, dbColumn), payload);
-      return { isSuccess: true };
+      const res = await addDoc(collection(db, dbColumn), payload);
+      return { isSuccess: true, id: res.id };
     }
   } catch (e) {
     return { isSuccess: false, errMessage: JSON.stringify(e) };

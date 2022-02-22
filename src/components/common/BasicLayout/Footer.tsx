@@ -22,7 +22,7 @@ const Footer = ({ tab, setTab }: IFooter) => {
   }, []);
 
   const goFriend = useCallback(() => {
-    router.push("/friend-chat");
+    router.push("/open-chat");
   }, []);
 
   const goKiosk = useCallback(() => {
@@ -59,7 +59,7 @@ const Footer = ({ tab, setTab }: IFooter) => {
           />
           <BottomNavigationAction
             onClick={goFriend}
-            label="friend-chat"
+            label="open-chat"
             icon={<ArchiveIcon />}
           />
           <BottomNavigationAction
