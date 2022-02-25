@@ -15,8 +15,7 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     letter-spacing: -1px;
     font-size: 15px;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: 'Apple SD Gothic','Noto Sans KR','맑은고딕','Nanum Gothic',sans-serif !important;
   }
 
   .txt-c {

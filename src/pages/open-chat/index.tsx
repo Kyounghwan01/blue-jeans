@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import BasicLayout from "components/common/BasicLayout";
 import setDocFirebase from "utils/api/setDocFirebase";
 import { collection, query, getDocs } from "firebase/firestore";
@@ -17,7 +16,6 @@ interface IChatRoom {
 }
 
 const Index = () => {
-  const router = useRouter();
   const [room, setRoom] = useState<IChatRoom[]>([]);
 
   useEffect(() => {
@@ -35,7 +33,6 @@ const Index = () => {
   };
 
   const createOpenChat = async () => {
-    console.log(1);
     const res = await setDocFirebase({
       dbColumn: "chat-room",
       setType: "anonymous",
@@ -72,9 +69,19 @@ const Index = () => {
       footer={true}
       loading={false}
     >
-      {room.length && (
-        <Link href={`/open-chat/${room[0].id}`}>{JSON.stringify(room)}</Link>
-      )}
+      {room.map(el => (
+        <Link key={el.id} href={`/open-chat/${el.id}`}>
+          <a
+            style={{
+              border: "1px solid black",
+              display: "block",
+              margin: "10px"
+            }}
+          >
+            {el.title} <span>{el.memberCount}명</span> <span>{el.desc}</span>
+          </a>
+        </Link>
+      ))}
       <Fab
         sx={{ position: "absolute", bottom: 16, right: 16 }}
         aria-label={"Add"}

@@ -18,6 +18,7 @@ import { Integrations } from "@sentry/tracing";
 import dayjs from "dayjs";
 import "utils/api/firebase";
 import "dayjs/locale/ko";
+import "../styles/ui.common.scss";
 dayjs.locale("ko");
 
 if (process.env.NODE_ENV === "production") {

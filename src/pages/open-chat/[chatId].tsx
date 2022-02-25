@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import { collection, getDoc, doc, onSnapshot } from "firebase/firestore";
-import dayjs from "dayjs";
 import setDocFirebase from "utils/api/setDocFirebase";
 import { db } from "utils/api/firebase";
 import ChatInput from "./ChatInput";
@@ -18,8 +17,9 @@ const Chat = () => {
     }[]
   >([]);
 
+  // 최초 25개만 가져오고, orderby가 )
   useEffect(() => {
-    const chatRef = collection(db, "chat-message/AQl1jDcW9l2YAcS4zaVE/message");
+    const chatRef = collection(db, `chat-message/${chatId}/message`);
 
     const unsubscribe = onSnapshot(chatRef, querySnapshot => {
       const chat = querySnapshot.docs.map(doc => ({
@@ -32,7 +32,8 @@ const Chat = () => {
         id: string;
       }[];
       console.log(chat);
-      //todo: 스크롤 바닥으로
+
+      window.scroll({ behavior: "smooth", top: 9999 });
       setChat(chat);
     });
 
@@ -76,12 +77,13 @@ const Chat = () => {
   };
 
   const submit = useCallback(async (text: string) => {
+    if (!text) return;
     setDocFirebase({
-      dbColumn: `chat-message/AQl1jDcW9l2YAcS4zaVE/message`,
-      dbKey: String(dayjs().unix()),
-      setType: "selectKey",
+      dbColumn: `chat-message/${chatId}/message`,
+      setType: "anonymous",
       payload: {
         content: text,
+        img: null,
         sendBy: "2042204892"
       }
     });

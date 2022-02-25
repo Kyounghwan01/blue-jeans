@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="134.558" height="42.547" viewBox="0 0 134.558 42.547">
+  <g id="group_16" data-name="group 16" transform="translate(0)">
+    <g id="group_1" data-name="group 1" transform="translate(0.515 2.318)">
+      <rect id="rect_3" data-name="rect 3" width="29.498" height="4.821" transform="translate(0 0)" fill="#fff"/>
+    </g>
+    <g id="group_2" data-name="group 2" transform="translate(30.609 9.163)">
+      <rect id="rect_4" data-name="rect 4" width="5.537" height="5.408" transform="translate(0 0)" fill="#fff"/>
+    </g>
+    <g id="group_3" data-name="group 3" transform="translate(35.579 0)">
+      <rect id="rect_5" data-name="rect 5" width="5.408" height="23.734" transform="translate(0 0)" fill="#fff"/>
+    </g>
+    <g id="group_4" data-name="group 4" transform="translate(17.841 12.153)">
+      <circle id="round_5" data-name="round 5" cx="5.67" cy="5.67" r="5.67" transform="translate(0 0)" fill="#fff"/>
+    </g>
+    <g id="group_5" data-name="group 5" transform="translate(0 26.708)">
+      <path id="pass_1" data-name="pass 1" d="M196.526,658.124h-25.5a7.606,7.606,0,0,1-7.6-7.6v-.644a7.606,7.606,0,0,1,7.6-7.6h25.5a7.606,7.606,0,0,1,7.6,7.6v.644A7.606,7.606,0,0,1,196.526,658.124Zm-25.5-10.431a2.192,2.192,0,0,0-2.189,2.189v.644a2.192,2.192,0,0,0,2.189,2.189h25.5a2.191,2.191,0,0,0,2.189-2.189v-.644a2.191,2.191,0,0,0-2.189-2.189Z" transform="translate(-163.432 -642.285)" fill="#fff"/>
+    </g>
+    <g id="group_6" data-name="group 6" transform="translate(0.129 0)">
+      <path id="pass_2" data-name="pass 2" d="M163.821,586.257v-5.408c3.139,0,5.512-.857,7.255-2.618,3.194-3.228,3.176-8.493,3.175-8.546v-7.909h5.408v7.853c.006.618-.033,7.611-4.7,12.367C172.184,584.823,168.436,586.257,163.821,586.257Z" transform="translate(-163.821 -561.776)" fill="#fff"/>
+    </g>
+    <g id="group_7" data-name="group 7" transform="translate(94.863 1.051)">
+      <rect id="rect_6" data-name="rect 6" width="26.527" height="5.408" transform="translate(0 0)" fill="#fff"/>
+    </g>
+    <g id="group_8" data-name="group 8" transform="translate(94.476 3.035)">
+      <path id="pass_3" data-name="pass 3" d="M448.223,608.138V602.73c3.153,0,5.534-.864,7.279-2.642,3.16-3.219,3.153-8.459,3.152-8.511V570.924h5.408v20.587c.006.616-.031,7.611-4.7,12.367C456.586,606.7,452.838,608.138,448.223,608.138Z" transform="translate(-448.223 -570.924)" fill="#fff"/>
+    </g>
+    <g id="group_9" data-name="group 9" transform="translate(110.746 28.076)">
+      <circle id="round_6" data-name="round 6" cx="5.75" cy="5.75" r="5.75" transform="translate(0 0)" fill="#fff"/>
+    </g>
+    <g id="group_10" data-name="group 10" transform="translate(128.837 0.758)">
+      <rect id="rect_7" data-name="rect 7" width="5.721" height="39.827" transform="translate(0 0)" fill="#fff"/>
+    </g>
+    <g id="group_11" data-name="group 11" transform="translate(67.192 1.528)">
+      <rect id="rect_8" data-name="rect 8" width="5.408" height="19.573" transform="translate(0 0)" fill="#fff"/>
+    </g>
+    <g id="group_12" data-name="group 12" transform="translate(78.008 0.421)">
+      <rect id="rect_9" data-name="rect 9" width="5.408" height="40.567" transform="translate(0 0)" fill="#fff"/>
+    </g>
+    <g id="group_13" data-name="group 13" transform="translate(50.756 15.692)">
+      <rect id="rect_10" data-name="rect 10" width="17.132" height="5.408" fill="#fff"/>
+    </g>
+    <g id="group_14" data-name="group 14" transform="translate(81.614 18.001)">
+      <rect id="rect_11" data-name="rect 11" width="6.954" height="5.408" fill="#fff"/>
+    </g>
+    <g id="group_15" data-name="group 15" transform="translate(49.641 1.527)">
+      <path id="pass_4" data-name="pass 4" d="M318.478,605.161c-.77.066-1.559.039-2.4.039l.311-5.33a16.838,16.838,0,0,0,2.093-.12V566.38H313.07v38.889" transform="translate(-313.07 -566.38)" fill="#fff"/>
+      <path id="pass_5" data-name="pass 5" d="M341.516,625.382a14.939,14.939,0,0,1-6.327,11.141,13.432,13.432,0,0,1-5.816,2.656v5.411a17.3,17.3,0,0,0,10.38-4.273,21.086,21.086,0,0,0,7.171-14.935Z" transform="translate(-323.965 -605.809)" fill="#fff"/>
+      <path id="pass_6" data-name="pass 6" d="M322.437,667.09l-.311,5.33c.845,0,1.634.027,2.4-.04V666.97A16.85,16.85,0,0,1,322.437,667.09Z" transform="translate(-319.122 -633.6)" fill="#fff"/>
+    </g>
+  </g>
+</svg>
