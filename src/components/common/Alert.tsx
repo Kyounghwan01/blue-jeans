@@ -42,9 +42,12 @@ const Alert = ({
   return (
     <AlertBlock>
       <article>
-        <header>{title}</header>
+        <header className="txt-b txt-c">{title}</header>
         <section>
-          <p dangerouslySetInnerHTML={{ __html: extraData.desc }} />
+          <p
+            className="txt-c"
+            dangerouslySetInnerHTML={{ __html: extraData.desc }}
+          />
           <div className="btn-group">
             <button className="btn-group__ok-btn" onClick={close}>
               <span>확인</span>
@@ -78,10 +81,10 @@ const AlertBlock = styled.dialog`
     position: relative;
     top: -40px;
     width: 80vw;
-    border-radius: 8px;
+    border-radius: 17px;
     padding: 20px;
     header {
-      font-size: 20px;
+      font-size: 22px;
     }
     section {
       p {
@@ -94,22 +97,25 @@ const AlertBlock = styled.dialog`
         border: none;
         background: white;
         width: 100%;
-        border: 1px solid #dddddd;
-        border-radius: 4px;
+        border: 1px solid #bfbfbf;
+        border-radius: 10px;
         padding: 6px 0;
         margin-top: 10px;
+        height: 40px;
         span {
+          color: #8d8d8d;
           font-size: 16px;
           font-weight: bold;
         }
       }
       &__ok-btn {
         border: none;
-        background: dodgerblue;
-        border: 1px solid dodgerblue;
+        background: var(--primary-color);
+        border: 1px solid var(--primary-color);
         width: 100%;
-        border-radius: 4px;
+        border-radius: 10px;
         padding: 6px 0;
+        height: 40px;
         span {
           font-size: 16px;
           font-weight: bold;

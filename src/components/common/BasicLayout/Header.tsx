@@ -18,7 +18,7 @@ const Header = (headerProps: IHeader) => {
       ) : (
         <div />
       )}
-      <span className="custom-font-header-title">{title}</span>
+      <span className="custom-font-header-title txt-b">{title}</span>
       {icons ? <ArrowBackIosNewIcon /> : <div />}
     </Block>
   );
@@ -30,7 +30,7 @@ const Block = styled.header`
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   padding: 0 10px;
-  border-bottom: 1px solid #dddddd;
+  /* border-bottom: 1px solid #dddddd; */
   z-index: 2;
   background: white;
   background-color: ${props => props.theme.palette.test};

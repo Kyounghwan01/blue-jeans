@@ -27,6 +27,9 @@ export const GlobalStyle = createGlobalStyle`
   .txt-l {
     text-align: left;
   }
+  .txt-b {
+    font-weight: bold;
+  }
 
   .blink {
     animation: ${BlinkHint} 1.5s step-end infinite;

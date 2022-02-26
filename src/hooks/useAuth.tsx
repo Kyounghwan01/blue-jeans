@@ -107,7 +107,7 @@ const useAuth = () => {
 
   const withDrawal = () => {
     handlePopup("common/Alert", "탈퇴하기", {
-      desc: "정말 탈퇴 하시겠어요?",
+      desc: `정말 떠나시나요? 너무 아쉬워요<br/>계정을 삭제하면 게시글, 댓글, 수강정보 등 모든 활동 정보가 삭제됩니다.`,
       isConfirm: true,
       onClose: withDrawalFunc
     });

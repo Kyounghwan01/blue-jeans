@@ -54,6 +54,7 @@ const LoginBlock = styled.div`
   .sub-title {
     color: white;
     font-size: 20px;
+    margin-bottom: 10px;
     span {
       font-weight: bold;
     }
@@ -64,6 +65,7 @@ const LoginBlock = styled.div`
     height: 200px;
     background: white;
     border-radius: 50%;
+    margin-bottom: 10px;
   }
 
   header {
@@ -77,7 +79,7 @@ const LoginBlock = styled.div`
   }
 
   .login {
-    padding: 0 20px 100px 20px;
+    padding: 0 20px 30px 20px;
     &__not-login {
       margin-top: 30px;
       color: white;

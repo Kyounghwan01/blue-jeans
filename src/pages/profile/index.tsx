@@ -53,7 +53,7 @@ const Profile = () => {
             </div>
           </section>
         ) : (
-          <section className="login" onClick={goProfileEdit}>
+          <section className="non-login" onClick={goProfileEdit}>
             <Avatar src={user.profileImage} />
             <div className="non-login__desc">
               <div className="non-login__desc__title custom-font-header-title">
@@ -92,34 +92,20 @@ const Block = styled.article`
     min-width: 40px;
   }
   .non-login {
+    background: var(--primary-color);
     display: flex;
     align-items: center;
-    padding: 40px 16px;
+    margin: 10px;
+    padding: 35px 25px;
+    border-radius: 35px;
+
     .MuiAvatar-root {
       margin-right: 15px;
-      border: 2px solid #aaa;
-      width: 45px;
-      height: 45px;
-    }
-    &__desc {
-      &__title {
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-      }
-    }
-  }
-  .login {
-    display: flex;
-    align-items: center;
-    padding: 25px 16px;
-    .MuiAvatar-root {
-      margin-right: 20px;
-      border: 2px solid #aaa;
       width: 60px;
       height: 60px;
     }
     &__desc {
+      color: white;
       &__title {
         font-weight: bold;
         display: flex;
