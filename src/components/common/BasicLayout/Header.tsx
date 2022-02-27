@@ -2,6 +2,8 @@ import { memo } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowIcon from "components/atom/ArrowIcon";
+
 interface IHeader {
   title: string;
   back?: boolean;
@@ -14,7 +16,7 @@ const Header = (headerProps: IHeader) => {
   return (
     <Block>
       {back ? (
-        <ArrowBackIosNewIcon onClick={backFunc || router.back} />
+        <ArrowIcon direction="left" onClick={backFunc || router.back} />
       ) : (
         <div />
       )}
@@ -30,10 +32,16 @@ const Block = styled.header`
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   padding: 0 10px;
-  /* border-bottom: 1px solid #dddddd; */
+  border-bottom: 3px solid var(--border-color2);
   z-index: 2;
   background: white;
   background-color: ${props => props.theme.palette.test};
+  .back-icon {
+    font-weight: 900;
+    font-size: 18px;
+    width: 40px;
+    text-align: left;
+  }
 `;
 
 export default memo(Header);

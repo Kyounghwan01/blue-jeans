@@ -1,10 +1,11 @@
 import ListItem from "@mui/material/ListItem";
 import IconButton from "@mui/material/IconButton";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
+// import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+// import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Divider from "@mui/material/Divider";
+import ArrowIcon from "components/atom/ArrowIcon";
 
 interface IList {
   title: string;
@@ -20,7 +21,7 @@ const Index = ({ title, func }: IList) => {
         disablePadding
         secondaryAction={
           <IconButton edge="end" aria-label="delete">
-            <ChevronRightIcon />
+            <ArrowIcon direction="right" width={10} />
           </IconButton>
         }
       >

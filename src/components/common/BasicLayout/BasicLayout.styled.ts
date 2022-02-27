@@ -15,6 +15,9 @@ export const CustomFont = styled.div`
   .custom-font-header-title {
     font-size: ${props => props.theme.palette.customFont.headerTitle};
   }
+  .custom-font-list-title {
+    font-size: ${props => props.theme.palette.customFont.listTitle};
+  }
   .list-title {
     span {
       font-size: ${props => props.theme.palette.customFont.listTitle};
