@@ -84,11 +84,11 @@ const AlertBlock = styled.dialog`
     border-radius: 17px;
     padding: 20px;
     header {
-      font-size: 22px;
+      font-size: 20px;
     }
     section {
       p {
-        font-size: 18px;
+        font-size: 15px;
         margin: 5px 0 25px;
       }
     }

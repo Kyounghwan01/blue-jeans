@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { NAVER_REDIRECT_URI } from "utils/constants";
 import { useDispatch } from "react-redux";
-import Loading from "components/common/Loading";
 import { login } from "features/userSlice";
 import setDocFirebase from "utils/api/setDocFirebase";
 import { getUsetById } from "utils/api/getUserByToken";
+import CallbackLogin from "pages/oauth/CallbackLogin";
 
 const Index = () => {
   const router = useRouter();
@@ -108,12 +108,7 @@ const Index = () => {
     initializeNaverLogin();
   }, []);
 
-  return (
-    <div>
-      {loading && <Loading />}
-      <div id="naverIdLogin" />
-    </div>
-  );
+  return <CallbackLogin loading={loading} />;
 };
 
 export default Index;

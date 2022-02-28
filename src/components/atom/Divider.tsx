@@ -20,8 +20,8 @@ const Divider = ({
 
 const DividerBlock = styled.div<IDivider>`
   height: ${props => props.height}px;
-  top: ${props => props.top}px;
-  bottom: ${props => props.bottom}px;
+  margin-top: ${props => props.top}px;
+  margin-bottom: ${props => props.bottom}px;
   background: ${props => props.color};
 `;
 

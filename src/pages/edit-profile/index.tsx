@@ -25,6 +25,7 @@ import usePopup from "hooks/usePopup";
 import withAuth from "components/common/withAuth";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "utils/api/firebase";
+import Divider from "components/atom/Divider";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,9 @@ const Index = () => {
   const user = useSelector((state: RootState) => state.user);
   const [nickName, setNickName] = useState<string>("");
   const [validNickName, setValidNickName] = useState<boolean>(false);
-  const [previewURL, setPreviewURL] = useState<string>("");
+  const [previewURL, setPreviewURL] = useState<string>(
+    user.profileImage || "/static/image/non-avator.png"
+  );
   const [compressedImageState, setCompressedImage] = useState<File | null>();
   const [loading, setLoading] = useState<boolean>(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -164,42 +167,46 @@ const Index = () => {
           onClick={e => handleFileButton(e, fileRef)}
         >
           <div className="edit-profile__image">
-            <Avatar src={previewURL || user.profileImage} />
+            <Avatar src={previewURL} />
             <div className="edit-profile__penceil">
               <CreateSharpIcon />
             </div>
           </div>
         </div>
 
-        <TextField
-          error={!validNickName}
-          id="nickName"
-          label="닉네임"
-          value={nickName}
-          placeholder="닉네임을 입력해주세요."
-          helperText={!validNickName ? validtionCriteria.nickName.error : ""}
-          variant="standard"
-          fullWidth
-          onChange={handleInput}
-        />
+        <Divider height={3} top={13} bottom={35} />
 
-        <TextField
-          id="name"
-          label="이름"
-          value={user.name || ""}
-          variant="standard"
-          fullWidth
-          disabled
-        />
+        <div className="form-wrapper">
+          <TextField
+            error={!validNickName}
+            id="nickName"
+            label="닉네임"
+            value={nickName}
+            placeholder="닉네임을 입력해주세요."
+            helperText={!validNickName ? validtionCriteria.nickName.error : ""}
+            variant="standard"
+            fullWidth
+            onChange={handleInput}
+          />
 
-        <TextField
-          id="email"
-          label="이메일"
-          value={user.email || ""}
-          variant="standard"
-          fullWidth
-          disabled
-        />
+          <TextField
+            id="name"
+            label="이름"
+            value={user.name || ""}
+            variant="standard"
+            fullWidth
+            disabled
+          />
+
+          <TextField
+            id="email"
+            label="이메일"
+            value={user.email || ""}
+            variant="standard"
+            fullWidth
+            disabled
+          />
+        </div>
 
         <FixedBottomButton
           title="저장"
@@ -212,40 +219,45 @@ const Index = () => {
 };
 
 const Block = styled.article`
-  padding: 0 16px;
   .MuiAvatar-root {
     margin-right: 15px;
-    border: 2px solid #aaa;
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
   }
   .MuiSvgIcon-root {
-    width: 20px;
+    width: 30px;
   }
   .MuiFormControl-root {
     height: 75px;
   }
   .edit-profile {
     position: relative;
-    margin: 30px 0;
+    margin-top: 10px;
+    padding: 0 16px;
     &__penceil {
       position: absolute;
-      top: 70px;
+      bottom: 15px;
       left: 55%;
-      background: dodgerblue;
+      background: #363636;
       border-radius: 50%;
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
       display: flex;
       justify-content: center;
       align-items: center;
       color: white;
     }
     &__image {
+      background: var(--primary-color);
+      border-radius: 35px;
+      padding: 16px 0;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+  }
+  .form-wrapper {
+    padding: 0 16px;
   }
 `;
 

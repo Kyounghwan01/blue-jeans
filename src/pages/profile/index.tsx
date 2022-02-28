@@ -96,7 +96,7 @@ const Block = styled.article`
     display: flex;
     align-items: center;
     margin: 10px;
-    padding: 35px 25px;
+    padding: 30px 25px;
     border-radius: 35px;
 
     .MuiAvatar-root {
