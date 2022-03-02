@@ -1,8 +1,7 @@
 import { useCallback } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { RootState } from "app/store";
+import useSelectorTyped from "features/useSelectorTyped";
 import BasicLayout from "components/common/BasicLayout";
 import List from "@mui/material/List";
 import CustomList from "components/common/CustomList";
@@ -13,7 +12,7 @@ import useAuth from "hooks/useAuth";
 
 const Profile = () => {
   const router = useRouter();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelectorTyped((state) => state.user);
   const { logout, withDrawal, loading } = useAuth();
 
   const goLogin = useCallback(() => {

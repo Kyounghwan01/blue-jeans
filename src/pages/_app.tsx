@@ -3,8 +3,8 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "app/store";
+import { useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import { ModalProvider, ModalRoot } from "context";
 import { wrapper } from "app/store";
 import buildTheme from "styles/theme";
@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === "production") {
   Sentry.init({
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    tracesSampleRate: 1.0
+    tracesSampleRate: 1.0,
   });
 }
 
@@ -34,7 +34,7 @@ const App = (props: AppProps) => {
   const { Component, pageProps } = props;
   const [setScreenSize] = useScreenSize();
   const [getUsers] = useGetUsers();
-  const { fontSizeType } = useSelector((state: RootState) => state.common);
+  const { fontSizeType } = useSelectorTyped((state) => state.common);
 
   useEffect(() => {
     setScreenSize();

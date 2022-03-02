@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import axios from "axios";
-import { RootState } from "app/store";
 import { logOut } from "features/userSlice";
 import usePopup from "hooks/usePopup";
 import {
@@ -10,7 +10,7 @@ import {
   where,
   getDocs,
   deleteDoc,
-  doc
+  doc,
 } from "firebase/firestore";
 import { db } from "utils/api/firebase";
 import { logoutKakao, withDrawalKakao } from "utils/api/kakao";
@@ -18,7 +18,7 @@ import deleteImageFirebase from "utils/api/deleteImageFirebase";
 import { QnaType } from "features/types/qnaSliceType";
 
 const useAuth = () => {
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelectorTyped((state) => state.user);
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { handlePopup } = usePopup();
@@ -34,11 +34,11 @@ const useAuth = () => {
 
       dispatch(logOut());
       handlePopup("common/Alert", "로그아웃", {
-        desc: "로그아웃 하였습니다."
+        desc: "로그아웃 하였습니다.",
       });
     } catch (e) {
       handlePopup("common/Alert", "로그아웃 실패", {
-        desc: (e as Error).message
+        desc: (e as Error).message,
       });
     } finally {
       setLoading(false);
@@ -69,11 +69,11 @@ const useAuth = () => {
       localStorage.removeItem("token");
       dispatch(logOut());
       handlePopup("common/Alert", "탈퇴 완료", {
-        desc: "그동안 청바지를 이용해주셔서 감사합니다."
+        desc: "그동안 청바지를 이용해주셔서 감사합니다.",
       });
     } catch (e) {
       handlePopup("common/Alert", "탈퇴 실패", {
-        desc: (e as Error).message
+        desc: (e as Error).message,
       });
     } finally {
       setLoading(false);
@@ -84,14 +84,14 @@ const useAuth = () => {
     const qnaRef = collection(db, "qna");
     const q = await query(qnaRef, where("userId", "==", id));
     const data = await getDocs(q);
-    const deleteQnaList = data.docs.map(doc => {
+    const deleteQnaList = data.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };
     }) as QnaType[];
 
-    deleteQnaList.forEach(qna => {
+    deleteQnaList.forEach((qna) => {
       const userDoc = doc(db, "qna", String(qna.id));
       deleteDoc(userDoc);
-      qna.imgUrl.forEach(url => {
+      qna.imgUrl.forEach((url) => {
         deleteImageFirebase(url);
       });
     });
@@ -101,7 +101,7 @@ const useAuth = () => {
     handlePopup("common/Alert", "로그아웃", {
       desc: "정말 로그아웃 하시겠어요?",
       isConfirm: true,
-      onClose: logoutFunc
+      onClose: logoutFunc,
     });
   };
 
@@ -109,7 +109,7 @@ const useAuth = () => {
     handlePopup("common/Alert", "탈퇴하기", {
       desc: `정말 떠나시나요? 너무 아쉬워요<br/>계정을 삭제하면 게시글, 댓글, 수강정보 등 모든 활동 정보가 삭제됩니다.`,
       isConfirm: true,
-      onClose: withDrawalFunc
+      onClose: withDrawalFunc,
     });
   };
 

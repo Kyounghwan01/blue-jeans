@@ -1,34 +1,31 @@
 import { ChangeEvent, useState, useCallback, useMemo } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { RootState } from "app/store";
+import { useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import {
   setData,
-  setCurrentDate
+  setCurrentDate,
 } from "features/kiosk/transportationKioskSlice";
 import { terminals } from "utils/constants";
 import { currentDateWithoutTime } from "utils";
 
 const useByTicket = ({ next }: { next: () => Promise<boolean> }) => {
   const dispatch = useDispatch();
-  const { currentStep, currentDate } = useSelector(
-    (state: RootState) => ({
-      currentDate: state.transportationKiosk.currentDate,
-      currentStep: state.transportationKiosk.currentStep
-    }),
-    shallowEqual
-  );
+  const { currentStep, currentDate } = useSelectorTyped((state) => ({
+    currentDate: state.transportationKiosk.currentDate,
+    currentStep: state.transportationKiosk.currentStep,
+  }));
 
   const [locationCondition, setLocationCondition] = useState<{
     [index: string]: string;
   }>({
     word: "",
     location: "",
-    keyword: ""
+    keyword: "",
   });
 
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const keyword = e.currentTarget.value;
-    setLocationCondition(prev => {
+    setLocationCondition((prev) => {
       return { ...prev, keyword };
     });
   }, []);
@@ -56,10 +53,10 @@ const useByTicket = ({ next }: { next: () => Promise<boolean> }) => {
     const conditions = {
       location: !allLocationConditionCheck,
       word: !!locationCondition.word,
-      keyword: !!locationCondition.keyword
+      keyword: !!locationCondition.keyword,
     };
 
-    return terminals.filter(terminal => {
+    return terminals.filter((terminal) => {
       const result: boolean[] = [];
       Object.entries(conditions).forEach(([k, v]) => {
         if (v) {
@@ -82,7 +79,7 @@ const useByTicket = ({ next }: { next: () => Promise<boolean> }) => {
           result.push(true);
         }
       });
-      return result.every(res => res);
+      return result.every((res) => res);
     });
   }, [locationCondition]);
 
@@ -97,7 +94,7 @@ const useByTicket = ({ next }: { next: () => Promise<boolean> }) => {
         return next();
       }
 
-      setLocationCondition(prev => {
+      setLocationCondition((prev) => {
         return { ...prev, [type]: word };
       });
     },
@@ -116,7 +113,7 @@ const useByTicket = ({ next }: { next: () => Promise<boolean> }) => {
     searchLocation,
     handleCondition,
     handleSearch,
-    dateWithoutTime
+    dateWithoutTime,
   };
 };
 

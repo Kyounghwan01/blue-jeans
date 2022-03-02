@@ -1,21 +1,18 @@
 import { useMemo, useEffect, useCallback } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import { useRouter } from "next/router";
 import BasicLayout from "components/common/BasicLayout";
 import Step from "components/common/Step";
 import { transportation } from "utils/constants/componentsPath";
-import { RootState } from "app/store";
 import { setCurrentStep } from "features/kiosk/transportationKioskSlice";
 
 const Index = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { currentStep } = useSelector(
-    (state: RootState) => ({
-      currentStep: state.transportationKiosk.currentStep
-    }),
-    shallowEqual
-  );
+  const { currentStep } = useSelectorTyped((state) => ({
+    currentStep: state.transportationKiosk.currentStep,
+  }));
 
   useEffect(() => {
     if (router.asPath.split("?page=")[1]) {

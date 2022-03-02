@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import Avatar from "@mui/material/Avatar";
 import CreateSharpIcon from "@mui/icons-material/CreateSharp";
 import TextField from "@mui/material/TextField";
-import { RootState } from "app/store";
 import {
   setNickName as setNickNameDispatch,
-  setImageNickName
+  setImageNickName,
 } from "features/userSlice";
 import BasicLayout from "components/common/BasicLayout";
 import FixedBottomButton from "components/common/FixedBottomButton";
@@ -16,7 +16,7 @@ import {
   compressImage,
   validtionCriteria,
   validation,
-  handleFileButton
+  handleFileButton,
 } from "utils";
 import uploadImageFirebase from "utils/api/uploadImageFirebase";
 import deleteImageFirebase from "utils/api/deleteImageFirebase";
@@ -30,7 +30,7 @@ import Divider from "components/atom/Divider";
 const Index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelectorTyped((state) => state.user);
   const [nickName, setNickName] = useState<string>("");
   const [validNickName, setValidNickName] = useState<boolean>(false);
   const [previewURL, setPreviewURL] = useState<string>(
@@ -52,7 +52,7 @@ const Index = () => {
     setLoading(false);
     return handlePopup("common/Alert", "프로필", {
       desc: `${isSuccess ? "프로필이 편집되었습니다." : "프로필 편집 실패"}`,
-      onClose: isSuccess ? () => router.push("/profile") : null
+      onClose: isSuccess ? () => router.push("/profile") : null,
     });
   };
 
@@ -88,7 +88,7 @@ const Index = () => {
     const res = await updateDocFirebase({
       dbColumn: "users",
       dbKey: String(user.id),
-      payload: { nickName, profileImage: downloadUrl[0] }
+      payload: { nickName, profileImage: downloadUrl[0] },
     });
 
     if (!res.isSuccess) {
@@ -112,10 +112,10 @@ const Index = () => {
 
     const data = await getDocs(q);
     const userData = data.docs
-      .map(doc => ({
-        ...doc.data()
+      .map((doc) => ({
+        ...doc.data(),
       }))
-      .filter(userData => userData.id !== Number(user.id));
+      .filter((userData) => userData.id !== Number(user.id));
     return !!userData.length;
   };
 
@@ -125,7 +125,7 @@ const Index = () => {
     if (isDupNickName) {
       setLoading(false);
       return handlePopup("common/Alert", "프로필 편집 실패", {
-        desc: "사용 중인 닉네임입니다."
+        desc: "사용 중인 닉네임입니다.",
       });
     }
 
@@ -134,13 +134,13 @@ const Index = () => {
         directoryName: "Images/",
         fileArray: [compressedImageState],
         resolveFunction: uploadImageFirebaseSuccess,
-        rejectFunction: () => profileEditPop({ isSuccess: false })
+        rejectFunction: () => profileEditPop({ isSuccess: false }),
       });
     } else {
       const res = await updateDocFirebase({
         dbColumn: "users",
         dbKey: String(user.id),
-        payload: { nickName }
+        payload: { nickName },
       });
       dispatch(setNickNameDispatch(nickName as string));
       profileEditPop({ isSuccess: res.isSuccess });
@@ -164,7 +164,7 @@ const Index = () => {
       <Block>
         <div
           className="edit-profile"
-          onClick={e => handleFileButton(e, fileRef)}
+          onClick={(e) => handleFileButton(e, fileRef)}
         >
           <div className="edit-profile__image">
             <Avatar src={previewURL} />

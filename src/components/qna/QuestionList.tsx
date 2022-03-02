@@ -3,24 +3,24 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "utils/api/firebase";
-import { useSelector, useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
+import { useDispatch } from "react-redux";
 import { getQnaList, setQna } from "features/qnaSlice";
-import { RootState } from "app/store";
 import { QnaType } from "features/types/qnaSliceType";
 import dayjs from "dayjs";
 import Chip from "@mui/material/Chip";
 
 const QuestionList = ({
   loading,
-  setLoading
+  setLoading,
 }: {
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const user = useSelector((state: RootState) => state.user);
-  const { list, tab } = useSelector((state: RootState) => state.qna);
+  const user = useSelectorTyped((state) => state.user);
+  const { list, tab } = useSelectorTyped((state) => state.qna);
 
   useEffect(() => {
     getQna();
@@ -40,7 +40,7 @@ const QuestionList = ({
 
     const q = await query(qnaRef, ...constraints);
     const data = await getDocs(q);
-    const qnaList = data.docs.map(doc => {
+    const qnaList = data.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };
     }) as QnaType[];
     dispatch(getQnaList(qnaList));

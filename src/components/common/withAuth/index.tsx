@@ -1,12 +1,11 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { RootState } from "app/store";
+import useSelectorTyped from "features/useSelectorTyped";
 
-const withAuth = (WrappedComponent: any): (() => JSX.Element) => {
+const withAuth = (WrappedComponent: React.FC): (() => JSX.Element) => {
   const Component = () => {
     const router = useRouter();
-    const user = useSelector((state: RootState) => state.user);
+    const user = useSelectorTyped((state) => state.user);
 
     useEffect(() => {
       if (!user.isLogin) {

@@ -1,14 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useSelector } from "react-redux";
-import { RootState } from "app/store";
 import Link from "next/link";
 import Button from "@mui/material/Button";
 import BasicLayout from "components/common/BasicLayout";
 
 const Index: NextPage = () => {
-  const user = useSelector((state: RootState) => state.user);
-
   return (
     <BasicLayout headerTitle="main" back={true} footer={true}>
       <div>
