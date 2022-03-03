@@ -1,19 +1,19 @@
 import { useState, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import BasicLayout from "components/common/BasicLayout";
 import Question from "components/qna/Question";
 import QuestionList from "components/qna/QuestionList";
 import withAuth from "components/common/withAuth";
 import { setTab } from "features/qnaSlice";
-import { RootState } from "app/store";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
 const Index = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const user = useSelector((state: RootState) => state.user);
-  const { tab } = useSelector((state: RootState) => state.qna);
+  const user = useSelectorTyped((state) => state.user);
+  const { tab } = useSelectorTyped((state) => state.qna);
 
   const handleChangeTab = useCallback(
     (event: React.SyntheticEvent, newValue: number) => {

@@ -1,22 +1,19 @@
 import { useMemo, useEffect, useCallback } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import { useRouter } from "next/router";
 import BasicLayout from "components/common/BasicLayout";
 import Step from "components/common/Step";
 import { movie } from "utils/constants/componentsPath";
-import { RootState } from "app/store";
 import { setCurrentStep } from "features/kiosk/movieKioskSlice";
 
 const Index = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { currentStep, isReservation } = useSelector(
-    (state: RootState) => ({
-      currentStep: state.movieKiosk.currentStep,
-      isReservation: state.movieKiosk.isReservation
-    }),
-    shallowEqual
-  );
+  const { currentStep, isReservation } = useSelectorTyped((state) => ({
+    currentStep: state.movieKiosk.currentStep,
+    isReservation: state.movieKiosk.isReservation,
+  }));
 
   useEffect(() => {
     if (router.asPath.split("?page=")[1]) {
@@ -43,7 +40,7 @@ const Index = () => {
       isReservation
     ) {
       const index = movie.components.findIndex(
-        component =>
+        (component) =>
           component.step ===
           (movie.components[currentStep].step === "CheckReservation"
             ? "BuyTicket"
@@ -63,7 +60,7 @@ const Index = () => {
       let nextIndex = currentStep + 1;
       if (nextComponent && typeof nextComponent === "string") {
         nextIndex = movie.components.findIndex(
-          comp => comp.step === nextComponent
+          (comp) => comp.step === nextComponent
         );
       }
       dispatch(setCurrentStep(nextIndex));

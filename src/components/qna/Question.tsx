@@ -1,12 +1,12 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import dayjs from "dayjs";
 import cloneDeep from "lodash/cloneDeep";
 import TextField from "@mui/material/TextField";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CloseBtn from "components/atom/CloseBtn";
-import { RootState } from "app/store";
 import { QuestionType } from "utils/constants";
 import setDocFirebase from "utils/api/setDocFirebase";
 import uploadImageFirebase from "utils/api/uploadImageFirebase";
@@ -21,11 +21,11 @@ import Checkbox from "@mui/material/Checkbox";
 
 const Question = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelectorTyped((state) => state.user);
   const [data, setData] = useState({
     title: "",
     content: "",
-    type: "not-choice"
+    type: "not-choice",
   });
   const [isValid, setIsValid] = useState<boolean>(false);
   const [previewURLs, setPreviewURLs] = useState<{ url: string; blob: File }[]>(
@@ -39,7 +39,7 @@ const Question = () => {
   }, [data]);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setData(prev => {
+    setData((prev) => {
       return { ...prev, [e.target.id]: e.target.value };
     });
   }, []);
@@ -50,7 +50,7 @@ const Question = () => {
       directoryName: "Qna/",
       fileArray: imageFiles,
       resolveFunction: setApi,
-      rejectFunction: () => {}
+      rejectFunction: () => {},
     });
   };
 
@@ -64,20 +64,20 @@ const Question = () => {
       status: "pending",
       comment: "",
       imgUrl: imgUrl || [],
-      timestamp: dayjs().format("YYYY-MM-DD")
+      timestamp: dayjs().format("YYYY-MM-DD"),
     };
 
     const res = await setDocFirebase({
       dbColumn: "qna",
       setType: "anonymous",
-      payload
+      payload,
     });
 
     handlePopup("common/Alert", "문의", {
       desc: res.isSuccess
         ? "문의가 등록되었습니다."
         : `문의 등록 실패 : ${res.errMessage}`,
-      onClose: res.isSuccess ? dispatch(setTab(1)) : null
+      onClose: res.isSuccess ? dispatch(setTab(1)) : null,
     });
   };
 
@@ -90,9 +90,9 @@ const Question = () => {
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        setPreviewURLs(prev => [
+        setPreviewURLs((prev) => [
           ...prev,
-          { url: reader.result as string, blob: compressedImage }
+          { url: reader.result as string, blob: compressedImage },
         ]);
       };
       if (compressedImage) reader.readAsDataURL(compressedImage);
@@ -143,7 +143,7 @@ const Question = () => {
           }
           variant="standard"
         >
-          {QuestionType.map(option => (
+          {QuestionType.map((option) => (
             <option
               key={option.value}
               value={option.value}
@@ -193,7 +193,7 @@ const Question = () => {
           {previewURLs.length <= 2 && (
             <div
               className="add-image-container__add-image"
-              onClick={e => handleFileButton(e, fileRef)}
+              onClick={(e) => handleFileButton(e, fileRef)}
             />
           )}
           {previewURLs.map((url, index) => (

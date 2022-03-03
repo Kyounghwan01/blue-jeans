@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import { useRouter } from "next/router";
 import {
   addOrderList,
@@ -7,10 +8,9 @@ import {
   handleOrderCount,
   resetOrderList,
   setCurrentOrder,
-  setKioskTutotialHint
+  setKioskTutotialHint,
 } from "features/kiosk/foodKioskSlice";
 import { IOrderList } from "features/types/foodKioskSliceType";
-import { RootState } from "app/store";
 import usePopup from "hooks/usePopup";
 
 const BasicPopRoute = "kiosk/food/components/popup";
@@ -19,15 +19,12 @@ export default function useMain() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { orderList, currentHintStep, currentOrder, kioskTutorialHint } =
-    useSelector(
-      (state: RootState) => ({
-        orderList: state.foodKiosk.orderList,
-        currentOrder: state.foodKiosk.currentOrder,
-        currentHintStep: state.foodKiosk.currentHintStep,
-        kioskTutorialHint: state.foodKiosk.kioskTutorialHint
-      }),
-      shallowEqual
-    );
+    useSelectorTyped((state) => ({
+      orderList: state.foodKiosk.orderList,
+      currentOrder: state.foodKiosk.currentOrder,
+      currentHintStep: state.foodKiosk.currentHintStep,
+      kioskTutorialHint: state.foodKiosk.kioskTutorialHint,
+    }));
   const [tab, setTab] = useState<string>("fork");
   const { handleDomainPopup, handlePopup } = usePopup();
 
@@ -37,7 +34,7 @@ export default function useMain() {
     handlePopup("common/Alert", "", {
       desc: kioskTutorialHint[currentHintStep].desc,
       autoClose: { time: 3000 },
-      onClose: popupCallback
+      onClose: popupCallback,
     });
   }, [currentHintStep]);
 
@@ -48,17 +45,17 @@ export default function useMain() {
             side: { name: string; price: number }[];
           },
           visualHint: currentHintStep,
-          onClose: handleOrderListWithSide
+          onClose: handleOrderListWithSide,
         })
       : null;
   }, [currentHintStep]);
 
-  const handleOrderListWithSide = useCallback(order => {
+  const handleOrderListWithSide = useCallback((order) => {
     let payload = {
       type: order.type,
       name: order.name,
       price: order.price,
-      count: 1
+      count: 1,
     } as IOrderList;
 
     if (order.side.length) {
@@ -82,7 +79,7 @@ export default function useMain() {
             type: order.type,
             name: order.name,
             price: order.price,
-            count: 1
+            count: 1,
           })
         );
       }
@@ -90,13 +87,13 @@ export default function useMain() {
       handleDomainPopup(`${BasicPopRoute}/OrderDetailPop`, "주문디테일", {
         order,
         visualHint: currentHintStep,
-        onClose: handleOrderListWithSide
+        onClose: handleOrderListWithSide,
       });
     },
     [currentHintStep]
   );
 
-  const deleteOrder = useCallback(event => {
+  const deleteOrder = useCallback((event) => {
     dispatch(removeOrderList(event.target.dataset.name));
   }, []);
 
@@ -116,7 +113,7 @@ export default function useMain() {
   const totalOrder = useMemo(() => {
     let count = 0;
     let price = 0;
-    orderList.forEach(order => {
+    orderList.forEach((order) => {
       price += order.totalPrice;
       count += order.count;
     });
@@ -129,14 +126,14 @@ export default function useMain() {
     handleDomainPopup(`${BasicPopRoute}/OrderListPop`, "주문리스트", {
       orderList,
       totalOrder,
-      onClose: popPayment
+      onClose: popPayment,
     });
   }, [orderList]);
 
   const popPayment = useCallback(({ type }: { type: string }) => {
     handleDomainPopup(`${BasicPopRoute}/OrderPayment`, "결제", {
       type,
-      onClose: () => router.push("/education")
+      onClose: () => router.push("/education"),
     });
   }, []);
 
@@ -150,7 +147,7 @@ export default function useMain() {
     totalOrder,
     confirmOrder,
     handleOrderReset,
-    currentHintStep
+    currentHintStep,
     // visualHint,
   };
 }

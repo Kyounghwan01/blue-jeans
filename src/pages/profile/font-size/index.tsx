@@ -1,7 +1,7 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import styled from "styled-components";
 import BasicLayout from "components/common/BasicLayout";
-import { RootState } from "app/store";
 import { setFontSizeType } from "features/commonSlice";
 import { fontSizeType as fontType } from "features/types/commonSliceType";
 import Radio from "@mui/material/Radio";
@@ -11,7 +11,7 @@ import FormControl from "@mui/material/FormControl";
 
 const Index = () => {
   const dispatch = useDispatch();
-  const { fontSizeType } = useSelector((state: RootState) => state.common);
+  const { fontSizeType } = useSelectorTyped((state) => state.common);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value as fontType;

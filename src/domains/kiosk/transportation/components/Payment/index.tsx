@@ -1,17 +1,16 @@
 import { useCallback, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { RootState } from "app/store";
+import useSelectorTyped from "features/useSelectorTyped";
 import styled from "styled-components";
 
 const Index = ({
   back,
-  next
+  next,
 }: {
   back: () => Promise<boolean>;
   next: () => Promise<boolean>;
 }) => {
   const { selectedSeats, ticket, currentDate, location, totalPrice } =
-    useSelector((state: RootState) => {
+    useSelectorTyped((state) => {
       const { selectedSeats, ticket, currentDate, location, totalPrice } =
         state.transportationKiosk;
       return {
@@ -19,9 +18,9 @@ const Index = ({
         ticket,
         currentDate,
         location,
-        totalPrice
+        totalPrice,
       };
-    }, shallowEqual);
+    });
 
   useEffect(() => {
     const timer: NodeJS.Timeout = setTimeout(() => {
@@ -76,7 +75,7 @@ const Index = ({
         style={{
           border: "1px solid grey",
           display: "flex",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
         }}
       >
         <div>결제금액</div>

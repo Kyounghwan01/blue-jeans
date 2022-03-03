@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { RootState } from "app/store";
+import { useDispatch } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import {
   setCurrentSeat,
   setSeats,
-  resetSelectedSeats
+  resetSelectedSeats,
 } from "features/kiosk/transportationKioskSlice";
 import { busSeatType } from "features/types/transportationKioskSliceType";
 
@@ -36,19 +36,18 @@ const busSeats = [
   16,
   17,
   18,
-  19
+  19,
 ];
 
 const useSeats = () => {
   const dispatch = useDispatch();
-  const { currentSeat, ticket, seats, totalPrice } = useSelector(
-    (state: RootState) => ({
+  const { currentSeat, ticket, seats, totalPrice } = useSelectorTyped(
+    (state) => ({
       ticket: state.transportationKiosk.ticket,
       seats: state.transportationKiosk.seats,
       totalPrice: state.transportationKiosk.totalPrice,
-      currentSeat: state.transportationKiosk.currentSeat
-    }),
-    shallowEqual
+      currentSeat: state.transportationKiosk.currentSeat,
+    })
   );
   const [isSelected, setIsSelected] = useState<boolean>(false);
 
@@ -58,7 +57,7 @@ const useSeats = () => {
     const randomSeatArr = getRamdomSeat(ticket.lastSeat - 1);
     const seat = [] as busSeatType[];
 
-    busSeats.forEach(seatArr => {
+    busSeats.forEach((seatArr) => {
       seat.push({
         type:
           seatArr === "empty"
@@ -68,7 +67,7 @@ const useSeats = () => {
             : randomSeatArr.includes(seatArr)
             ? "active"
             : "inactive",
-        value: seatArr
+        value: seatArr,
       });
     });
 
@@ -95,7 +94,7 @@ const useSeats = () => {
             ? 8000
             : type === "kid"
             ? 6000
-            : 3000
+            : 3000,
       })
     );
     setIsSelected(false);
@@ -121,7 +120,7 @@ const useSeats = () => {
     setIsSelected,
     clickPersonType,
     totalPrice,
-    currentSeat
+    currentSeat,
   };
 };
 

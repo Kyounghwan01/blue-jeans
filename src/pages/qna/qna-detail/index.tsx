@@ -1,11 +1,10 @@
 import { useState, useCallback } from "react";
-import { useSelector } from "react-redux";
+import useSelectorTyped from "features/useSelectorTyped";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
-import { RootState } from "app/store";
 import BasicLayout from "components/common/BasicLayout";
 import FixedBottomButton from "components/common/FixedBottomButton";
 import ImageSkeleton from "components/common/ImageSkeleton";
@@ -15,8 +14,8 @@ import withAuth from "components/common/withAuth";
 
 const Index = () => {
   const router = useRouter();
-  const { qna, tab } = useSelector((state: RootState) => state.qna);
-  const user = useSelector((state: RootState) => state.user);
+  const { qna, tab } = useSelectorTyped((state) => state.qna);
+  const user = useSelectorTyped((state) => state.user);
   const [answer, setAnswer] = useState<string>(
     `${
       user.nickName || user.name
