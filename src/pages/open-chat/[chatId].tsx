@@ -4,9 +4,12 @@ import { collection, getDoc, doc, onSnapshot } from "firebase/firestore";
 import setDocFirebase from "utils/api/setDocFirebase";
 import { db } from "utils/api/firebase";
 import ChatInput from "./ChatInput";
+import styled from "styled-components";
+import BasicLayout from "components/common/BasicLayout";
 
 const Chat = () => {
   const router = useRouter();
+  // todo: chatStore만들고 room에 있는 값 가져와야함
   const { chatId } = router.query;
   const [chatList, setChat] = useState<
     {
@@ -90,19 +93,27 @@ const Chat = () => {
   }, []);
 
   return (
-    <div>
-      test {chatId}
-      <button onClick={getMembers}>get members</button>
-      <ChatInput submit={submit} />
-      <div style={{ marginTop: "100px" }}>
-        {chatList.map(chat => (
-          <div key={chat.id}>
-            {chat.content} {chat.timestamp}
-          </div>
-        ))}
-      </div>
-    </div>
+    // todo: right icon 누르면 사용자 리스트
+    <BasicLayout headerTitle="" back={true} footer={false}>
+      <ChatBlock>
+        test {chatId}
+        <button onClick={getMembers}>get members</button>
+        <ChatInput submit={submit} />
+        <div style={{ marginTop: "100px" }}>
+          {chatList.map(chat => (
+            <div key={chat.id}>
+              {chat.content} {chat.timestamp}
+            </div>
+          ))}
+        </div>
+      </ChatBlock>
+    </BasicLayout>
   );
 };
+
+const ChatBlock = styled.article`
+  background: #eee;
+  height: 100%;
+`;
 
 export default Chat;

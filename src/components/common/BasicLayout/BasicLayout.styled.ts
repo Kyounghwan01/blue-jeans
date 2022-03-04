@@ -47,8 +47,8 @@ export const PopLayoutBlock = styled(CustomFont)`
 
 export const Block = styled(CustomFont)<IFooterStyle>`
   width: 100vw;
-  /* height: calc(var(--vh, 1vh) * 100); */
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100); // 채팅에서는 이게 맞음
+  /* height: 100vh; */
 
   .base-layout {
     &__header {

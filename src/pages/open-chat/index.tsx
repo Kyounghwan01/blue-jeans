@@ -28,12 +28,14 @@ const Index = () => {
     const data = await getDocs(
       await query(roomRef, where("member", "array-contains", "2042204892"))
     );
-    const roomList = data.docs.map((doc) => {
+    const roomList = data.docs.map(doc => {
       return { id: doc.id, ...doc.data() };
     }) as IChatRoom[];
     console.log(roomList);
     setRoom(roomList);
   };
+
+  // 수익모델을 잘알고있다
 
   const createOpenChat = async () => {
     const res = await setDocFirebase({
@@ -43,12 +45,14 @@ const Index = () => {
       // owner: user-uid
       payload: {
         owner: "2042204892",
-        title: "ban test",
-        desc: 333,
+        title: "bannnnetet",
+        desc: "bannnnetet",
         tag: [1, 2, 3],
         isSecret: false,
-        member: [{ name: "2042204892", ban: [] }],
-      },
+        member: ["2042204892"],
+        // 타인이 들어오면 룸에 ban: {name: 'name', list: []}
+        ban: []
+      }
     });
 
     // const resCreateMember = await setDocFirebase({
@@ -74,13 +78,13 @@ const Index = () => {
       footer={true}
       loading={false}
     >
-      {room.map((el) => (
+      {room.map(el => (
         <Link key={el.id} href={`/open-chat/${el.id}`}>
           <a
             style={{
               border: "1px solid black",
               display: "block",
-              margin: "10px",
+              margin: "10px"
             }}
           >
             {el.title} <span>{el.memberCount}명</span> <span>{el.desc}</span>
@@ -88,7 +92,7 @@ const Index = () => {
         </Link>
       ))}
       <Fab
-        sx={{ position: "absolute", bottom: 16, right: 16 }}
+        sx={{ position: "fixed", bottom: 80, right: 30 }}
         aria-label={"Add"}
         color="primary"
         onClick={createOpenChat}
