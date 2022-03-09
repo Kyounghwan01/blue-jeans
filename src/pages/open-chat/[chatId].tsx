@@ -104,9 +104,9 @@ export async function getServerSideProps(context: {
   const lastest25 = await query(
     chatRef,
     orderBy("timestamp", "desc"),
-    limit(5)
+    limit(25)
   );
-  const data = await getDocs(lastest25);
+  // const data = await getDocs(lastest25);
   // const latest25List = data.docs
   //   .map(doc => {
   //     return { id: doc.id, ...doc.data() };
