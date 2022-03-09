@@ -1,5 +1,6 @@
 import imageCompression from "browser-image-compression";
 import dayjs from "dayjs";
+import { DocumentData, QuerySnapshot } from "firebase/firestore";
 
 export const compressImage = async (image: File) => {
   try {
@@ -83,3 +84,10 @@ export const addSubtractDate = (
       .format(format[dateFormat]);
   }
 };
+
+export function getFirebaseDocs<T>(document: QuerySnapshot<DocumentData>): T {
+  return document.docs.map(doc => ({
+    ...doc.data(),
+    id: doc.id
+  })) as any;
+}

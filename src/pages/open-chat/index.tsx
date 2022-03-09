@@ -1,66 +1,13 @@
-import { useEffect, useState } from "react";
 import BasicLayout from "components/common/BasicLayout";
-import setDocFirebase from "utils/api/setDocFirebase";
-import { collection, query, getDocs } from "firebase/firestore";
-import { db } from "utils/api/firebase";
-import Link from "next/link";
-import AddIcon from "@mui/icons-material/Add";
-import Fab from "@mui/material/Fab";
-
-interface IChatRoom {
-  id: string;
-  desc: string;
-  memberCount: number;
-  owner: string;
-  title: string;
-}
+import RoomList from "domains/chat/components/RoomList";
 
 const Index = () => {
-  const [room, setRoom] = useState<IChatRoom[]>([]);
+  // 수익모델을 잘알고있다
 
-  useEffect(() => {
-    getRoom();
-  }, []);
+  // owner, title, desc, tag
 
-  const getRoom = async () => {
-    // 일단 다 긁어오기
-    const roomRef = collection(db, "chat-room");
-    const data = await getDocs(await query(roomRef));
-    const roomList = data.docs.map(doc => {
-      return { id: doc.id, ...doc.data() };
-    }) as IChatRoom[];
-    setRoom(roomList);
-  };
-
-  const createOpenChat = async () => {
-    const res = await setDocFirebase({
-      dbColumn: "chat-room",
-      setType: "anonymous",
-      // owner: user-uid
-      payload: {
-        owner: "2042204892",
-        title: 222,
-        desc: 333,
-        tag: [1, 2, 3],
-        memberCount: 1
-      }
-    });
-
-    const resCreateMember = await setDocFirebase({
-      dbColumn: "chat-room-member",
-      dbKey: String(res.id),
-      setType: "selectKey",
-      payload: {
-        owner: "2042204892",
-        member: ["2042204892"]
-      }
-    });
-    console.log(resCreateMember);
-  };
-
-  // owner, title, desc, img, tag
-
-  // todo: list에 paging해야하는데 sort type이 뭔지 모르겠네
+  // todo: paging 안하고 lastTimeStamp으로 sort
+  // delete하면 방도 나가고, 글도 없어지고
 
   return (
     <BasicLayout
@@ -69,27 +16,7 @@ const Index = () => {
       footer={true}
       loading={false}
     >
-      {room.map(el => (
-        <Link key={el.id} href={`/open-chat/${el.id}`}>
-          <a
-            style={{
-              border: "1px solid black",
-              display: "block",
-              margin: "10px"
-            }}
-          >
-            {el.title} <span>{el.memberCount}명</span> <span>{el.desc}</span>
-          </a>
-        </Link>
-      ))}
-      <Fab
-        sx={{ position: "absolute", bottom: 16, right: 16 }}
-        aria-label={"Add"}
-        color="primary"
-        onClick={createOpenChat}
-      >
-        <AddIcon />
-      </Fab>
+      <RoomList />
     </BasicLayout>
   );
 };

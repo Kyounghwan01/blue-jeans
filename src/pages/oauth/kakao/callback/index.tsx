@@ -88,7 +88,7 @@ const Index = () => {
       id,
       token,
       name: profile.nickname,
-      nickname: profile.nickname,
+      nickName: profile.nickname,
       profileImage: profile.profile_image_url,
       email: !email_needs_agreement && has_email ? email : "",
       gender: !gender_needs_agreement && has_gender ? gender : "",

@@ -47,3 +47,10 @@
 ```
 #!/bin/bash  echo "VERCEL_GIT_COMMIT_REF: $VERCEL_GIT_COMMIT_REF"  if [[ \"$VERCEL_GIT_COMMIT_REF" == "main"  ]] ; then   # Proceed with the build     echo "✅ - Build can proceed"   exit 1;  else   # Don't build   echo "🛑 - Build cancelled"   exit 0; fi
 ```
+
+- 스크롤 바닥으로 안될때
+- 채팅 밑에 div만들고 거기에 ref 걸어
+
+### video 플랫폼
+
+- vimeo
