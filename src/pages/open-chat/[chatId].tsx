@@ -52,7 +52,7 @@ const Chat = ({ latest25List }: { latest25List: ChatType }) => {
 
   return (
     // todo: right icon 누르면 사용자 리스트
-    <BasicLayout headerTitle="" back={true} footer={false}>
+    <BasicLayout headerTitle="test1" back={true} footer={false}>
       <ChatRoom />
     </BasicLayout>
   );
@@ -101,11 +101,11 @@ export async function getServerSideProps(context: {
     db,
     `chat-message/${context.query.chatId}/message`
   );
-  // const lastest25 = await query(
-  //   chatRef,
-  //   orderBy("timestamp", "desc"),
-  //   limit(5)
-  // );
+  const lastest25 = await query(
+    chatRef,
+    orderBy("timestamp", "desc"),
+    limit(5)
+  );
   // const data = await getDocs(lastest25);
   // const latest25List = data.docs
   //   .map(doc => {
