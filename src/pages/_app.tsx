@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
 import type { AppProps } from "next/app";
+import { DefaultSeo } from "next-seo";
 import Head from "next/head";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "styled-components";
@@ -29,6 +30,27 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+const DEFAULT_SEO = {
+  title: "청춘은 바로 지금!",
+  description: "it 기계가 무서운 시니어들을 응원합니다!",
+  canonical: "blue-jeans.vercel.app",
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    url: "blue-jeans.vercel.app",
+    title: "청춘은 바로 지금!",
+    site_name: "청바지",
+    images: [
+      {
+        url: "https://avatars.githubusercontent.com/u/44187477",
+        width: 460,
+        height: 460,
+        alt: "청바지"
+      }
+    ]
+  }
+};
+
 const App = (props: AppProps) => {
   const dispatch = useDispatch();
   const { Component, pageProps } = props;
@@ -53,9 +75,9 @@ const App = (props: AppProps) => {
 
   return (
     <>
-      {/* <DefaultSeo {...DEFAULT_SEO} /> */}
+      <DefaultSeo {...DEFAULT_SEO} />
       <Head>
-        <title>Next App</title>
+        <title>청춘은 바로 지금!</title>
         <link href="/favicon.ico" rel="icon" />
         <meta
           name="viewport"
