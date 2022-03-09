@@ -97,26 +97,34 @@ const Chat = ({ latest25List }: { latest25List: ChatType }) => {
 export async function getServerSideProps(context: {
   query: { chatId: string };
 }) {
-  const chatRef = collection(
-    db,
-    `chat-message/${context.query.chatId}/message`
-  );
-  const lastest25 = await query(
-    chatRef,
-    orderBy("timestamp", "desc"),
-    limit(5)
-  );
-  const data = await getDocs(lastest25);
-  const latest25List = data.docs
-    .map(doc => {
-      return { id: doc.id, ...doc.data() };
-    })
-    .reverse();
-  latest25List.pop();
+  // const chatRef = collection(
+  //   db,
+  //   `chat-message/${context.query.chatId}/message`
+  // );
+  // const lastest25 = await query(
+  //   chatRef,
+  //   orderBy("timestamp", "desc"),
+  //   limit(5)
+  // );
+  // const data = await getDocs(lastest25);
+  // const latest25List = data.docs
+  //   .map(doc => {
+  //     return { id: doc.id, ...doc.data() };
+  //   })
+  //   .reverse();
+  // latest25List.pop();
 
   return {
     props: {
-      latest25List
+      latest25List: [
+        {
+          id: "xbQ8tqtmGzOGQfOO1aDb",
+          content: "잘 없어졌나요\n",
+          img: "",
+          sendBy: "2042204892",
+          timestamp: 1646819454886
+        }
+      ]
     }
   };
 }
