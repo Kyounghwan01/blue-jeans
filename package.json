@@ -15,7 +15,6 @@
     "@mui/material": "^5.2.5",
     "@mui/styled-engine-sc": "^5.1.0",
     "@mui/styles": "^5.2.3",
-    "@netlify/plugin-nextjs": "^4.2.7",
     "@reduxjs/toolkit": "^1.7.1",
     "@sentry/react": "^6.16.1",
     "@sentry/tracing": "^6.16.1",

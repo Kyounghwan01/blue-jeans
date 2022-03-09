@@ -97,10 +97,10 @@ const Chat = ({ latest25List }: { latest25List: ChatType }) => {
 export async function getServerSideProps(context: {
   query: { chatId: string };
 }) {
-  // const chatRef = collection(
-  //   db,
-  //   `chat-message/${context.query.chatId}/message`
-  // );
+  const chatRef = collection(
+    db,
+    `chat-message/${context.query.chatId}/message`
+  );
   // const lastest25 = await query(
   //   chatRef,
   //   orderBy("timestamp", "desc"),
