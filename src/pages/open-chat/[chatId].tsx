@@ -1,119 +1,87 @@
-import { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/router";
-import { collection, getDoc, doc, onSnapshot } from "firebase/firestore";
-import setDocFirebase from "utils/api/setDocFirebase";
+import { useEffect } from "react";
+import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 import { db } from "utils/api/firebase";
-import ChatInput from "./ChatInput";
-import styled from "styled-components";
 import BasicLayout from "components/common/BasicLayout";
+import ChatRoom from "domains/chat/components/ChatRoom";
+import { setChat } from "features/chatSlice";
+import { useDispatch } from "react-redux";
+import { ChatType } from "features/types/chatSliceType";
 
-const Chat = () => {
-  const router = useRouter();
-  // todo: chatStore만들고 room에 있는 값 가져와야함
-  const { chatId } = router.query;
-  const [chatList, setChat] = useState<
-    {
-      content: string;
-      timestamp: string;
-      sendBy: string;
-      id: string;
-    }[]
-  >([]);
+const Chat = ({ latest25List }: { latest25List: ChatType }) => {
+  const dispatch = useDispatch();
 
-  // 최초 25개만 가져오고, orderby가 )
   useEffect(() => {
-    const chatRef = collection(db, `chat-message/${chatId}/message`);
-
-    const unsubscribe = onSnapshot(chatRef, querySnapshot => {
-      const chat = querySnapshot.docs.map(doc => ({
-        ...doc.data(),
-        id: doc.id
-      })) as {
-        content: string;
-        timestamp: string;
-        sendBy: string;
-        id: string;
-      }[];
-      console.log(chat);
-
-      window.scroll({ behavior: "smooth", top: 9999 });
-      setChat(chat);
-    });
-
-    return unsubscribe;
-    // todo: 글 가져오기, 글쓰기, 무한스크롤
+    dispatch(setChat(latest25List));
   }, []);
 
-  const getMembers = async () => {
-    // 처음엔 10명만 스크롤 다운하면 다음 10명
-    const userDoc = doc(db, "chat-room-member", String(chatId));
-    const res = (await (await getDoc(userDoc)).data()) as {
-      member: string[];
-      owner: string;
-    };
+  // const getMembers = async () => {
+  //   // 처음엔 10명만 스크롤 다운하면 다음 10명
+  //   const userDoc = doc(db, "chat-room-member", String(chatId));
+  //   const res = (await (await getDoc(userDoc)).data()) as {
+  //     member: string[];
+  //     owner: string;
+  //   };
 
-    getMemberProfile(res.member.slice(0, 10));
-  };
+  //   getMemberProfile(res.member.slice(0, 10));
+  // };
 
-  const getMemberProfile = async (memberList: string[]) => {
-    const res = await memberList.reduce(
-      async (
-        acc,
-        cur
-      ): Promise<{ profileImage: string; nickName: string }[]> => {
-        const userDoc = doc(db, "users", String(cur));
-        const userRes = (await (await getDoc(userDoc)).data()) as {
-          profileImage: string;
-          nickName: string;
-        } | null;
+  // const getMemberProfile = async (memberList: string[]) => {
+  //   const res = await memberList.reduce(
+  //     async (
+  //       acc,
+  //       cur
+  //     ): Promise<{ profileImage: string; nickName: string }[]> => {
+  //       const userDoc = doc(db, "users", String(cur));
+  //       const userRes = (await (await getDoc(userDoc)).data()) as {
+  //         profileImage: string;
+  //         nickName: string;
+  //       } | null;
 
-        if (userRes) {
-          (await acc).push(userRes);
-        }
+  //       if (userRes) {
+  //         (await acc).push(userRes);
+  //       }
 
-        return acc;
-      },
-      Promise.resolve<{ profileImage: string; nickName: string }[]>([])
-    );
+  //       return acc;
+  //     },
+  //     Promise.resolve<{ profileImage: string; nickName: string }[]>([])
+  //   );
 
-    console.log(res);
-  };
-
-  const submit = useCallback(async (text: string) => {
-    if (!text) return;
-    setDocFirebase({
-      dbColumn: `chat-message/${chatId}/message`,
-      setType: "anonymous",
-      payload: {
-        content: text,
-        img: null,
-        sendBy: "2042204892"
-      }
-    });
-  }, []);
+  //   console.log(res);
+  // };
 
   return (
     // todo: right icon 누르면 사용자 리스트
     <BasicLayout headerTitle="" back={true} footer={false}>
-      <ChatBlock>
-        test {chatId}
-        <button onClick={getMembers}>get members</button>
-        <ChatInput submit={submit} />
-        <div style={{ marginTop: "100px" }}>
-          {chatList.map(chat => (
-            <div key={chat.id}>
-              {chat.content} {chat.timestamp}
-            </div>
-          ))}
-        </div>
-      </ChatBlock>
+      <ChatRoom />
     </BasicLayout>
   );
 };
 
-const ChatBlock = styled.article`
-  background: #eee;
-  height: 100%;
-`;
+export async function getServerSideProps(context: {
+  query: { chatId: string };
+}) {
+  const chatRef = collection(
+    db,
+    `chat-message/${context.query.chatId}/message`
+  );
+  const lastest25 = await query(
+    chatRef,
+    orderBy("timestamp", "desc"),
+    limit(5)
+  );
+  const data = await getDocs(lastest25);
+  const latest25List = data.docs
+    .map(doc => {
+      return { id: doc.id, ...doc.data() };
+    })
+    .reverse();
+  latest25List.pop();
+
+  return {
+    props: {
+      latest25List
+    }
+  };
+}
 
 export default Chat;

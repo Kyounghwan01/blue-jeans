@@ -9,18 +9,19 @@ import { getQnaList, setQna } from "features/qnaSlice";
 import { QnaType } from "features/types/qnaSliceType";
 import dayjs from "dayjs";
 import Chip from "@mui/material/Chip";
+import { getFirebaseDocs } from "utils";
 
 const QuestionList = ({
   loading,
-  setLoading,
+  setLoading
 }: {
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const user = useSelectorTyped((state) => state.user);
-  const { list, tab } = useSelectorTyped((state) => state.qna);
+  const user = useSelectorTyped(state => state.user);
+  const { list, tab } = useSelectorTyped(state => state.qna);
 
   useEffect(() => {
     getQna();
@@ -40,9 +41,7 @@ const QuestionList = ({
 
     const q = await query(qnaRef, ...constraints);
     const data = await getDocs(q);
-    const qnaList = data.docs.map((doc) => {
-      return { id: doc.id, ...doc.data() };
-    }) as QnaType[];
+    const qnaList = getFirebaseDocs<QnaType[]>(data);
     dispatch(getQnaList(qnaList));
     setLoading(false);
   };

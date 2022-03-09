@@ -11,15 +11,15 @@ const ChatInput = ({ submit }: { submit: (text: string) => void }) => {
     []
   );
 
-  const handleKeypress = useCallback(
-    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      // div에 걸려있으명 HTMLImageElement
-      if (e.key === "Enter") {
-        handleSubmit();
-      }
-    },
-    [text]
-  );
+  // const handleKeypress = useCallback(
+  //   (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  //     // div에 걸려있으명 HTMLImageElement
+  //     if (e.key === "Enter") {
+  //       handleSubmit();
+  //     }
+  //   },
+  //   [text]
+  // );
 
   const handleSubmit = useCallback(() => {
     if (!text.length) return;
@@ -33,7 +33,7 @@ const ChatInput = ({ submit }: { submit: (text: string) => void }) => {
       <textarea
         onChange={handleText}
         value={text}
-        onKeyPress={handleKeypress}
+        // onKeyPress={handleKeypress}
         placeholder="메시지를 입력해주세요."
       />
       <SendIcon onClick={handleSubmit} />
@@ -63,6 +63,8 @@ const ChatInputBlock = styled.section<{ isActiveSubmit: boolean }>`
     justify-content: center;
     align-items: center;
     vertical-align: middle;
+    overflow: hidden;
+    resize: none;
     &:focus {
       box-shadow: none;
       outline: none;
