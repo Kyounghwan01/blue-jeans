@@ -52,7 +52,7 @@ const Chat = ({ latest25List }: { latest25List: ChatType }) => {
 
   return (
     // todo: right icon 누르면 사용자 리스트
-    <BasicLayout headerTitle="test2" back={true} footer={false}>
+    <BasicLayout headerTitle="" back={true} footer={false}>
       <ChatRoom />
     </BasicLayout>
   );
@@ -106,25 +106,17 @@ export async function getServerSideProps(context: {
     orderBy("timestamp", "desc"),
     limit(25)
   );
-  // const data = await getDocs(lastest25);
-  // const latest25List = data.docs
-  //   .map(doc => {
-  //     return { id: doc.id, ...doc.data() };
-  //   })
-  //   .reverse();
-  // latest25List.pop();
+  const data = await getDocs(lastest25);
+  const latest25List = data.docs
+    .map(doc => {
+      return { id: doc.id, ...doc.data() };
+    })
+    .reverse();
+  latest25List.pop();
 
   return {
     props: {
-      latest25List: [
-        {
-          id: "xbQ8tqtmGzOGQfOO1aDb",
-          content: "잘 없어졌나요\n",
-          img: "",
-          sendBy: "2042204892",
-          timestamp: 1646819454886
-        }
-      ]
+      latest25List
     }
   };
 }
