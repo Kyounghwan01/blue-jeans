@@ -6,6 +6,7 @@ import ChatRoom from "domains/chat/components/ChatRoom";
 import { setChat } from "features/chatSlice";
 import { useDispatch } from "react-redux";
 import { ChatType } from "features/types/chatSliceType";
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 
 const Chat = ({ latest25List }: { latest25List: ChatType }) => {
   const dispatch = useDispatch();
@@ -57,13 +58,22 @@ const Chat = ({ latest25List }: { latest25List: ChatType }) => {
   );
 };
 
-export async function getServerSideProps(context: {
-  query: { chatId: string };
-}) {
-  const chatRef = collection(
-    db,
-    `chat-message/${context.query.chatId}/message`
-  );
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [
+      // String variant:
+      "/open-chat/roomId",
+      // Object variant:
+      { params: { chatId: "roomId" } }
+    ],
+    fallback: true
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({
+  params
+}: GetStaticPropsContext) => {
+  const chatRef = collection(db, `chat-message/${params?.chatId}/message`);
   const lastest25 = await query(
     chatRef,
     orderBy("timestamp", "desc"),
@@ -82,6 +92,6 @@ export async function getServerSideProps(context: {
       latest25List
     }
   };
-}
+};
 
 export default Chat;

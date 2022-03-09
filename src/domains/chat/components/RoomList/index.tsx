@@ -10,7 +10,7 @@ const RoomList = () => {
   return (
     <RoomListBlock>
       {roomList.map(el => (
-        <Link key={el.id} href={`/open-chat/room?chatId=${el.id}`}>
+        <Link key={el.id} href={`/open-chat/${el.id}`}>
           <a
             style={{
               border: "1px solid black",
