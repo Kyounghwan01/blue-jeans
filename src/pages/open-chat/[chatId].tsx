@@ -58,22 +58,49 @@ const Chat = ({ latest25List }: { latest25List: ChatType }) => {
   );
 };
 
-export const getStaticPaths: GetStaticPaths = () => {
-  return {
-    paths: [
-      // String variant:
-      "/open-chat/roomId",
-      // Object variant:
-      { params: { chatId: "roomId" } }
-    ],
-    fallback: true
-  };
-};
+// export const getStaticPaths: GetStaticPaths = () => {
+//   return {
+//     paths: [
+//       // String variant:
+//       "/open-chat/roomId",
+//       // Object variant:
+//       { params: { chatId: "roomId" } }
+//     ],
+//     fallback: true
+//   };
+// };
 
-export const getStaticProps: GetStaticProps = async ({
-  params
-}: GetStaticPropsContext) => {
-  const chatRef = collection(db, `chat-message/${params?.chatId}/message`);
+// export const getStaticProps: GetStaticProps = async ({
+//   params
+// }: GetStaticPropsContext) => {
+//   const chatRef = collection(db, `chat-message/${params?.chatId}/message`);
+//   const lastest25 = await query(
+//     chatRef,
+//     orderBy("timestamp", "desc"),
+//     limit(5)
+//   );
+//   const data = await getDocs(lastest25);
+//   const latest25List = data.docs
+//     .map(doc => {
+//       return { id: doc.id, ...doc.data() };
+//     })
+//     .reverse();
+//   latest25List.pop();
+
+//   return {
+//     props: {
+//       latest25List
+//     }
+//   };
+// };
+
+export async function getServerSideProps(context: {
+  query: { chatId: string };
+}) {
+  const chatRef = collection(
+    db,
+    `chat-message/${context.query.chatId}/message`
+  );
   const lastest25 = await query(
     chatRef,
     orderBy("timestamp", "desc"),
@@ -92,6 +119,6 @@ export const getStaticProps: GetStaticProps = async ({
       latest25List
     }
   };
-};
+}
 
 export default Chat;
