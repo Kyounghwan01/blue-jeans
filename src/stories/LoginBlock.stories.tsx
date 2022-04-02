@@ -1,9 +1,9 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import LoginBlock from "../components/molecules/LoginBlock";
+import LoginBlock from "components/molecules/LoginBlock";
 
 import { Button } from "./Button";
-import "../styles/ui.common.css";
+import "styles/ui.common.css";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

@@ -23,7 +23,7 @@ const Index = ({
   headerTitle = "아무거나",
   back = true,
   backFunc,
-  loading = false,
+  loading = false
 }: IBasyLayout) => {
   const router = useRouter();
 

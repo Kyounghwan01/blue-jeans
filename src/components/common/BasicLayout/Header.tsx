@@ -35,7 +35,6 @@ const Block = styled.header`
   border-bottom: 3px solid var(--border-color2);
   z-index: 2;
   background: white;
-  background-color: ${props => props.theme.palette.test};
   .back-icon {
     font-weight: 900;
     font-size: 18px;
