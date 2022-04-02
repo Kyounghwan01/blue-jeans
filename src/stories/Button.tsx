@@ -22,7 +22,6 @@ interface ButtonProps {
    * Optional click handler
    */
   onClick?: () => void;
-  goLogin: () => void;
 }
 
 /**
@@ -33,7 +32,6 @@ export const Button = ({
   size = "medium",
   backgroundColor,
   label,
-  // goLogin,
   ...props
 }: ButtonProps) => {
   const mode = primary
@@ -46,7 +44,6 @@ export const Button = ({
         " "
       )}
       style={{ backgroundColor }}
-      // onClick={goLogin}
       {...props}
     >
       {label}
