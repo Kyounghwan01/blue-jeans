@@ -97,6 +97,7 @@ const Chat = ({ latest25List }: { latest25List: ChatType }) => {
 export async function getServerSideProps(context: {
   query: { chatId: string };
 }) {
+  // todo:  loading 추가하기
   const chatRef = collection(
     db,
     `chat-message/${context.query.chatId}/message`

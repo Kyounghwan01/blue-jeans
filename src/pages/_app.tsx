@@ -19,8 +19,9 @@ import { Integrations } from "@sentry/tracing";
 import dayjs from "dayjs";
 import "utils/api/firebase";
 import "dayjs/locale/ko";
-import "../styles/ui.common.scss";
+import "../styles/ui.common.css";
 dayjs.locale("ko");
+import { getFcmToken, onMessageListener } from "utils/api/firebase";
 
 if (process.env.NODE_ENV === "production") {
   Sentry.init({
@@ -59,6 +60,9 @@ const App = (props: AppProps) => {
   const { fontSizeType } = useSelectorTyped(state => state.common);
 
   useEffect(() => {
+    getFcmToken();
+    onMessageListener();
+
     setScreenSize();
     getUsers();
 
