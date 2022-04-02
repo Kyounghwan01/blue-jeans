@@ -1,7 +1,12 @@
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from 'firebase/analytics';
 import { getFirestore } from "firebase/firestore";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import {
+  getMessaging,
+  getToken,
+  MessagePayload,
+  onMessage
+} from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
@@ -35,10 +40,10 @@ export const getFcmToken = async () => {
 
 export const onMessageListener = () => {
   const messaging = getMessaging();
-  onMessage(messaging, payload => {
+  onMessage(messaging, (payload: MessagePayload) => {
     console.log("Message received. ", payload);
     alert(
-      `title: ${payload.notification.title} body: ${payload.notification.title}`
+      `title: ${payload.notification?.title} body: ${payload.notification?.title}`
     );
   });
 };
