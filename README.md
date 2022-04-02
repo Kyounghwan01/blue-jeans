@@ -29,6 +29,10 @@
 - 스크롤 바닥으로 안될때
 - 채팅 밑에 div만들고 거기에 ref 걸어
 
-### video 플랫폼
+## video 플랫폼
 
 - vimeo
+
+## storybook
+
+- https://www.chromatic.com/library?appId=6247ebe3764d7e003a7be83a

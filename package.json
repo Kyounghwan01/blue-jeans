@@ -64,6 +64,7 @@
     "@typescript-eslint/parser": "^5.8.0",
     "babel-loader": "^8.2.4",
     "babel-plugin-styled-components": "^2.0.2",
+    "chromatic": "^6.5.3",
     "eslint": "8.5.0",
     "eslint-config-next": "12.0.7",
     "eslint-config-prettier": "^8.3.0",
