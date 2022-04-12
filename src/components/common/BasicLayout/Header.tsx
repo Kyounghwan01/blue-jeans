@@ -35,6 +35,9 @@ const Block = styled.header`
   border-bottom: 3px solid var(--border-color2);
   z-index: 2;
   background: white;
+  span {
+    text-align: center;
+  }
   .back-icon {
     font-weight: 900;
     font-size: 18px;

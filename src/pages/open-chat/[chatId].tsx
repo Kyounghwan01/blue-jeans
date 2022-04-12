@@ -6,7 +6,6 @@ import ChatRoom from "domains/chat/components/ChatRoom";
 import { setChat } from "features/chatSlice";
 import { useDispatch } from "react-redux";
 import { ChatType } from "features/types/chatSliceType";
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 
 const Chat = ({ latest25List }: { latest25List: ChatType }) => {
   const dispatch = useDispatch();
@@ -109,7 +108,7 @@ export async function getServerSideProps(context: {
   );
   const data = await getDocs(lastest25);
   const latest25List = data.docs
-    .map(doc => {
+    .map((doc) => {
       return { id: doc.id, ...doc.data() };
     })
     .reverse();
@@ -117,8 +116,8 @@ export async function getServerSideProps(context: {
 
   return {
     props: {
-      latest25List
-    }
+      latest25List,
+    },
   };
 }
 
