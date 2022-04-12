@@ -9,7 +9,7 @@ export default function Index({
   tabType,
   previousValue,
   nextValue,
-  btnStyles
+  btnStyles,
 }: {
   previousText: string;
   nextText: string;
@@ -23,8 +23,8 @@ export default function Index({
   return (
     <Tab>
       <TabButton
-        styles={{ ...btnStyles }}
-        type={previousValue}
+        style={{ ...btnStyles }}
+        btnType={previousValue}
         active={tabType === previousValue}
         onClick={previous}
         target={previousValue}
@@ -32,8 +32,8 @@ export default function Index({
         {previousText}
       </TabButton>
       <TabButton
-        styles={{ ...btnStyles }}
-        type={nextValue}
+        style={{ ...btnStyles }}
+        btnType={nextValue}
         active={tabType === nextValue}
         onClick={next}
         target={previousValue}
@@ -51,14 +51,19 @@ const Tab = styled.div`
   margin-top: 100px;
 `;
 
-const TabButton = styled.button`
+const TabButton = styled.button<{
+  btnType: string;
+  active: boolean;
+  target: string;
+  style: any;
+}>`
   width: 304px;
-  border-radius: ${props =>
-    props.type === props.target ? "8px 0px 0px 8px;" : "0px 8px 8px 0px;"};
-  background: ${props => (props.active ? " #f05014" : "#ffffff")};
-  color: ${props => (props.active ? "white" : "#C4C4C4")};
-  border: ${props => (props.active ? "" : "1px solid #C4C4C4")};
+  border-radius: ${(props) =>
+    props.btnType === props.target ? "8px 0px 0px 8px;" : "0px 8px 8px 0px;"};
+  background: ${(props) => (props.active ? " #f05014" : "#ffffff")};
+  color: ${(props) => (props.active ? "white" : "#C4C4C4")};
+  border: ${(props) => (props.active ? "" : "1px solid #C4C4C4")};
   font-size: 18px;
   font-weight: bold;
-  ${props => (props.styles ? { ...props.styles } : {})}
+  ${(props) => (props.style ? { ...props.style } : {})}
 `;

@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useCallback } from "react";
+import { useState, useMemo, useRef, useCallback, SetStateAction } from "react";
 import { compressImage } from "utils";
 import dynamic from "next/dynamic";
 import BasicLayout from "components/common/BasicLayout";
@@ -9,8 +9,8 @@ import "react-quill/dist/quill.snow.css";
 
 const QuillNoSSRWrapper = dynamic(import("react-quill"), {
   ssr: false,
-  loading: () => <p>Loading ...</p>
-});
+  loading: () => <p>Loading ...</p>,
+}) as any;
 
 const Index = () => {
   const [value, setValue] = useState("");
@@ -37,9 +37,9 @@ const Index = () => {
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        setPreviewURLs(prev => [
+        setPreviewURLs((prev) => [
           ...prev,
-          { url: reader.result as string, blob: compressedImage }
+          { url: reader.result as string, blob: compressedImage },
         ]);
       };
       if (compressedImage) reader.readAsDataURL(compressedImage);
@@ -55,15 +55,15 @@ const Index = () => {
           [{ header: "1" }, { header: "2" }, { font: [] }],
           [{ size: [] }],
           ["bold", "italic", "underline", "strike", "blockquote"],
-          [{ color: [] }]
+          [{ color: [] }],
         ],
         handlers: {
           image: () => {
             if (previewURLs.length >= 2) return;
             fileRef.current?.click();
-          }
-        }
-      }
+          },
+        },
+      },
     };
   }, [previewURLs]);
 
@@ -82,9 +82,15 @@ const Index = () => {
         formats={quilFormats}
         theme="snow"
         value={value || ""}
-        onChange={(content, delta, source, editor) =>
-          setValue(editor.getHTML())
-        }
+        onChange={(
+          content: any,
+          delta: any,
+          source: any,
+          editor: { getHTML: () => SetStateAction<string> }
+        ) => {
+          console.log(content, delta, source, editor);
+          setValue(editor.getHTML());
+        }}
       />
 
       {previewURLs.map((url, index) => (

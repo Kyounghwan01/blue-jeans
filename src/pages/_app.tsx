@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === "production") {
   Sentry.init({
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    tracesSampleRate: 1.0
+    tracesSampleRate: 1.0,
   });
 }
 
@@ -46,18 +46,18 @@ const DEFAULT_SEO = {
         url: "https://avatars.githubusercontent.com/u/44187477",
         width: 460,
         height: 460,
-        alt: "청바지"
-      }
-    ]
-  }
+        alt: "청바지",
+      },
+    ],
+  },
 };
 
 const App = (props: AppProps) => {
   const dispatch = useDispatch();
-  const { Component, pageProps } = props;
+  const { Component, pageProps } = props as any;
   const [setScreenSize] = useScreenSize();
   const [getUsers] = useGetUsers();
-  const { fontSizeType } = useSelectorTyped(state => state.common);
+  const { fontSizeType } = useSelectorTyped((state) => state.common);
 
   useEffect(() => {
     getFcmToken();
