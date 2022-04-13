@@ -1,8 +1,9 @@
 import { memo } from "react";
 import styled from "styled-components";
+import { timeStampToDate } from "utils";
 
 interface IChatRow {
-  sendBy: string;
+  sendBy: boolean;
   content: string;
   timeStamp: string;
   // 로직완성되면 사용할 interface
@@ -15,12 +16,45 @@ interface IChatRow {
 
 const ChatRow = ({ sendBy, content, timeStamp }: IChatRow) => {
   return (
-    <ChatRowBlock>
-      {content} / {timeStamp} / {sendBy}
-    </ChatRowBlock>
+    <>
+      {sendBy ? (
+        <ChatYouBlock>
+          <div className="timestamp">{timeStampToDate(timeStamp)}</div>
+          <div className="chat-wrapper">
+            <span>{content}</span>
+          </div>
+        </ChatYouBlock>
+      ) : (
+        <ChatOpponentBlock>111</ChatOpponentBlock>
+      )}
+    </>
   );
 };
 
-const ChatRowBlock = styled.div``;
+const ChatYouBlock = styled.div`
+  margin: 10px;
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  .chat-wrapper {
+    text-align: left;
+    background: rgb(241, 220, 6);
+    max-width: 280px;
+    display: inline-block;
+    word-break: break-all;
+    padding: 6px 10px;
+    border-radius: 10px;
+    span {
+      letter-spacing: -1px;
+    }
+  }
+  .timestamp {
+    color: gray;
+    font-size: 12px;
+    padding-right: 5px;
+  }
+`;
+
+const ChatOpponentBlock = styled.div``;
 
 export default memo(ChatRow);

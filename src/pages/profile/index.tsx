@@ -80,5 +80,27 @@ const Block = styled.article`
   .MuiListItemIcon-root {
     min-width: 40px;
   }
+  .non-login {
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    padding: 30px 25px;
+    border-radius: 35px;
+
+    .MuiAvatar-root {
+      margin-right: 15px;
+      width: 60px;
+      height: 60px;
+    }
+    &__desc {
+      color: white;
+      &__title {
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
 `;
 export default Profile;

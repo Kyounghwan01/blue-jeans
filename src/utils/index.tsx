@@ -91,3 +91,8 @@ export function getFirebaseDocs<T>(document: QuerySnapshot<DocumentData>): T {
     id: doc.id
   })) as any;
 }
+
+export function timeStampToDate(timestamp: string): string {
+  const date = new Date(timestamp);
+  return dayjs(date).format("HH:mm");
+}

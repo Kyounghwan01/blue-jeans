@@ -1,11 +1,13 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
+import useSelectorTyped from "features/useSelectorTyped";
 import useChatRoom from "domains/chat/hooks/useChatRoom";
 import ChatInput from "domains/chat/components/ChatInput";
 import ChatRow from "domains/chat/components/ChatRow";
 
 const ChatRoom = () => {
-  const { chat, submit, getPrevChat } = useChatRoom();
+  const { chat, getPrevChat, submit } = useChatRoom();
+  const user = useSelectorTyped(state => state.user);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -16,13 +18,13 @@ const ChatRoom = () => {
     <ChatRoomBlock>
       <button onClick={getPrevChat}>get Prev</button>
       <ChatInput submit={submit} />
-      <div style={{ marginTop: "50px", paddingBottom: "50px" }}>
+      <div className="chat-container">
         {chat.length ? (
           <>
-            {chat.map(singleChat => (
+            {chat.map((singleChat, index) => (
               <ChatRow
-                key={singleChat.id}
-                sendBy={singleChat.sendBy}
+                key={index}
+                sendBy={singleChat.sendBy === String(user.id)}
                 content={singleChat.content}
                 timeStamp={singleChat.timestamp}
               />
@@ -41,6 +43,12 @@ const ChatRoom = () => {
 const ChatRoomBlock = styled.article`
   background: #eee;
   height: calc(100vh - 50px);
+  .chat-container {
+    background: #eee;
+    padding: 10px 10px 50px 10px;
+    /* display: flex;
+    flex-direction: column; */
+  }
 `;
 
 export default ChatRoom;
